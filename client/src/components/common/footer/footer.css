@@ -1,0 +1,155 @@
+/* Footer background and general styling */
+footer {
+  background: linear-gradient(45deg, #2c3e50, #34495e); /* Gradient background */
+  color: #ecf0f1;
+  padding: 50px 20px;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+}
+
+/* Main container layout */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+}
+
+.box {
+  flex: 1 1 280px;
+  min-width: 260px;
+  margin: 0;
+  text-align: left;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2); /* Semi-transparent background for each box */
+  border-radius: 10px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.box:hover {
+  background: rgba(0, 0, 0, 0.4); /* Darker background on hover */
+  transform: translateY(-5px); /* Slight lift effect */
+}
+
+/* Logo section styling */
+.logo h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  font-size: 14px;
+  display: block;
+  color: #f39c12;
+  margin-bottom: 10px;
+}
+
+.logo p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Links Section Styling */
+.link h3,
+.contact h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #f39c12;
+}
+
+.link ul,
+.contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link ul li,
+.contact ul li {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #ecf0f1;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.link ul li:hover,
+.contact ul li:hover {
+  color: #f39c12;
+  transform: translateX(5px); /* Add subtle hover effect */
+}
+
+/* Contact icon styling */
+.contact ul li i {
+  margin-right: 8px;
+  font-size: 18px;
+  color: #f39c12;
+}
+
+/* Social icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px auto;
+}
+
+.social-icons .icon {
+  font-size: 20px;
+  color: #ecf0f1;
+  background-color: #34495e;
+  border-radius: 50%;
+  padding: 12px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.social-icons .icon:hover {
+  background-color: #f39c12;
+  color: #2c3e50;
+  transform: scale(1.2); /* Icon zoom effect on hover */
+}
+
+/* Legal section styling */
+.legal {
+  background-color: #34495e;
+  text-align: center;
+  padding: 15px 10px;
+  color: #bdc3c7;
+  font-size: 14px;
+  border-top: 1px solid #2c3e50;
+  margin-top: 20px;
+}
+
+.legal p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .box {
+    flex: 1 1 100%;
+    margin-bottom: 20px;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}

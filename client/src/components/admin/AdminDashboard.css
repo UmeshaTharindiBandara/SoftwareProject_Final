@@ -1,0 +1,119 @@
+/* General Styling */
+.admin-dashboard-container {
+    padding: 30px;
+    min-height: 100vh;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  /* Header Styling */
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 2.5rem;
+    color: #173f77;
+    font-weight: bold;
+  }
+  
+  .dashboard-header p {
+    font-size: 1.2rem;
+    color: #5c74a1;
+  }
+  
+  /* Main Content */
+  .dashboard-main {
+    width: 90%;
+    margin: auto;
+  }
+  
+  /* Quick Access Section */
+  .quick-access-section {
+    margin-bottom: 40px;
+  }
+  
+  .quick-access-card {
+    padding: 20px;
+    background: #add8e6;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .quick-access-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-icon {
+    font-size: 3rem;
+    color: #173f77;
+    margin-bottom: 10px;
+  }
+  
+/* Add Buttons Section Styling */
+.add-buttons-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .add-link {
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #8b96c1 0%, #5c74a1 100%);
+    color: white;
+    padding: 15px 50px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .add-button:hover {
+    background: linear-gradient(135deg, #7a8b9e 0%, #173f77 100%);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+  
+
+  
+  /* Insights Section */
+  .insights-section {
+    margin-top: 40px;
+  }
+  
+  .insight-card {
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .insight-icon {
+    font-size: 3rem;
+    color: #173f77;
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .add-buttons-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

@@ -1,0 +1,172 @@
+/* General Styles */
+.user-package-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Page Title */
+.page-title {
+    color: #003366;
+    font-weight: bold;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Section Titles */
+.section-title {
+    color: #003366;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.icon {
+    font-size: 26px;
+}
+
+/* Area Buttons */
+.area-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+/* Large Area Button */
+.area-button {
+    background: linear-gradient(45deg, #f78ca0, #3b8d99); /* Beautiful gradient for a fresh look */
+    color: #ffffff;
+    width: 250px;
+    height: 250px;
+    font-size: 32px;
+    font-weight: bold;
+    border-radius: 50%;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 3px solid transparent;
+    overflow: hidden;
+}
+
+.area-button .icon {
+    font-size: 36px; /* Add a larger icon to make it more prominent */
+    margin-right: 10px;
+}
+
+.area-button:hover {
+    background: linear-gradient(45deg,  #f78ca0, #3b8d99);
+    transform:  translateY(-10px); 
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+}
+
+.area-button:focus {
+    outline: none;
+   
+}
+
+.area-button-selected {
+    background-color: #ffcc00; /* Vibrant yellow for selected state */
+    border: 3px solid #003366;
+    transform: scale(1.1);
+}
+
+/* Add a text animation when hovering over the button */
+.area-button:hover .area-name {
+    opacity: 0.8; /* Fade out the text slightly when hovered */
+    font-size: 36px; /* Increase text size */
+    transform: translateY(-10px); /* Slight upward movement */
+}
+
+/* Location Grid */
+.location-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+/* Location Card */
+.location-card {
+    width: 220px; /* Slightly bigger */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease-in-out;
+}
+
+.location-card:hover {
+    transform: scale(1.08);
+    border-color: #4b0082;
+}
+
+.location-card-selected {
+    
+    box-shadow: 0 10px 20px rgba(0, 128, 0, 0.5);
+    transform: scale(1.1);
+}
+
+/* Location Image */
+.location-image {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    width: 100%;
+    height: auto;
+}
+
+/* Location Content */
+.location-content {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Location Title */
+.location-title {
+    font-weight: bold;
+    color: #003366;
+    font-size: 18px;
+}
+
+.location-title-selected {
+    color:yellowgreen;
+}
+
+/* Selected Icon */
+.selected-icon {
+    color: yellowgreen;
+    font-size: 22px;
+}
+
+/* Submit Section */
+.submit-section {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.submit-button {
+    background-color: #003366;
+    color: #ffffff;
+    padding: 12px 35px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.submit-button:hover {
+    background-color: yellowgreen;
+    transform: scale(1.05);
+}

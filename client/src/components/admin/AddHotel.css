@@ -1,0 +1,121 @@
+/* Global Styles */
+.add-hotel-container {
+	background: linear-gradient(to bottom, #eef2f3, #ffffff);
+	padding: 50px;
+	min-height: 100vh;
+	font-family: "Roboto", sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .hotel-header-section {
+	text-align: center;
+	margin-bottom: 30px;
+  }
+  
+  .hotel-header-icon {
+	font-size: 1.5rem;
+	color: #1976d2;
+  }
+  
+  .hotel-header-title {
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #173f77;
+  }
+  
+  .hotel-header-subtitle {
+	font-size: 1.2rem;
+	color: #5c74a1;
+	margin-top: 10px;
+  }
+  
+  .hotel-form-section {
+	width: 100%;
+	max-width: 700px;
+  }
+  
+  .hotel-input-card {
+	margin-bottom: 20px;
+	border-radius: 10px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	background: #f5f5f5;
+	padding: 10px 15px;
+	border: 1px solid #ddd;
+  }
+  
+  .hotel-input-icon {
+	margin-right: 10px;
+	color: #5c74a1;
+	font-size: 1.2rem;
+  }
+  
+  .hotel-input {
+	flex: 1;
+	border: none;
+	outline: none;
+	background: transparent;
+	font-size: 1rem;
+  }
+  
+  .hotel-locations-title {
+	margin: 20px 0;
+	font-size: 1.5rem;
+	color: #1976d2;
+	font-weight: bold;
+  }
+  
+  .hotel-add-location-button {
+	margin-top: 10px;
+	color: #1976d2;
+	border-color: #1976d2;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+  }
+  
+  .hotel-add-location-button:hover {
+	background: rgba(25, 118, 210, 0.1);
+  }
+  
+  .hotel-form-actions {
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+  }
+  
+  .hotel-submit-button {
+	background-color: #1976d2 !important;
+	color: white !important;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 5px;
+  }
+  
+  .hotel-submit-button:hover {
+	background-color: #155a9c !important;
+  }
+  
+  .hotel-back-button {
+	border-color: #1976d2 !important;
+	color: #1976d2 !important;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 5px;
+  }
+  
+  .hotel-back-button:hover {
+	background: rgba(25, 118, 210, 0.1);
+  }
+  
+  .hotel-delete-button {
+	color: #d32f2f !important;
+	font-weight: bold;
+  }
+  
+  .hotel-delete-button:hover {
+	color: #b71c1c !important;
+  }

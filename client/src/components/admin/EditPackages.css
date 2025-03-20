@@ -1,0 +1,91 @@
+/* Global Styles */
+.edit-package-container {
+    background: linear-gradient(to bottom, #eef2f3, #ffffff);
+    padding: 50px;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  .header-section {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .header-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1976d2;
+  }
+  
+  .header-subtitle {
+    font-size: 1.2rem;
+    color: #5c74a1;
+    margin-top: 10px;
+  }
+  
+  .form-section {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .input-icon {
+    margin-right: 8px;
+    color: #5c74a1;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .submit-button {
+    background-color: #1976d2;
+    color: white;
+    width: 45%;
+  }
+  
+  .submit-button:hover {
+    background-color: #155a9c;
+  }
+  
+  .back-button {
+    width: 45%;
+    color: #1976d2;
+    border-color: #1976d2;
+  }
+  
+  .back-button:hover {
+    background: rgba(25, 118, 210, 0.1);
+  }
+  
+  /* Input Fields */
+  .MuiTextField-root {
+    margin-bottom: 15px;
+  }
+  
+  .MuiTextField-root .MuiInputBase-root {
+    border-radius: 8px;
+  }
+  
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #1976d2;
+  }
+  
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #1976d2;
+  }
+  
+  .MuiTextField-root input:focus {
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+  }
+  
+  .MuiTextField-root textarea:focus {
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+  }
+  
+  /* Hover and Animation */
+  .MuiButtonBase-root:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+  }
+  

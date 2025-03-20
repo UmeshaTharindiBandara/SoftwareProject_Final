@@ -1,0 +1,147 @@
+/*--------head------------*/
+.head {
+  padding: 20px 0;
+  color: #fff;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.logo h1 {
+  font-size: 60px;
+  font-weight: 900;
+  color: #003366;
+}
+
+.head .icon {
+  margin-left: 10px;
+}
+
+/*--------header------------*/
+header {
+  background-color: linear-gradient(180deg, #add8e6, #ffffff);
+  margin: 0px 20px 0px 0px;
+  max-width: 100%;
+}
+
+header .nav {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header li {
+  margin-right: 40px;
+  font-size: 20px;
+  align-items: center;
+}
+
+header ul {
+  padding: 30px 20px;
+}
+
+header ul li a {
+  color: #003366;
+  font-weight: 600;
+  transition: 0.5s;
+}
+
+header ul li a:hover {
+  color: #89afd5;
+}
+
+.toggle {
+  display: none;
+}
+
+/*--------header------------*/
+@media screen and (max-width: 768px) {
+  .start {
+      clip-path: none;
+  }
+  header {
+      margin: 0;
+      background-color: #fff;
+      position: relative;
+  }
+  header ul.flexSB {
+      display: none;
+  }
+  header ul li {
+      margin-bottom: 20px;
+  }
+  .toggle {
+      display: block;
+      background: none;
+      color: #fff;
+      font-size: 30px;
+      position: absolute;
+      right: 0;
+      top: -20px;
+  }
+  .mobile-nav {
+      position: absolute;
+      top: 7vh;
+      left: 0;
+      width: 100%;
+      background-color: #003366;
+  }
+}
+
+/* Dark Mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+
+body.dark-mode header {
+  background-color: #333;
+}
+
+body.dark-mode header ul li a {
+  color: #ffb84d;
+}
+
+body.dark-mode header ul li a:hover {
+  color: #fff;
+}
+
+body.dark-mode .logo h1 {
+  color: #ffb84d;
+}
+
+/* Button styles */
+.btn-signin{
+  color: white; /* Text color */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-signin {
+  background-color: #003366;
+}
+
+.btn-signin:hover {
+  background-color: #a0c3e2;
+}
+
+/* Dark mode buttons */
+body.dark-mode .btn-signin {
+  background-color: #ffb84d;
+}
+
+body.dark-mode .btn-signin:hover {
+  background-color: #e68a00;
+}
+

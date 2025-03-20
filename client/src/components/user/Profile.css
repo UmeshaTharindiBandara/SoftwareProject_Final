@@ -1,0 +1,121 @@
+/* Profile Container */
+.profile-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+  }
+  
+  /* Sidebar (Left side for profile) */
+  .sidebar {
+    width: 400px;
+    padding: 20px;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+    
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  /* Sidebar Header */
+  .sidebar h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  /* Profile Card inside Sidebar */
+  .profile-card {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+  
+  .profile-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-card img:hover {
+    transform: scale(1.1);
+  }
+  
+  .profile-card h3 {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .profile-card p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Form Styling for Profile Update */
+  .profile-form {
+    margin-left: 5px;
+    padding: 20px;
+    width: 300;
+  }
+  
+  .profile-form h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Input fields */
+  .profile-form input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    outline: none;
+    transition: border 0.3s ease;
+  }
+  
+  .profile-form input:focus {
+    border: 1px solid #007bff;
+  }
+  
+  .profile-form button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .profile-form button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 250px;
+    }
+  
+    .profile-form {
+      margin-left: 270px;
+      width: calc(100% - 270px);
+    }
+  }
+  

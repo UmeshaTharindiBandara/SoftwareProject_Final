@@ -1,0 +1,58 @@
+.selected-package-container {
+    width: 60%;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px; /* Reduced container height */
+  }
+  
+  .package-card {
+    flex-grow: 1;
+    padding: 15px;
+    max-width: 100%;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .package-card .MuiTypography-root {
+    font-size: 0.9rem;
+  }
+  
+  .package-card .MuiTypography-body1 {
+    margin-bottom: 10px;
+  }
+  
+  .total-budget {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    position: absolute;
+    bottom: 50px; /* Move the total budget up to fit button */
+    width: 100%;
+  }
+  
+  .payment-button {
+    padding: 8px 16px; /* Smaller padding for a smaller button */
+    background-color: #365d59;
+    color: white;
+    border: none;
+    font-size: 0.9rem; /* Smaller font size */
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 10px; /* Position the button at the bottom */
+  }
+  
+  .payment-button:hover {
+    background-color: #e07b00;
+  }

@@ -1,0 +1,97 @@
+/* Global Styles */
+.add-new-container {
+	background: linear-gradient(to bottom, #eef2f3, #ffffff);
+	padding: 50px;
+	min-height: 100vh;
+	font-family: "Roboto", sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  
+  .header-section {
+	text-align: center;
+	margin-bottom: 30px;
+  }
+  
+  .header-icon {
+	font-size: 4rem;
+	color: #1976d2;
+  }
+  
+  .header-title {
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #173f77;
+  }
+  
+  .header-subtitle {
+	font-size: 1.2rem;
+	color: #5c74a1;
+	margin-top: 10px;
+  }
+  
+  .form-section {
+	width: 100%;
+	max-width: 700px;
+  }
+  
+  .input-card {
+	margin-bottom: 20px;
+	border-radius: 10px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .locations-title {
+	margin: 20px 0;
+	font-size: 1.5rem;
+	color: #1976d2;
+  }
+  
+  .input-icon {
+	margin-right: 8px;
+	color: #5c74a1;
+  }
+  
+  .add-location-button {
+	margin-top: 10px;
+	color: #1976d2;
+	border-color: #1976d2;
+  }
+  
+  .add-location-button:hover {
+	background: rgba(25, 118, 210, 0.1);
+  }
+  
+  .form-actions {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
+  }
+  
+  .submit-button {
+	background-color: #1976d2;
+	color: white;
+  }
+  
+  .submit-button:hover {
+	background-color: #155a9c;
+  }
+  
+  .back-button {
+	border-color: #1976d2;
+	color: #1976d2;
+  }
+  
+  .back-button:hover {
+	background: rgba(25, 118, 210, 0.1);
+  }
+  
+  .delete-button {
+	color: #d32f2f;
+  }
+  
+  .delete-button:hover {
+	color: #b71c1c;
+  }
+  
