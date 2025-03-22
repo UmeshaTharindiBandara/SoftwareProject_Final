@@ -132,31 +132,50 @@ app.post("/api/login", (req, res) => {
 });
 
 const tourSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  budget: { type: Number, required: true },
-  duration: { type: String, required: true },
-  highlights: { type: [String], required: true },
-  image: { type: String, required: true },
-  meals: { type: [String], default: [] },
-  activities: { type: [String], default: [] },
-  optionalDestinations: { type: [String], default: [] },
-  transportModes: { type: [String], default: [] },
-  guides: { type: [String], default: [] },
-  hotels: { type: [String], default: [] },
+  name: String,
+  description: String,
+  budget: Number,
+  duration: String,
+  highlights: [String],
+  image: String,
+  categories: {
+    meals: [String],
+    activities: [String],
+    optionalDestinations: [String],
+    transportModes: [String],
+    guides: [String],
+    hotels: [String],
+  },
+  budgets: {
+    mealBudgets: [Number],
+    activityBudgets: [Number],
+    optionalDestinationBudgets: [Number],
+    transportModeBudgets: [Number],
+    guideBudgets: [Number],
+    hotelBudgets: [Number],
+  },
 });
 
 const Tour = mongoose.model("Tour", tourSchema);
 
-// Create a new tour package
+// **Create a new tour package**
 app.post("/api/tours", async (req, res) => {
-  const { name, description, budget, duration, highlights, image, meals, activities, optionalDestinations, transportModes, guides, hotels } = req.body;
-
-  if (!name || !description || budget === undefined || !duration || !highlights || !image) {
-    return res.status(400).json({ message: "Please fill all required fields." });
-  }
-
   try {
+    const {
+      name,
+      description,
+      budget,
+      duration,
+      highlights,
+      image,
+      categories, // Expecting an object
+      budgets, // Expecting an object
+    } = req.body;
+
+    if (!categories || !budgets) {
+      return res.status(400).json({ success: false, message: "Missing required fields." });
+    }
+
     const newTour = new Tour({
       name,
       description,
@@ -164,90 +183,76 @@ app.post("/api/tours", async (req, res) => {
       duration,
       highlights,
       image,
-      meals,
-      activities,
-      optionalDestinations,
-      transportModes,
-      guides,
-      hotels,
+      categories: {
+        meals: categories.meals || [],
+        activities: categories.activities || [],
+        optionalDestinations: categories.optionalDestinations || [],
+        transportModes: categories.transportModes || [],
+        guides: categories.guides || [],
+        hotels: categories.hotels || [],
+      },
+      budgets: {
+        mealBudgets: budgets.mealBudgets || [],
+        activityBudgets: budgets.activityBudgets || [],
+        optionalDestinationBudgets: budgets.optionalDestinationBudgets || [],
+        transportModeBudgets: budgets.transportModeBudgets || [],
+        guideBudgets: budgets.guideBudgets || [],
+        hotelBudgets: budgets.hotelBudgets || [],
+      },
     });
 
     await newTour.save();
-    res.status(201).json({ success: true, data: newTour });
+    res.status(201).json({ success: true, message: "Tour package added successfully!", data: newTour });
   } catch (error) {
-    console.error("Error creating tour:", error.message);
+    console.error("Error adding tour:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 });
 
-// Get all tour packages
+
+// **Fetch all tour packages**
 app.get("/api/tours", async (req, res) => {
   try {
-    const tours = await Tour.find({});
+    const tours = await Tour.find();
     res.status(200).json({ success: true, data: tours });
   } catch (error) {
-    console.error("Error fetching tours:", error.message);
+    console.error("Error fetching tours:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 });
 
-// Get a single tour package by ID
+// **Fetch a single tour package**
 app.get("/api/tours/:id", async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const tour = await Tour.findById(id);
-    if (!tour) {
-      return res.status(404).json({ success: false, message: "Tour not found." });
-    }
+    const tour = await Tour.findById(req.params.id);
+    if (!tour) return res.status(404).json({ success: false, message: "Tour not found" });
     res.status(200).json({ success: true, data: tour });
   } catch (error) {
-    console.error("Error fetching tour:", error.message);
+    console.error("Error fetching tour:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 });
 
-// Update a tour package
+// **Update a tour package**
 app.put("/api/tours/:id", async (req, res) => {
-  const { id } = req.params;
-  const { name, description, budget, duration, highlights, image, meals, activities, optionalDestinations, transportModes, guides, hotels } = req.body;
-
-  if (!name || !description || budget === undefined || !duration || !highlights || !image) {
-    return res.status(400).json({ message: "Please fill all required fields." });
-  }
-
   try {
-    const updatedTour = await Tour.findByIdAndUpdate(
-      id,
-      { name, description, budget, duration, highlights, image, meals, activities, optionalDestinations, transportModes, guides, hotels },
-      { new: true }
-    );
-
-    if (!updatedTour) {
-      return res.status(404).json({ success: false, message: "Tour not found." });
-    }
-
+    const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedTour) return res.status(404).json({ success: false, message: "Tour not found" });
     res.status(200).json({ success: true, data: updatedTour });
   } catch (error) {
-    console.error("Error updating tour:", error.message);
+    console.error("Error updating tour:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 });
 
-// Delete a tour package
+// **Delete a tour package**
 app.delete("/api/tours/:id", async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const deletedTour = await Tour.findByIdAndDelete(id);
-
-    if (!deletedTour) {
-      return res.status(404).json({ success: false, message: "Tour not found." });
-    }
-
+    const deletedTour = await Tour.findByIdAndDelete(req.params.id);
+    if (!deletedTour) return res.status(404).json({ success: false, message: "Tour not found" });
     res.status(200).json({ success: true, message: "Tour deleted successfully." });
   } catch (error) {
-    console.error("Error deleting tour:", error.message);
+    console.error("Error deleting tour:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 });
