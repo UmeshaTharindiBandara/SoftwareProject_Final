@@ -15,6 +15,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
+import "./ViewCustomizedPackage.css";
 
 const ViewCustomizedPackage = () => {
   const location = useLocation();
