@@ -44,7 +44,7 @@ const Contact = () => {
           },
           {
             icon: <FaComments />,
-            title: "Live Chat",
+            title: "Chat with Chat",
             description: "Instantly connect with our support team!",
             linkText: "Chat Now",
             linkHref: "/chat", // Updated route

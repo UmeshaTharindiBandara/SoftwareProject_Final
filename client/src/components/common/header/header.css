@@ -7,13 +7,13 @@
 .logo {
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .logo h1 {
   font-size: 60px;
-  font-weight: 900;
-  color: #003366;
+  font-weight: 950;
+  color: #313e4a;
 }
 
 .head .icon {
@@ -34,23 +34,25 @@ header .nav {
 }
 
 header li {
+  margin-top: 17px;
   margin-right: 40px;
-  font-size: 20px;
+  font-size: 21px;
   align-items: center;
 }
 
 header ul {
+
   padding: 30px 20px;
 }
 
 header ul li a {
-  color: #003366;
+  color: #2f465e;
   font-weight: 600;
   transition: 0.5s;
 }
 
 header ul li a:hover {
-  color: #89afd5;
+  color: #537ba3;
 }
 
 .toggle {
@@ -129,7 +131,9 @@ body.dark-mode .logo h1 {
 }
 
 .btn-signin {
-  background-color: #003366;
+  background-color: #124c86;
+  margin-top: 17px;
+  margin-right: 10px;
 }
 
 .btn-signin:hover {

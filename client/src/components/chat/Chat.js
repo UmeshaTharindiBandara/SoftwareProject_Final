@@ -46,7 +46,7 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
-      <h2>Live Chat</h2>
+      <h2>Chat with Us</h2>
       <div className="chat-box">
         {messages.map((msg) => (
           <div key={msg._id} className="chat-message">
