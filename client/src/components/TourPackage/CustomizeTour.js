@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, FormControl, Select, InputLabel, MenuItem, TextField, Checkbox, FormGroup, FormControlLabel, Typography, Card, CardContent, Divider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUtensils, faHiking } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import './CustomizeTour.css';
 import PackageDetails from './PackageDetails.js';
 
-const CustomizeTour = ({ tour = {} }) => {
+const CustomizeTour = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [tour, setTour] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({
     destinations: [],
     hotels: '',
@@ -17,43 +21,47 @@ const CustomizeTour = ({ tour = {} }) => {
     specialRequests: '',
   });
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/tours/${id}`)
+      .then((res) => {
+        setTour(res.data.data);
+      })
+      .catch((err) => {
+        console.error('Error fetching tour details:', err);
+      });
+  }, [id]);
 
   const handleOptionChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      setSelectedOptions({
-        ...selectedOptions,
-        [name]: checked,
-      });
-    } else {
-      setSelectedOptions({
-        ...selectedOptions,
-        [name]: value,
-      });
-    }
+    const { name, value } = e.target;
+    setSelectedOptions(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleMealSelect = (meal) => {
-    setSelectedOptions({
-      ...selectedOptions,
+    setSelectedOptions(prevState => ({
+      ...prevState,
       mealPlan: meal,
-    });
+    }));
   };
 
   const handleActivitySelect = (activity) => {
-    setSelectedOptions({
-      ...selectedOptions,
-      activities: selectedOptions.activities.includes(activity)
-        ? selectedOptions.activities.filter((item) => item !== activity)
-        : [...selectedOptions.activities, activity],
-    });
+    setSelectedOptions(prevState => ({
+      ...prevState,
+      activities: prevState.activities.includes(activity)
+        ? prevState.activities.filter((item) => item !== activity)
+        : [...prevState.activities, activity],
+    }));
   };
 
   const handleConfirm = () => {
-    localStorage.setItem('customizedPackage', JSON.stringify(selectedOptions));
-    navigate('/view-customized-package');
+    navigate('/view-customized-package', {
+      state: { tour, selectedOptions },
+    });
   };
+
+  if (!tour) return <Typography variant="h6">Loading...</Typography>;
 
   return (
     <div className="customize-tour-container">
@@ -63,56 +71,50 @@ const CustomizeTour = ({ tour = {} }) => {
 
       <PackageDetails />
 
+      {/* Meal Plans */}
       <Card variant="outlined" className="customization-card">
         <CardContent>
           <Typography variant="h6" gutterBottom>
             Meal Plans <FontAwesomeIcon icon={faUtensils} />
           </Typography>
           <Divider />
-          {[
-            { name: "Vegetarian", price: "$5" },
-            { name: "Vegan", price: "$6" },
-            { name: "Local Cuisine", price: "$7" },
-            { name: "Seafood", price: "$10" },
-            { name: "Buffet", price: "$12" },
-          ].map((meal) => (
+          {tour.categories.meals.map((meal, index) => (
             <Button
-              key={meal.name}
-              variant={selectedOptions.mealPlan === meal.name ? "contained" : "outlined"}
-              onClick={() => handleMealSelect(meal.name)}
+              key={meal}
+              variant={selectedOptions.mealPlan === meal ? 'contained' : 'outlined'}
+              onClick={() => handleMealSelect(meal)}
             >
-              {meal.name} - {meal.price}
+              {meal} - ${tour.budgets.mealBudgets[index]}
             </Button>
           ))}
         </CardContent>
       </Card>
 
+      {/* Activity Add-Ons */}
       <Card variant="outlined" className="customization-card">
         <CardContent>
           <Typography variant="h6" gutterBottom>
             Activity Add-Ons <FontAwesomeIcon icon={faHiking} />
           </Typography>
           <Divider />
-          {[
-            { name: "Hiking", price: "$5" },
-            { name: "Safari", price: "$10" },
-            { name: "Cultural Experience", price: "$9" },
-            { name: "Wildlife Watching", price: "$12" },
-          ].map((activity) => (
-            <FormControlLabel
-              key={activity.name}
-              control={
-                <Checkbox
-                  checked={selectedOptions.activities.includes(activity.name)}
-                  onChange={() => handleActivitySelect(activity.name)}
-                />
-              }
-              label={`${activity.name} - ${activity.price}`}
-            />
-          ))}
+          <FormGroup>
+            {tour.categories.activities.map((activity, index) => (
+              <FormControlLabel
+                key={activity}
+                control={
+                  <Checkbox
+                    checked={selectedOptions.activities.includes(activity)}
+                    onChange={() => handleActivitySelect(activity)}
+                  />
+                }
+                label={`${activity} - $${tour.budgets.activityBudgets[index]}`}
+              />
+            ))}
+          </FormGroup>
         </CardContent>
       </Card>
 
+      {/* Optional Destinations */}
       <FormControl fullWidth margin="normal">
         <InputLabel>Optional Destinations</InputLabel>
         <Select
@@ -121,50 +123,39 @@ const CustomizeTour = ({ tour = {} }) => {
           value={selectedOptions.destinations}
           onChange={handleOptionChange}
         >
-          {[
-            { name: "Town A", price: "$15" },
-            { name: "Town B", price: "$20" },
-            { name: "Attraction 1", price: "$25" },
-            { name: "Attraction 2", price: "$30" },
-          ].map((destination) => (
-            <MenuItem key={destination.name} value={destination.name}>
-              {destination.name} - {destination.price}
+          {tour.categories.optionalDestinations.map((destination, index) => (
+            <MenuItem key={destination} value={destination}>
+              {destination} - ${tour.budgets.optionalDestinationBudgets[index]}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
+      {/* Transportation Mode */}
       <FormControl fullWidth margin="normal">
         <InputLabel>Transportation Mode</InputLabel>
         <Select name="transport" value={selectedOptions.transport} onChange={handleOptionChange}>
-          {[
-            { name: "Private Car", price: "$50" },
-            { name: "Train", price: "$30" },
-            { name: "Bus", price: "$20" },
-            { name: "Plane", price: "$100" },
-          ].map((mode) => (
-            <MenuItem key={mode.name} value={mode.name}>
-              {mode.name} - {mode.price}
+          {tour.categories.transportModes.map((mode, index) => (
+            <MenuItem key={mode} value={mode}>
+              {mode} - ${tour.budgets.transportModeBudgets[index]}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
+      {/* Hotel Selection */}
       <FormControl fullWidth margin="normal">
         <InputLabel>Hotel Selection</InputLabel>
         <Select name="hotels" value={selectedOptions.hotels} onChange={handleOptionChange}>
-          {[
-            { name: "3-Star", price: "$40" },
-            { name: "4-Star", price: "$70" },
-            { name: "5-Star", price: "$100" },
-          ].map((hotel) => (
-            <MenuItem key={hotel.name} value={hotel.name}>
-              {hotel.name} - {hotel.price}
+          {tour.categories.hotels.map((hotel, index) => (
+            <MenuItem key={hotel} value={hotel}>
+              {hotel} - ${tour.budgets.hotelBudgets[index]}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
+      {/* Special Requests */}
       <TextField
         name="specialRequests"
         label="Special Requests"
@@ -174,6 +165,7 @@ const CustomizeTour = ({ tour = {} }) => {
         margin="normal"
       />
 
+      {/* Confirm Button */}
       <Button variant="contained" color="primary" onClick={handleConfirm} style={{ marginTop: '20px' }}>
         Book Package
       </Button>
