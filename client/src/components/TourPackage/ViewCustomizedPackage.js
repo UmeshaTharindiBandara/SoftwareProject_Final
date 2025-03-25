@@ -13,6 +13,8 @@ import {
   Button,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
 
 const ViewCustomizedPackage = () => {
   const location = useLocation();
@@ -69,6 +71,26 @@ const ViewCustomizedPackage = () => {
     setTotalBudget(total);
   };
 
+  const stripePromise = loadStripe(
+    "pk_test_51Qdni3AQTkEktI7BiiQZbG3IGUL7nU4zlU9cj0O5iv3PARf6GbmNAyVXxh63hFeoUmIKTWzgMk1f2oYKSnJDooSU00usewESDx"
+  );
+
+  const handlePayment = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/checkout", {
+        totalBudget,
+      });
+
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: response.data.id, // Use session ID from backend
+      });
+
+      if (error) throw error;
+    } catch (error) {
+      console.error("Payment Error:", error);
+    }
+  };
   return (
     <div className="customized-package-container">
       <Typography variant="h4" gutterBottom>
@@ -96,14 +118,9 @@ const ViewCustomizedPackage = () => {
           </TableContainer>
         </CardContent>
       </Card>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/payment", { state: { totalBudget } })}
-        style={{ marginTop: "20px" }}
-      >
-        Proceed to Payment
-      </Button>
+      <Button variant="contained" color="primary" onClick={handlePayment}>
+              Proceed to Payment
+            </Button>
     </div>
   );
 };
