@@ -5,7 +5,7 @@ import axios from "axios";
 import "./AdminDashboard.css";
 import TourIcon from "@mui/icons-material/TravelExplore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
+import PersonPinIcon from "@mui/icons-material/PersonPin";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import NaturePeopleIcon from "@mui/icons-material/NaturePeople";
 import HotelIcon from "@mui/icons-material/Hotel";
@@ -75,45 +75,52 @@ const AdminDashboard = () => {
               <p>Check and update hotels.</p>
             </Paper>
           </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper
+              elevation={4}
+              className="quick-access-card"
+              onClick={() => handleNavigation("/customer")}
+            >
+              <PersonPinIcon className="card-icon" />
+              <Typography variant="h6">View Customer Details</Typography>
+              <p> Manage all customers.</p>
+            </Paper>
+          </Grid>
         </Grid>
 
         {/* Add New Section */}
         <div className="add-buttons-section">
-        <Link to="/add" className="add-link">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="add-button"
-          >
-            
-            + Add Tour
-          </motion.div>
-        </Link>
-        <Link to="/addnew" className="add-link">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="add-button"
-          >
-            
-            + Add Locations
-          </motion.div>
-        </Link>
-        <Link to="/addhotel" className="add-link">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="add-button"
-          >
-            
-            + Add Hotels
-          </motion.div>
-        </Link>
-      </div>
+          <Link to="/add" className="add-link">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="add-button"
+            >
+              + Add Tour
+            </motion.div>
+          </Link>
+          <Link to="/addnew" className="add-link">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="add-button"
+            >
+              + Add Locations
+            </motion.div>
+          </Link>
+          <Link to="/addhotel" className="add-link">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="add-button"
+            >
+              + Add Hotels
+            </motion.div>
+          </Link>
+        </div>
 
         {/* Insights Section */}
         <div className="insights-section">
-          
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
               <Paper elevation={3} className="insight-card">

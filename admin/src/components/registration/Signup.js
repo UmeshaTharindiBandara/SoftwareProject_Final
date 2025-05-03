@@ -13,7 +13,7 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/user_signup", { name, email, password })
+      .post("http://localhost:5000/api/admin_signup", { name, email, password })
       .then((res) => {
         Swal.fire(
           "Congratulations! You Have Successfully Registered with Us 😊",
@@ -43,7 +43,7 @@ function Signup() {
 
   return (
     <>
-      <div className="wrapper">
+      <div id="wrapper">
         <div id="box">
           <img
             src="https://image.freepik.com/free-icon/refresh_318-33117.jpg"
@@ -81,12 +81,16 @@ function Signup() {
               }}
             />
 
-            <button className="signup">go on... click me!"</button>
+            <input
+              type="submit"
+              className="signup"
+              value="go on... click me!"
+            />
           </form>
 
           <div className="signup">
             <p>
-              A member ?<Link to="/login">Login</Link>
+              A member ?<Link to="/">Login</Link>
             </p>
           </div>
         </div>

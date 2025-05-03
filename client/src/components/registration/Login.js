@@ -12,24 +12,15 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/login", { email, password })
+      .post("http://localhost:5000/api/user_login", { email, password })
       .then((res) => {
         if (res.data.status === "success") {
-          if (res.data.role === "admin") {
-            navigate("/admin");
-            Swal.fire(
-              " You Have Successfully loggedin as Admin 😊",
-              "",
-              "success"
-            );
-          } else {
-            navigate("/tour");
-            Swal.fire(
-              "You Have Successfully loggedin as Customer 😊",
-              "",
-              "success"
-            );
-          }
+          navigate("/tour");
+          Swal.fire(
+            "You Have Successfully loggedin as Customer 😊",
+            "",
+            "success"
+          );
         } else {
           Swal.fire({
             icon: "error",

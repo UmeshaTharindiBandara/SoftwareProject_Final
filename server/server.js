@@ -1,20 +1,21 @@
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
-import { config } from 'dotenv';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
-import { Server } from 'socket.io';
-import http from 'http';
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import { config } from "dotenv";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import mongoose from "mongoose";
+import nodemailer from "nodemailer";
+import { Server } from "socket.io";
+import http from "http";
 
-import profileRoutes from './routes/profileRoutes.js';
+import profileRoutes from "./routes/profileRoutes.js";
 import areaRoutes from "./routes/areaRoutes.js";
-import ChatMessage from './models/ChatMessage.js';
-import blogRoutes from './models/BlogPost.js';
+import ChatMessage from "./models/ChatMessage.js";
+import blogRoutes from "./models/BlogPost.js";
 
-import newuserModel from "./models/user.js";
+import adminModel from "./models/admin.js";
+import userModel from "./models/User.js";
 import hotelRoutes from "./routes/hotelRoutes.js";
 
 import Stripe from "stripe";
@@ -23,7 +24,6 @@ import Stripe from "stripe";
 config();
 
 const app = express();
-
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16", // Required for newer SDK versions
@@ -35,22 +35,20 @@ console.log(
   process.env.STRIPE_SECRET_KEY ? "✅ Loaded" : "❌ Missing"
 );
 
-
-
-
 /** App middlewares */
-app.use(morgan('tiny'));
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-}));
+app.use(morgan("tiny"));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:4000"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 app.use("/api/areas", areaRoutes);
-app.use('/api/blogs', blogRoutes);
-
+app.use("/api/blogs", blogRoutes);
 
 /** MongoDB Connection */
 mongoose
@@ -63,7 +61,7 @@ mongoose
 
 /** Nodemailer setup */
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: "Gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -74,61 +72,101 @@ const transporter = nodemailer.createTransport({
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
 
 /** Home route */
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.json("Server is running");
 });
 
-
-//signup
-
-app.post("/api/signup", (req, res) => {
+//user signup
+app.post("/api/user_signup", (req, res) => {
   const { name, email, password } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => {
-      newuserModel
+      userModel
         .create({ name, email, password: hash })
         .then((user) => res.json("success"))
-        .catch((err) => res.json(err));
+        .catch((err) =>
+          res.status(500).json({ error: "Database error", details: err })
+        );
     })
-    .catch((err) => res.json(err));
+    .catch((err) =>
+      res.status(500).json({ error: "Encryption error", details: err })
+    );
 });
 
-//login
-
-app.post("/api/login", (req, res) => {
+// user login
+app.post("/api/user_login", (req, res) => {
   const { email, password } = req.body;
-  newuserModel
+  userModel
     .findOne({ email: email })
     .then((user) => {
-      if (user) {
-        bcrypt.compare(password, user.password, (err, response) => {
-          if (response) {
-            const token = jwt.sign(
-              { email: user.email, role: user.role },
-              "jwt-secret-key",
-              { expiresIn: "1d" }
-            );
-            res.cookie("token", token);
-            return res.json({ status: "success", role: user.role });
-          } else {
-            return res.json("wrong password");
-          }
-        });
-      } else {
-        return res.json("no record");
+      if (!user) {
+        return res.status(400).json({ error: "No record found" });
       }
+
+      bcrypt.compare(password, user.password, (err, match) => {
+        if (match) {
+          const token = jwt.sign({ email: user.email }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+          res.cookie("token", token);
+          return res.json({ status: "success" });
+        } else {
+          return res.status(401).json({ error: "Wrong password" });
+        }
+      });
     })
-    .catch((err) => {
-      return res.json("error occurred");
-    });
+    .catch(() => res.status(500).json({ error: "Server error" }));
+});
+
+// admin signup
+app.post("/api/admin_signup", (req, res) => {
+  const { name, email, password } = req.body;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => {
+      adminModel
+        .create({ name, email, password: hash })
+        .then((admin) => res.json("success"))
+        .catch((err) =>
+          res.status(500).json({ error: "Database error", details: err })
+        );
+    })
+    .catch((err) =>
+      res.status(500).json({ error: "Encryption error", details: err })
+    );
+});
+
+// admin login
+app.post("/api/admin_login", (req, res) => {
+  const { email, password } = req.body;
+  adminModel
+    .findOne({ email: email })
+    .then((admin) => {
+      if (!admin) {
+        return res.status(400).json({ error: "No record found" });
+      }
+
+      bcrypt.compare(password, admin.password, (err, match) => {
+        if (match) {
+          const token = jwt.sign({ email: admin.email }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+          res.cookie("token", token);
+          return res.json({ status: "success" });
+        } else {
+          return res.status(401).json({ error: "Wrong password" });
+        }
+      });
+    })
+    .catch(() => res.status(500).json({ error: "Server error" }));
 });
 
 const tourSchema = new mongoose.Schema({
@@ -173,7 +211,9 @@ app.post("/api/tours", async (req, res) => {
     } = req.body;
 
     if (!categories || !budgets) {
-      return res.status(400).json({ success: false, message: "Missing required fields." });
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required fields." });
     }
 
     const newTour = new Tour({
@@ -202,13 +242,16 @@ app.post("/api/tours", async (req, res) => {
     });
 
     await newTour.save();
-    res.status(201).json({ success: true, message: "Tour package added successfully!", data: newTour });
+    res.status(201).json({
+      success: true,
+      message: "Tour package added successfully!",
+      data: newTour,
+    });
   } catch (error) {
     console.error("Error adding tour:", error);
     res.status(500).json({ success: false, message: "Server error." });
   }
 });
-
 
 // **Fetch all tour packages**
 app.get("/api/tours", async (req, res) => {
@@ -225,7 +268,10 @@ app.get("/api/tours", async (req, res) => {
 app.get("/api/tours/:id", async (req, res) => {
   try {
     const tour = await Tour.findById(req.params.id);
-    if (!tour) return res.status(404).json({ success: false, message: "Tour not found" });
+    if (!tour)
+      return res
+        .status(404)
+        .json({ success: false, message: "Tour not found" });
     res.status(200).json({ success: true, data: tour });
   } catch (error) {
     console.error("Error fetching tour:", error);
@@ -236,8 +282,13 @@ app.get("/api/tours/:id", async (req, res) => {
 // **Update a tour package**
 app.put("/api/tours/:id", async (req, res) => {
   try {
-    const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedTour) return res.status(404).json({ success: false, message: "Tour not found" });
+    const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updatedTour)
+      return res
+        .status(404)
+        .json({ success: false, message: "Tour not found" });
     res.status(200).json({ success: true, data: updatedTour });
   } catch (error) {
     console.error("Error updating tour:", error);
@@ -249,8 +300,13 @@ app.put("/api/tours/:id", async (req, res) => {
 app.delete("/api/tours/:id", async (req, res) => {
   try {
     const deletedTour = await Tour.findByIdAndDelete(req.params.id);
-    if (!deletedTour) return res.status(404).json({ success: false, message: "Tour not found" });
-    res.status(200).json({ success: true, message: "Tour deleted successfully." });
+    if (!deletedTour)
+      return res
+        .status(404)
+        .json({ success: false, message: "Tour not found" });
+    res
+      .status(200)
+      .json({ success: true, message: "Tour deleted successfully." });
   } catch (error) {
     console.error("Error deleting tour:", error);
     res.status(500).json({ success: false, message: "Server error." });
@@ -258,32 +314,31 @@ app.delete("/api/tours/:id", async (req, res) => {
 });
 
 // Chat Message Routes
-app.post('/api/chat', async (req, res) => {
+app.post("/api/chat", async (req, res) => {
   try {
     const { user, message } = req.body;
     if (!user || !message) {
-      return res.status(400).json({ error: 'User and message are required' });
+      return res.status(400).json({ error: "User and message are required" });
     }
 
     const chatMessage = new ChatMessage({ user, message });
     await chatMessage.save();
     res.status(201).json(chatMessage);
   } catch (error) {
-    console.error('Error saving chat message:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error saving chat message:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.get('/api/chat', async (req, res) => {
+app.get("/api/chat", async (req, res) => {
   try {
     const messages = await ChatMessage.find().sort({ timestamp: 1 });
     res.json(messages);
   } catch (error) {
-    console.error('Error fetching chat messages:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching chat messages:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 // Payments
 app.post("/api/checkout", async (req, res) => {
@@ -314,43 +369,31 @@ app.post("/api/checkout", async (req, res) => {
 });
 
 // Socket.io Setup
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
 
-  socket.on('chat message', async (data) => {
+  socket.on("chat message", async (data) => {
     try {
       const chatMessage = new ChatMessage(data);
       await chatMessage.save();
 
-      io.emit('chat message', chatMessage);
-      socket.emit('message status', 'Message Sent Successfully');
+      io.emit("chat message", chatMessage);
+      socket.emit("message status", "Message Sent Successfully");
     } catch (error) {
-      console.error('Error saving chat message:', error);
+      console.error("Error saving chat message:", error);
     }
   });
 
-  socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
   });
 });
 
 // Start the server
 const PORT = 5000;
 
-mongoose
-  .connect("mongodb://localhost:27017/tourDB", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("Connected to MongoDB.");
-    app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err.message);
-  });
-
-
-app.use('/api', profileRoutes);
-app.use('/api', hotelRoutes);
-
+app.use("/api", profileRoutes);
+app.use("/api", hotelRoutes);
 
 /** Start the server */
 const port = process.env.PORT || 3000;

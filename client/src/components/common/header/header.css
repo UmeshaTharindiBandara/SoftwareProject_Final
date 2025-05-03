@@ -44,6 +44,7 @@ header ul {
 }
 
 header ul li a {
+  padding: 20px;
   color: #003366;
   font-weight: 600;
   transition: 0.5s;
@@ -116,7 +117,9 @@ body.dark-mode .logo h1 {
 /* Button styles */
 .btn-signin{
   color: white; /* Text color */
+  background-color: #003366;
   padding: 10px 20px;
+  margin-top: 20px;
   font-size: 16px;
   font-weight: 600;
   border-radius: 30px;
@@ -128,9 +131,6 @@ body.dark-mode .logo h1 {
   justify-content: center;
 }
 
-.btn-signin {
-  background-color: #003366;
-}
 
 .btn-signin:hover {
   background-color: #a0c3e2;

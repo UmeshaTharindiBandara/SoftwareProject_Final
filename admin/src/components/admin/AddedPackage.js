@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {Button} from "@mui/material";
-import {Card,CardContent,CardMedia,Typography,} from "@mui/material";
+import { Button } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import "./AddPackages.css";
+import "./AddedLocations.css";
 
 const AddedPackage = () => {
   const [tours, setTours] = useState([]);
@@ -139,7 +139,7 @@ const AddedPackage = () => {
             <Card key={tour._id} className="tour-card">
               <CardMedia
                 component="img"
-                height="200"
+                height="600"
                 image={tour.image}
                 alt={tour.name}
               />
@@ -147,7 +147,6 @@ const AddedPackage = () => {
                 <Typography variant="h5" className="tour-title">
                   {tour.name}
                 </Typography>
-                
 
                 {/* View Package Button */}
                 <Button

@@ -141,29 +141,6 @@ const ViewCustomizedPackage = () => {
     }
   };
 
-  // pay
-  // const handlePayment = async () => {
-  //   const stripePromise = loadStripe(
-  //     "pk_test_51Qdni3AQTkEktI7BiiQZbG3IGUL7nU4zlU9cj0O5iv3PARf6GbmNAyVXxh63hFeoUmIKTWzgMk1f2oYKSnJDooSU00usewESDx"
-  //   );
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:5000/api/checkout",
-  //       { totalBudget },
-  //       { headers: { "Content-Type": "application/json" } }
-  //     );
-
-  //     const stripe = await stripePromise;
-  //     const { error } = await stripe.redirectToCheckout({
-  //       sessionId: response.data.id,
-  //     });
-
-  //     if (error) throw error;
-  //   } catch (error) {
-  //     console.error("Payment Error:", error);
-  //   }
-  // };
-
   const stripePromise = loadStripe(
     "pk_test_51Qdni3AQTkEktI7BiiQZbG3IGUL7nU4zlU9cj0O5iv3PARf6GbmNAyVXxh63hFeoUmIKTWzgMk1f2oYKSnJDooSU00usewESDx"
   );
@@ -176,7 +153,7 @@ const ViewCustomizedPackage = () => {
 
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({
-        sessionId: response.data.id, // Use session ID from backend
+        sessionId: response.data.id,
       });
 
       if (error) throw error;

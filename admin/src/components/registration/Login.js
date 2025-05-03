@@ -1,70 +1,59 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "./registration.css";
 import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-function Signup() {
-  const [name, setname] = useState("");
+function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const navigate = useNavigate();
-
+  axios.defaults.withCredentials = true;
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/user_signup", { name, email, password })
+      .post("http://localhost:5000/api/admin_login", { email, password })
       .then((res) => {
-        Swal.fire(
-          "Congratulations! You Have Successfully Registered with Us 😊",
-          "",
-          "success"
-        );
-        navigate("/");
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 400) {
-          // If email already exists
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email is already in use. Please try a different one. 😔",
-          });
+        if (res.data.status === "success") {
+          navigate("/admin");
+          Swal.fire(
+            "You Have Successfully loggedin as Admin 😊",
+            "",
+            "success"
+          );
         } else {
-          // General error handling
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "An error occurred. Please try again. 😔",
+            text: "invalid Login Credintials",
           });
         }
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Login failed. Please check your Email or password and try again.",
+        });
       });
   };
 
   return (
     <>
-      <div className="wrapper">
+      <div id="wrapper">
         <div id="box">
           <img
             src="https://image.freepik.com/free-icon/refresh_318-33117.jpg"
             alt="lock"
           />
-          <h3>Please sign in</h3>
+          <h3>Please Login in Here</h3>
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="USERNAME"
-              value={name}
-              onChange={(e) => {
-                setname(e.target.value);
-              }}
-              required
-            />
             <input
               type="email"
               name="email"
               placeholder="EMAIL"
-              required=""
+              required
               value={email}
               onChange={(e) => {
                 setemail(e.target.value);
@@ -80,13 +69,13 @@ function Signup() {
                 setpassword(e.target.value);
               }}
             />
-
             <button className="signup">go on... click me!"</button>
           </form>
+          <a href="#">forgot ?</a>
 
           <div className="signup">
             <p>
-              A member ?<Link to="/login">Login</Link>
+              not a member ? <Link to="/signup">Signup</Link>
             </p>
           </div>
         </div>
@@ -95,4 +84,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

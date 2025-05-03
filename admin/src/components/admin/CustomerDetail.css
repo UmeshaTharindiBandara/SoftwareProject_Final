@@ -1,0 +1,70 @@
+.container1 {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 1.5px;
+    background: linear-gradient(to right, #007bff, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #013b5c;
+    border-radius: 10px;
+    overflow: hidden;
+    color:rgb(255, 255, 255)
+  }
+  
+  .user-table th, .user-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .user-table th {
+    background: #003165;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .user-table tr:hover {
+    background: #4a616f;
+  }
+  
+  select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #1231ac;
+  }
+  
+  .update-btn {
+    
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .update-btn:hover {
+    background: #218838;
+  }
+  
