@@ -4,16 +4,18 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdOutlineLocationOn } from "react-icons/md";
+import { useNavigate } from "react-router-dom"; // ✅ Add this
 import "./UserPackage.css";
 import galleryImage from "../../assets/images/10.jpg";
 
 const UserPackage = () => {
+    const navigate = useNavigate(); // ✅ Setup navigation
     const [areas, setAreas] = useState([]);
     const [newAreas, setNewAreas] = useState([]);
     const [selectedArea, setSelectedArea] = useState(null);
     const [selectedLocations, setSelectedLocations] = useState([]);
     const [newLocations, setNewLocations] = useState([]);
-    
+
     const [newAreaName, setNewAreaName] = useState("");
     const [newLocationName, setNewLocationName] = useState("");
     const [newLocationImage, setNewLocationImage] = useState(null);
@@ -73,7 +75,18 @@ const UserPackage = () => {
     };
 
     const handleSubmit = () => {
-        alert(`You have selected: ${selectedLocations.map((loc) => loc.name).join(", ")}`);
+        if (!selectedArea || selectedLocations.length === 0) {
+            alert("Please select an area and at least one location.");
+            return;
+        }
+
+        // ✅ Navigate to customize-tour page with selected data
+        navigate("/customize-own-tour", {
+            state: {
+                selectedArea,
+                selectedLocations
+            }
+        });
     };
 
     return (
@@ -97,9 +110,8 @@ const UserPackage = () => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                     className="area-buttons"
-                    style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}  // Flexbox style
+                    style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}
                 >
-                    {/* Display existing areas */}
                     {[...areas, ...newAreas].map((area, index) => (
                         <Card
                             key={index}
@@ -116,7 +128,6 @@ const UserPackage = () => {
                         </Card>
                     ))}
 
-                    {/* New Area Input Card */}
                     <Card className="area-card add-new-area-card" style={{ width: '200px', height: '200px' }}>
                         <CardContent>
                             <TextField
@@ -129,7 +140,6 @@ const UserPackage = () => {
                             <Button
                                 variant="contained"
                                 onClick={handleAddNewArea}
-                                className="add-area-button"
                                 fullWidth
                                 style={{ marginTop: '10px' }}
                             >
@@ -139,7 +149,7 @@ const UserPackage = () => {
                     </Card>
                 </motion.div>
             </div>
-            <br/><br/>
+            <br /><br />
 
             {/* Location Selection */}
             {selectedArea && (
@@ -181,7 +191,6 @@ const UserPackage = () => {
                             </Card>
                         ))}
 
-                        {/* Add New Location Card */}
                         <Card className="location-card add-new-location" style={{ width: '200px' }}>
                             <CardContent className="location-content">
                                 <TextField
@@ -200,7 +209,6 @@ const UserPackage = () => {
                                 <Button
                                     variant="contained"
                                     onClick={handleAddNewLocation}
-                                    className="add-location-button"
                                     fullWidth
                                 >
                                     Add Location
@@ -211,7 +219,6 @@ const UserPackage = () => {
                 </div>
             )}
 
-            {/* Submit Button */}
             {selectedLocations.length > 0 && (
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -224,7 +231,7 @@ const UserPackage = () => {
                     </Button>
                 </motion.div>
             )}
-            <br/><br/>
+            <br /><br />
         </div>
     );
 };

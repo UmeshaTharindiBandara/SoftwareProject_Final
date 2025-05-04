@@ -17,6 +17,7 @@ import EditPackages from "./components/admin/EditPackages";
 
 import ProfilePage from "./components/user/Profile";
 import UserPacakge from "./components/user/UserPackage";
+import CustomizeOwnTour from "./components/user/CustomizeOwnTour";
 import AddNew from "./components/admin/AddNew";
 import AddNewEdit from "./components/admin/AddNewEdit";
 import AddedPackage from "./components/admin/AddedPackage";
@@ -68,6 +69,8 @@ function App() {
           <Route path="/edit/:id" element={<EditPackages />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/userpackage" element={<UserPacakge />} />
+          
+          <Route path="/customize-own-tour" element={<CustomizeOwnTour />} />
           <Route path="/addnew" element={<AddNew />} />
           <Route path="/edit-area/:id" element={<AddNewEdit />} />
           <Route path="/addedpackage" element={<AddedPackage />} />

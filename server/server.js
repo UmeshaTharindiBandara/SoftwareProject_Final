@@ -15,9 +15,12 @@ import ChatMessage from './models/ChatMessage.js';
 import blogRoutes from './models/BlogPost.js';
 
 import newuserModel from "./models/user.js";
+
 import hotelRoutes from "./routes/hotelRoutes.js";
 
 import Stripe from "stripe";
+
+import bookingRoutes from './routes/bookings.js';
 
 // Load environment variables
 config();
@@ -35,8 +38,7 @@ console.log(
   process.env.STRIPE_SECRET_KEY ? "✅ Loaded" : "❌ Missing"
 );
 
-
-
+app.use('/api/bookings', bookingRoutes);
 
 /** App middlewares */
 app.use(morgan('tiny'));
@@ -44,6 +46,7 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
