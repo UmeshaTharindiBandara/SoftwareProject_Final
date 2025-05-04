@@ -47,11 +47,8 @@ function CustomerDetail() {
       return;
     }
 
-    // Use selectedRole if it exists, otherwise use current role
-    const newRole = user.selectedRole || user.role;
-
     axios
-      .put(`http://localhost:5000/api/signup/${user._id}`, { role: newRole })
+      .put(`http://localhost:5000/api/user_signup/${user._id}`)
       .then((res) => {
         // Update users state
         const updatedUsers = [...users];

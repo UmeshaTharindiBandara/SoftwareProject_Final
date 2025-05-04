@@ -12,133 +12,75 @@ import {
   Paper,
   Button,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
-// Add this at the top of your component
-// Use your actual key
-
 const ViewCustomizedPackage = () => {
-  const [customizedPackage, setCustomizedPackage] = useState(null);
-  const [packageDetails, setPackageDetails] = useState(null);
-  const [totalBudget, setTotalBudget] = useState(0);
-  const [budgetDetails, setBudgetDetails] = useState({});
+  const location = useLocation();
   const navigate = useNavigate();
+  const { tour, selectedOptions } = location.state || {};
+  const [totalBudget, setTotalBudget] = useState(0);
+  const [breakdown, setBreakdown] = useState({});
 
   useEffect(() => {
-    const storedPackage = JSON.parse(localStorage.getItem("customizedPackage"));
-    if (storedPackage) {
-      setCustomizedPackage(storedPackage);
+    if (tour && selectedOptions) {
+      calculateTotalBudget(selectedOptions);
     }
-
-    // Simulating fetching package details (Ideally, fetch from API)
-    const fetchedPackageDetails = {
-      name: "Galle Fort",
-      baseBudget: 150, // base budget for the package
-      duration: "1 Day",
-      highlights: ["Dutch Reformed Church", "Lighthouse", "Fort Walls"],
-    };
-
-    setPackageDetails(fetchedPackageDetails);
-  }, []);
-
-  useEffect(() => {
-    if (customizedPackage && packageDetails) {
-      calculateTotalBudget(customizedPackage); // Only calculate when data is available
-    }
-  }, [customizedPackage, packageDetails]);
+  }, [tour, selectedOptions]);
 
   const calculateTotalBudget = (packageData) => {
     let total = 0;
     let breakdown = {};
 
-    if (packageDetails) {
-      // Base package budget
-      let baseBudget = parseFloat(packageDetails.baseBudget || 0);
-      breakdown.baseBudget = baseBudget;
-      total += baseBudget;
+    // Meal Plan
+    const mealIndex = tour.categories.meals.indexOf(packageData.mealPlan);
+    let mealBudget = mealIndex !== -1 ? tour.budgets.mealBudgets[mealIndex] : 0;
+    breakdown.mealPlan = mealBudget;
+    total += mealBudget;
 
-      // Meal plan budget
-      const mealPrices = {
-        Vegetarian: 5,
-        Vegan: 6,
-        "Local Cuisine": 7,
-        Seafood: 10,
-        Buffet: 12,
-      };
-      let mealBudget = 0;
-      if (packageData.mealPlan) {
-        mealBudget = mealPrices[packageData.mealPlan] || 0;
-        breakdown.mealPlan = mealBudget;
-        total += mealBudget;
-      }
+    // Activities
+    let activityBudget = packageData.activities.reduce((sum, activity) => {
+      let index = tour.categories.activities.indexOf(activity);
+      return sum + (index !== -1 ? tour.budgets.activityBudgets[index] : 0);
+    }, 0);
+    breakdown.activities = activityBudget;
+    total += activityBudget;
 
-      // Activity costs
-      const activityPrices = {
-        Hiking: 5,
-        Safari: 10,
-        "Cultural Experience": 9,
-        "Wildlife Watching": 12,
-      };
-      let activityBudget = 0;
-      if (packageData.activities) {
-        activityBudget = packageData.activities.reduce(
-          (sum, activity) => sum + (activityPrices[activity] || 0),
-          0
+    // Transport
+    let transportIndex = tour.categories.transportModes.indexOf(
+      packageData.transport
+    );
+    let transportBudget =
+      transportIndex !== -1
+        ? tour.budgets.transportModeBudgets[transportIndex]
+        : 0;
+    breakdown.transport = transportBudget;
+    total += transportBudget;
+
+    // Hotel
+    let hotelIndex = tour.categories.hotels.indexOf(packageData.hotels);
+    let hotelBudget =
+      hotelIndex !== -1 ? tour.budgets.hotelBudgets[hotelIndex] : 0;
+    breakdown.hotels = hotelBudget;
+    total += hotelBudget;
+
+    // Destinations
+    let destinationBudget = packageData.destinations.reduce(
+      (sum, destination) => {
+        let index = tour.categories.optionalDestinations.indexOf(destination);
+        return (
+          sum +
+          (index !== -1 ? tour.budgets.optionalDestinationBudgets[index] : 0)
         );
-        breakdown.activities = activityBudget;
-        total += activityBudget;
-      }
+      },
+      0
+    );
+    breakdown.destinations = destinationBudget;
+    total += destinationBudget;
 
-      // Transport budget
-      const transportPrices = {
-        "Private Car": 50,
-        Train: 30,
-        Bus: 20,
-        Plane: 100,
-      };
-      let transportBudget = 0;
-      if (packageData.transport) {
-        transportBudget = transportPrices[packageData.transport] || 0;
-        breakdown.transport = transportBudget;
-        total += transportBudget;
-      }
-
-      // Hotel budget
-      const hotelPrices = {
-        "3-Star": 40,
-        "4-Star": 70,
-        "5-Star": 100,
-      };
-      let hotelBudget = 0;
-      if (packageData.hotels) {
-        hotelBudget = hotelPrices[packageData.hotels] || 0;
-        breakdown.hotels = hotelBudget;
-        total += hotelBudget;
-      }
-
-      // Destination budget
-      const destinationPrices = {
-        "Town A": 15,
-        "Town B": 20,
-        "Attraction 1": 25,
-        "Attraction 2": 30,
-      };
-      let destinationBudget = 0;
-      if (packageData.destinations) {
-        destinationBudget = packageData.destinations.reduce(
-          (sum, destination) => sum + (destinationPrices[destination] || 0),
-          0
-        );
-        breakdown.destinations = destinationBudget;
-        total += destinationBudget;
-      }
-
-      // Set final total and breakdown
-      setTotalBudget(total);
-      setBudgetDetails(breakdown);
-    }
+    setBreakdown(breakdown);
+    setTotalBudget(total);
   };
 
   const stripePromise = loadStripe(
@@ -153,7 +95,7 @@ const ViewCustomizedPackage = () => {
 
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({
-        sessionId: response.data.id,
+        sessionId: response.data.id, // Use session ID from backend
       });
 
       if (error) throw error;
@@ -161,163 +103,42 @@ const ViewCustomizedPackage = () => {
       console.error("Payment Error:", error);
     }
   };
-
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
-      <Card
-        variant="outlined"
-        style={{
-          maxWidth: "800px",
-          width: "100%",
-          padding: "20px",
-          background: "#f9f9f9",
-        }}
-      >
+    <div className="customized-package-container">
+      <Typography variant="h4" gutterBottom>
+        Customized Package Summary
+      </Typography>
+      <Card variant="outlined" className="summary-card">
         <CardContent>
-          <Typography variant="h4" align="center" gutterBottom>
-            Customized Tour Budget Report
-          </Typography>
-          <Divider style={{ marginBottom: "20px" }} />
-
-          {/* Package Overview */}
-          {packageDetails && (
-            <TableContainer component={Paper} style={{ marginBottom: "20px" }}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Destination</strong>
-                    </TableCell>
-                    <TableCell>{packageDetails.name}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Duration</strong>
-                    </TableCell>
-                    <TableCell>{packageDetails.duration}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Base Budget</strong>
-                    </TableCell>
-                    <TableCell>${packageDetails.baseBudget}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Highlights</strong>
-                    </TableCell>
-                    <TableCell>
-                      {packageDetails.highlights.join(", ")}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-
-          {/* Customized Selections */}
-          {customizedPackage ? (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Meal Plan</strong>
-                    </TableCell>
-                    <TableCell>
-                      {customizedPackage.mealPlan || "Not Selected"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Activities</strong>
-                    </TableCell>
-                    <TableCell>
-                      {customizedPackage.activities.length > 0
-                        ? customizedPackage.activities.join(", ")
-                        : "No activities selected"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Transportation</strong>
-                    </TableCell>
-                    <TableCell>
-                      {customizedPackage.transport || "Not Selected"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Hotel</strong>
-                    </TableCell>
-                    <TableCell>
-                      {customizedPackage.hotels || "Not Selected"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Guide</strong>
-                    </TableCell>
-                    <TableCell>
-                      {customizedPackage.guides || "Not Selected"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Special Requests</strong>
-                    </TableCell>
-                    <TableCell>
-                      {customizedPackage.specialRequests || "None"}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Typography align="center" color="textSecondary">
-              No package selected
-            </Typography>
-          )}
-
-          {/* Individual Budget Breakdown */}
-          <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+          <Typography variant="h6">Selected Options & Budget</Typography>
+          <Divider />
+          <TableContainer component={Paper}>
             <Table>
               <TableBody>
-                {Object.entries(budgetDetails).map(([key, value]) => (
+                {Object.entries(breakdown).map(([key, value]) => (
                   <TableRow key={key}>
                     <TableCell>
-                      <strong>
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
-                      </strong>
+                      {key.replace(/([A-Z])/g, " $1").trim()}
                     </TableCell>
                     <TableCell>${value}</TableCell>
                   </TableRow>
                 ))}
+                <TableRow>
+                  <TableCell>
+                    <strong>Total Budget</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>${totalBudget}</strong>
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
-
-          {/* Total Budget Section */}
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <Typography variant="h5" color="primary">
-              Total Budget: ${totalBudget}
-            </Typography>
-          </div>
-
-          {/* Back Button */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "20px",
-            }}
-          >
-            <Button variant="contained" color="primary" onClick={handlePayment}>
-              Proceed to Payment
-            </Button>
-          </div>
         </CardContent>
       </Card>
+      <Button variant="contained" color="primary" onClick={handlePayment}>
+        Proceed to Payment
+      </Button>
     </div>
   );
 };
