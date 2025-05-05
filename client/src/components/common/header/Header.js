@@ -44,15 +44,15 @@ const Header = () => {
   return (
     <>
       <header>
-        <nav className="flexSB">
-          <div className="logo">
-            <h1>
-              <MdTravelExplore className="icon" /> Mahaweli Tours{" "}
-            </h1>
-          </div>
+        <div className="logo">
+          <h1>
+            <MdTravelExplore className="icon" /> Mahaweli Tours
+          </h1>
+        </div>
 
+        <nav className="nav">
           <ul
-            className={click ? "mobile-nav" : "flexSB"}
+            className={click ? "mobile-nav" : ""}
             onClick={() => setClick(false)}
           >
             <li>
@@ -67,7 +67,6 @@ const Header = () => {
             <li>
               <Link to="/contact">Contact</Link>
             </li>
-
             <li>
               <Link
                 to="/tour"
@@ -86,22 +85,22 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-
-          <div className="header-actions">
-            {!loggedInUser ? (
-              <Link to="/signup" className="btn-signin">
-                Sign In
-              </Link>
-            ) : (
-              <Link to="/profile" className="btn-profile">
-                <FaUserCircle className="profile-icon" />
-              </Link>
-            )}
-            <button onClick={toggleDarkMode} className="btn-dark-mode">
-              {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
-            </button>
-          </div>
         </nav>
+
+        <div className="header-actions">
+          {!loggedInUser ? (
+            <Link to="/signup" className="btn-signin">
+              Sign In
+            </Link>
+          ) : (
+            <Link to="/profile" className="btn-profile">
+              <FaUserCircle className="profile-icon" />
+            </Link>
+          )}
+          <button onClick={toggleDarkMode} className="btn-dark-mode">
+            {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
+          </button>
+        </div>
       </header>
     </>
   );
