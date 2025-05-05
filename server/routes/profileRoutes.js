@@ -1,56 +1,82 @@
-import express from 'express';
-import multer from 'multer';
-import User from '../models/user.js';
+import express from "express";
+import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
+//import User from '../models/user.js';
+
+import fs from "fs";
 
 const router = express.Router();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: 'uploads/',
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../uploads/profile-pictures/"));
+  },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop());
-  }
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png/;
+    const extName = allowedTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+    const mimeType = allowedTypes.test(file.mimetype);
 
-// Update profile route
-router.put('/', upload.single('profilePicture'), async (req, res) => {
-  try {
-    const { userId, firstName, lastName, email, mobile, address } = req.body;
-
-    if (!userId) {
-      return res.status(400).json({ error: 'User ID is required' });
+    if (extName && mimeType) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .jpeg, .jpg, and .png files are allowed."));
     }
+  },
+});
 
+router.put("/profile", upload.single("profilePicture"), async (req, res) => {
+  const { firstName, lastName, email, mobile, address } = req.body;
+  const userId = req.user.id;
+
+  try {
     const updateData = {
       firstName,
       lastName,
       email,
       mobile,
-      address
+      address,
     };
 
     if (req.file) {
-      updateData.profilePicture = req.file.filename;
+      updateData.profilePicture = `/uploads/profile-pictures/${req.file.filename}`;
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      updateData,
-      { new: true, runValidators: true }
-    );
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
 
     if (!updatedUser) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found." });
     }
 
-    res.json(updatedUser);
-  } catch (err) {
-    console.error('Profile update error:', err);
-    res.status(500).json({ error: 'Failed to update profile' });
+    res.json({
+      message: "Profile updated successfully.",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the profile." });
   }
 });
+
+const uploadDir = path.join(path.resolve(), "uploads/profile-pictures");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 export default router;

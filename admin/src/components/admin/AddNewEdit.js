@@ -207,7 +207,8 @@ const AddNewEdit = () => {
           <Box className="form-actions">
             <Button
               variant="contained"
-              type="submit"
+              onClick={handleUpdateArea}
+              
               className="submit-button"
             >
               Update Area

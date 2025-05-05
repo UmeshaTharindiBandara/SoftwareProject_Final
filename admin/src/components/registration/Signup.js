@@ -13,27 +13,37 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/user_signup", { name, email, password })
+      .post("http://localhost:5000/api/admin_signup", { name, email, password })
       .then((res) => {
         Swal.fire(
           "Congratulations! You Have Successfully Registered with Us 😊",
           "",
           "success"
         );
-        navigate("/login");
+        navigate("/");
       })
-      .catch((err) =>
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "An error occurred. Please try again. 😔",
-        })
-      );
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          // If email already exists
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Email is already in use. Please try a different one. 😔",
+          });
+        } else {
+          // General error handling
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "An error occurred. Please try again. 😔",
+          });
+        }
+      });
   };
 
   return (
     <>
-      <div className="wrapper">
+      <div id="wrapper">
         <div id="box">
           <img
             src="https://image.freepik.com/free-icon/refresh_318-33117.jpg"
@@ -80,7 +90,7 @@ function Signup() {
 
           <div className="signup">
             <p>
-              A member ?<Link to="/login">Login</Link>
+              A member ?<Link to="/">Login</Link>
             </p>
           </div>
         </div>

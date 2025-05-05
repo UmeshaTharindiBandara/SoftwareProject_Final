@@ -14,7 +14,8 @@ import areaRoutes from "./routes/areaRoutes.js";
 import ChatMessage from './models/ChatMessage.js';
 import blogRoutes from './models/BlogPost.js';
 
-import newuserModel from "./models/user.js";
+import adminModel from "./models/admin.js";
+import userModel from "./models/user.js";
 
 import hotelRoutes from "./routes/hotelRoutes.js";
 
@@ -43,7 +44,7 @@ app.use('/api/bookings', bookingRoutes);
 /** App middlewares */
 app.use(morgan('tiny'));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ["http://localhost:3000", "http://localhost:4000"],
   credentials: true,
 }));
 
@@ -88,51 +89,92 @@ app.get('/', (req, res) => {
   res.json("Server is running");
 });
 
-
-//signup
-
-app.post("/api/signup", (req, res) => {
+//user signup
+app.post("/api/user_signup", (req, res) => {
   const { name, email, password } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => {
-      newuserModel
+      userModel
         .create({ name, email, password: hash })
         .then((user) => res.json("success"))
-        .catch((err) => res.json(err));
+        .catch((err) =>
+          res.status(500).json({ error: "Database error", details: err })
+        );
     })
-    .catch((err) => res.json(err));
+    .catch((err) =>
+      res.status(500).json({ error: "Encryption error", details: err })
+    );
 });
 
-//login
-
-app.post("/api/login", (req, res) => {
+// user login
+app.post("/api/user_login", (req, res) => {
   const { email, password } = req.body;
-  newuserModel
+  userModel
     .findOne({ email: email })
     .then((user) => {
-      if (user) {
-        bcrypt.compare(password, user.password, (err, response) => {
-          if (response) {
-            const token = jwt.sign(
-              { email: user.email, role: user.role },
-              "jwt-secret-key",
-              { expiresIn: "1d" }
-            );
-            res.cookie("token", token);
-            return res.json({ status: "success", role: user.role });
-          } else {
-            return res.json("wrong password");
-          }
-        });
-      } else {
-        return res.json("no record");
+      if (!user) {
+        return res.status(400).json({ error: "No record found" });
       }
+
+      bcrypt.compare(password, user.password, (err, match) => {
+        if (match) {
+          const token = jwt.sign({ email: user.email }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+          res.cookie("token", token);
+          return res.json({ status: "success" });
+        } else {
+          return res.status(401).json({ error: "Wrong password" });
+        }
+      });
     })
-    .catch((err) => {
-      return res.json("error occurred");
-    });
+    .catch(() => res.status(500).json({ error: "Server error" }));
 });
+
+// admin signup
+app.post("/api/admin_signup", (req, res) => {
+  const { name, email, password } = req.body;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => {
+      adminModel
+        .create({ name, email, password: hash })
+        .then((admin) => res.json("success"))
+        .catch((err) =>
+          res.status(500).json({ error: "Database error", details: err })
+        );
+    })
+    .catch((err) =>
+      res.status(500).json({ error: "Encryption error", details: err })
+    );
+});
+
+// admin login
+app.post("/api/admin_login", (req, res) => {
+  const { email, password } = req.body;
+  adminModel
+    .findOne({ email: email })
+    .then((admin) => {
+      if (!admin) {
+        return res.status(400).json({ error: "No record found" });
+      }
+
+      bcrypt.compare(password, admin.password, (err, match) => {
+        if (match) {
+          const token = jwt.sign({ email: admin.email }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+          res.cookie("token", token);
+          return res.json({ status: "success" });
+        } else {
+          return res.status(401).json({ error: "Wrong password" });
+        }
+      });
+    })
+    .catch(() => res.status(500).json({ error: "Server error" }));
+});
+
 
 const tourSchema = new mongoose.Schema({
   name: String,
