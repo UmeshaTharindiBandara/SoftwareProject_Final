@@ -48,22 +48,34 @@ const ViewCustomizedPackage = () => {
     total += activityBudget;
 
     // Transport
-    let transportIndex = tour.categories.transportModes.indexOf(packageData.transport);
-    let transportBudget = transportIndex !== -1 ? tour.budgets.transportModeBudgets[transportIndex] : 0;
+    let transportIndex = tour.categories.transportModes.indexOf(
+      packageData.transport
+    );
+    let transportBudget =
+      transportIndex !== -1
+        ? tour.budgets.transportModeBudgets[transportIndex]
+        : 0;
     breakdown.transport = transportBudget;
     total += transportBudget;
 
     // Hotel
     let hotelIndex = tour.categories.hotels.indexOf(packageData.hotels);
-    let hotelBudget = hotelIndex !== -1 ? tour.budgets.hotelBudgets[hotelIndex] : 0;
+    let hotelBudget =
+      hotelIndex !== -1 ? tour.budgets.hotelBudgets[hotelIndex] : 0;
     breakdown.hotels = hotelBudget;
     total += hotelBudget;
 
     // Destinations
-    let destinationBudget = packageData.destinations.reduce((sum, destination) => {
-      let index = tour.categories.optionalDestinations.indexOf(destination);
-      return sum + (index !== -1 ? tour.budgets.optionalDestinationBudgets[index] : 0);
-    }, 0);
+    let destinationBudget = packageData.destinations.reduce(
+      (sum, destination) => {
+        let index = tour.categories.optionalDestinations.indexOf(destination);
+        return (
+          sum +
+          (index !== -1 ? tour.budgets.optionalDestinationBudgets[index] : 0)
+        );
+      },
+      0
+    );
     breakdown.destinations = destinationBudget;
     total += destinationBudget;
 
@@ -77,9 +89,12 @@ const ViewCustomizedPackage = () => {
 
   const handlePayment = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/checkout", {
-        totalBudget,
-      });
+      const response = await axios.post(
+        "http://10.50.227.117:5000/api/checkout",
+        {
+          totalBudget,
+        }
+      );
 
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({
@@ -105,13 +120,19 @@ const ViewCustomizedPackage = () => {
               <TableBody>
                 {Object.entries(breakdown).map(([key, value]) => (
                   <TableRow key={key}>
-                    <TableCell>{key.replace(/([A-Z])/g, ' $1').trim()}</TableCell>
+                    <TableCell>
+                      {key.replace(/([A-Z])/g, " $1").trim()}
+                    </TableCell>
                     <TableCell>${value}</TableCell>
                   </TableRow>
                 ))}
                 <TableRow>
-                  <TableCell><strong>Total Budget</strong></TableCell>
-                  <TableCell><strong>${totalBudget}</strong></TableCell>
+                  <TableCell>
+                    <strong>Total Budget</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>${totalBudget}</strong>
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -119,8 +140,8 @@ const ViewCustomizedPackage = () => {
         </CardContent>
       </Card>
       <Button variant="contained" color="primary" onClick={handlePayment}>
-              Proceed to Payment
-            </Button>
+        Proceed to Payment
+      </Button>
     </div>
   );
 };

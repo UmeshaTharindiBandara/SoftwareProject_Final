@@ -8,7 +8,7 @@ const PackageDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/tours/${id}`)
+      .get(`http://10.50.227.117:5000/api/tours/${id}`)
       .then((res) => {
         setPackageDetails(res.data.data);
       })

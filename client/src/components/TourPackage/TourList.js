@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardMedia, Typography, IconButton, Rating, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  IconButton,
+  Rating,
+  Box,
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +22,7 @@ const TourList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/tours")
+      .get("http://10.50.227.117:5000/api/tours")
       .then((res) => {
         setTours(res.data.data);
       })
@@ -33,14 +41,13 @@ const TourList = () => {
   };
 
   const handleLikeToggle = (tourId, event) => {
-    event.stopPropagation(); 
-  
+    event.stopPropagation();
+
     setLikes((prevLikes) => ({
       ...prevLikes,
-      [tourId]: !prevLikes[tourId], 
+      [tourId]: !prevLikes[tourId],
     }));
   };
-  
 
   return (
     <div className="tour-list-container">
@@ -48,10 +55,21 @@ const TourList = () => {
       <div className="tour-grid">
         {tours.map((tour) => (
           <Card key={tour._id} className="tour-card">
-            <CardMedia component="img" height="200" image={tour.image} alt={tour.name} />
+            <CardMedia
+              component="img"
+              height="200"
+              image={tour.image}
+              alt={tour.name}
+            />
             <CardContent>
-              <Typography variant="h5" className="tour-title">{tour.name}</Typography>
-              <Typography variant="body2" color="text.secondary" className="tour-description">
+              <Typography variant="h5" className="tour-title">
+                {tour.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                className="tour-description"
+              >
                 {tour.description}
               </Typography>
 
@@ -61,25 +79,35 @@ const TourList = () => {
                   <Rating
                     value={ratings[tour._id] || 0}
                     precision={0.5}
-                    onChange={(event, newValue) => handleRatingChange(tour._id, newValue)}
+                    onChange={(event, newValue) =>
+                      handleRatingChange(tour._id, newValue)
+                    }
                   />
-                  <span>{ratings[tour._id] ? `${ratings[tour._id]} Stars` : "No Rating"}</span>
+                  <span>
+                    {ratings[tour._id]
+                      ? `${ratings[tour._id]} Stars`
+                      : "No Rating"}
+                  </span>
                 </div>
 
                 <IconButton
-  className="like-button"
-  onClick={(e) => handleLikeToggle(tour._id, e)}
->
-  <FontAwesomeIcon
-    icon={faHeart}
-    className={likes[tour._id] ? "heart-icon liked" : "heart-icon"}
-  />
-</IconButton>
-
+                  className="like-button"
+                  onClick={(e) => handleLikeToggle(tour._id, e)}
+                >
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    className={
+                      likes[tour._id] ? "heart-icon liked" : "heart-icon"
+                    }
+                  />
+                </IconButton>
               </Box>
 
               {/* View Package Button */}
-              <button className="view-package-btn" onClick={() => handleViewPackage(tour._id)}>
+              <button
+                className="view-package-btn"
+                onClick={() => handleViewPackage(tour._id)}
+              >
                 View Package
               </button>
             </CardContent>

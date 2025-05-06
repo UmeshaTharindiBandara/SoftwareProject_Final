@@ -28,7 +28,7 @@ const HotelList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/areas")
+      .get("http://10.50.227.117:5000/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -39,7 +39,7 @@ const HotelList = () => {
 
   const fetchHotelsForArea = (areaId) => {
     axios
-      .get(`http://localhost:5000/api/hotels?areaId=${areaId}`)
+      .get(`http://10.50.227.117:5000/api/hotels?areaId=${areaId}`)
       .then((res) => {
         setHotelsByArea((prev) => ({
           ...prev,
@@ -64,7 +64,7 @@ const HotelList = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/api/hotels/${hotelId}`)
+          .delete(`http://10.50.227.117:5000/api/hotels/${hotelId}`)
           .then(() => {
             setHotelsByArea((prev) => ({
               ...prev,
@@ -147,7 +147,9 @@ const HotelList = () => {
                             <Button
                               variant="contained"
                               color="error"
-                              onClick={() => handleDeleteHotel(hotel._id, area._id)}
+                              onClick={() =>
+                                handleDeleteHotel(hotel._id, area._id)
+                              }
                               className="hotel-action-btn"
                             >
                               <FontAwesomeIcon icon={faTrash} />

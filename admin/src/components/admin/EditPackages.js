@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Box, Typography, TextField, Button, Grid, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+} from "@mui/material";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -24,14 +31,16 @@ const EditPackages = () => {
   // Budgets for each dynamic field
   const [mealBudgets, setMealBudgets] = useState([null]);
   const [activityBudgets, setActivityBudgets] = useState([null]);
-  const [optionalDestinationBudgets, setOptionalDestinationBudgets] = useState([null]);
+  const [optionalDestinationBudgets, setOptionalDestinationBudgets] = useState([
+    null,
+  ]);
   const [transportModeBudgets, setTransportModeBudgets] = useState([null]);
   const [guideBudgets, setGuideBudgets] = useState([null]);
   const [hotelBudgets, setHotelBudgets] = useState([null]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/tours/${id}`)
+      .get(`http://10.50.227.117:5000/api/tours/${id}`)
       .then((res) => {
         setTour(res.data.data);
         // Set initial data
@@ -43,14 +52,20 @@ const EditPackages = () => {
         setHotels(res.data.data.categories.hotels);
         setMealBudgets(res.data.data.budgets.mealBudgets);
         setActivityBudgets(res.data.data.budgets.activityBudgets);
-        setOptionalDestinationBudgets(res.data.data.budgets.optionalDestinationBudgets);
+        setOptionalDestinationBudgets(
+          res.data.data.budgets.optionalDestinationBudgets
+        );
         setTransportModeBudgets(res.data.data.budgets.transportModeBudgets);
         setGuideBudgets(res.data.data.budgets.guideBudgets);
         setHotelBudgets(res.data.data.budgets.hotelBudgets);
       })
       .catch((err) => {
         console.error(err);
-        Swal.fire({ icon: "error", title: "Oops...", text: "An error occurred. Please try again." });
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "An error occurred. Please try again.",
+        });
       });
   }, [id]);
 
@@ -79,7 +94,7 @@ const EditPackages = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:5000/api/tours/${id}`, {
+      .put(`http://10.50.227.117:5000/api/tours/${id}`, {
         name: tour.name,
         description: tour.description,
         budget: tour.budget,
@@ -109,7 +124,11 @@ const EditPackages = () => {
       })
       .catch((err) => {
         console.error(err);
-        Swal.fire({ icon: "error", title: "Oops...", text: "An error occurred. Please try again." });
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "An error occurred. Please try again.",
+        });
       });
   };
 
@@ -118,8 +137,10 @@ const EditPackages = () => {
   return (
     <Box className="add-packages-container">
       <Box className="add-packages-header">
-      <TravelExploreIcon className="header-icon" />
-        <Typography variant="h3" className="header-title">Edit Tour Package</Typography>
+        <TravelExploreIcon className="header-icon" />
+        <Typography variant="h3" className="header-title">
+          Edit Tour Package
+        </Typography>
         <Typography variant="body1" className="header-subtitle">
           Update the details of your existing package.
         </Typography>
@@ -148,7 +169,9 @@ const EditPackages = () => {
                 rows={4}
                 required
                 value={tour.description}
-                onChange={(e) => setTour({ ...tour, description: e.target.value })}
+                onChange={(e) =>
+                  setTour({ ...tour, description: e.target.value })
+                }
               />
             </Grid>
 
@@ -183,7 +206,9 @@ const EditPackages = () => {
                 fullWidth
                 required
                 value={tour.highlights}
-                onChange={(e) => setTour({ ...tour, highlights: e.target.value })}
+                onChange={(e) =>
+                  setTour({ ...tour, highlights: e.target.value })
+                }
               />
             </Grid>
 
@@ -198,7 +223,44 @@ const EditPackages = () => {
               />
             </Grid>
 
-            {[["Meals", meals, setMeals, mealBudgets, setMealBudgets], ["Activity Add-ons", activities, setActivities, activityBudgets, setActivityBudgets], ["Optional Destinations", optionalDestinations, setOptionalDestinations, optionalDestinationBudgets, setOptionalDestinationBudgets], ["Transport Modes", transportModes, setTransportModes, transportModeBudgets, setTransportModeBudgets], ["Guide Selections", guides, setGuides, guideBudgets, setGuideBudgets], ["Hotel Selections", hotels, setHotels, hotelBudgets, setHotelBudgets]].map(([label, fieldList, setter, budgetList, budgetSetter]) => (
+            {[
+              ["Meals", meals, setMeals, mealBudgets, setMealBudgets],
+              [
+                "Activity Add-ons",
+                activities,
+                setActivities,
+                activityBudgets,
+                setActivityBudgets,
+              ],
+              [
+                "Optional Destinations",
+                optionalDestinations,
+                setOptionalDestinations,
+                optionalDestinationBudgets,
+                setOptionalDestinationBudgets,
+              ],
+              [
+                "Transport Modes",
+                transportModes,
+                setTransportModes,
+                transportModeBudgets,
+                setTransportModeBudgets,
+              ],
+              [
+                "Guide Selections",
+                guides,
+                setGuides,
+                guideBudgets,
+                setGuideBudgets,
+              ],
+              [
+                "Hotel Selections",
+                hotels,
+                setHotels,
+                hotelBudgets,
+                setHotelBudgets,
+              ],
+            ].map(([label, fieldList, setter, budgetList, budgetSetter]) => (
               <Grid item xs={12} key={label}>
                 <Typography variant="h6">{label}</Typography>
                 {fieldList.map((value, index) => (
@@ -207,26 +269,48 @@ const EditPackages = () => {
                       <TextField
                         fullWidth
                         value={value}
-                        onChange={(e) => handleFieldChange(index, e.target.value, setter, fieldList)}
+                        onChange={(e) =>
+                          handleFieldChange(
+                            index,
+                            e.target.value,
+                            setter,
+                            fieldList
+                          )
+                        }
                         placeholder={`Enter ${label.toLowerCase()}`}
                       />
                     </Grid>
                     <Grid item xs={4}>
                       <TextField
                         fullWidth
-                        value={budgetList[index] !== null ? budgetList[index] : ""}
-                        onChange={(e) => handleBudgetChange(index, e.target.value, budgetSetter, budgetList)}
+                        value={
+                          budgetList[index] !== null ? budgetList[index] : ""
+                        }
+                        onChange={(e) =>
+                          handleBudgetChange(
+                            index,
+                            e.target.value,
+                            budgetSetter,
+                            budgetList
+                          )
+                        }
                         placeholder={`Set budget`}
                         type="number"
                         inputProps={{ min: 0 }}
                       />
                     </Grid>
                     <Grid item xs={2}>
-                      <IconButton onClick={() => addField(setter, fieldList)} color="primary">
+                      <IconButton
+                        onClick={() => addField(setter, fieldList)}
+                        color="primary"
+                      >
                         <AddCircleOutlineIcon />
                       </IconButton>
                       {fieldList.length > 1 && (
-                        <IconButton onClick={() => removeField(index, setter, fieldList)} color="error">
+                        <IconButton
+                          onClick={() => removeField(index, setter, fieldList)}
+                          color="error"
+                        >
                           <RemoveCircleOutlineIcon />
                         </IconButton>
                       )}
@@ -237,11 +321,19 @@ const EditPackages = () => {
             ))}
 
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" fullWidth>Update Package</Button>
+              <Button type="submit" variant="contained" fullWidth>
+                Update Package
+              </Button>
             </Grid>
 
             <Grid item xs={12}>
-              <Button variant="outlined" fullWidth onClick={() => navigate("/admin")}>Back to Dashboard</Button>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => navigate("/admin")}
+              >
+                Back to Dashboard
+              </Button>
             </Grid>
           </Grid>
         </form>

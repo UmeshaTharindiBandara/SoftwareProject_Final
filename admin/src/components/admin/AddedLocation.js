@@ -24,7 +24,7 @@ const Added = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/areas")
+      .get("http://10.50.227.117:5000/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -45,7 +45,7 @@ const Added = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/api/areas/${id}`)
+          .delete(`http://10.50.227.117:5000/api/areas/${id}`)
           .then(() => {
             setAreas((prev) => prev.filter((area) => area._id !== id));
             Swal.fire("Deleted!", "The area has been deleted.", "success");
@@ -77,13 +77,18 @@ const Added = () => {
         <Typography variant="h3" className="page-title">
           Available Areas
         </Typography>
-        <br /><br />
+        <br />
+        <br />
         <Grid container spacing={4} justifyContent="center">
           {areas.map((area) => (
             <Grid item xs={12} sm={6} md={4} key={area._id}>
               <Card className="area-card">
                 <CardContent className="area-content">
-                  <Typography variant="h5" color="primary" className="area-name">
+                  <Typography
+                    variant="h5"
+                    color="primary"
+                    className="area-name"
+                  >
                     {area.area}
                   </Typography>
 

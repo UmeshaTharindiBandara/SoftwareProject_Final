@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { 
-  TextField, 
-  Button, 
-  Box, 
-  Typography, 
-  Container, 
-  Card, 
-  CardContent 
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  Card,
+  CardContent,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HotelIcon from "@mui/icons-material/Hotel";
@@ -27,7 +27,7 @@ const EditHotel = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/hotels/${id}`)
+      .get(`http://10.50.227.117:5000/api/hotels/${id}`)
       .then((res) => {
         setHotel(res.data); // Ensure res.data is correctly structured
       })
@@ -45,7 +45,7 @@ const EditHotel = () => {
     e.preventDefault(); // Prevent page reload
 
     try {
-      await axios.put(`http://localhost:5000/api/hotels/${id}`, hotel);
+      await axios.put(`http://10.50.227.117:5000/api/hotels/${id}`, hotel);
       Swal.fire("Updated!", "Hotel details updated!", "success");
       navigate("/addedhotel"); // Navigate only after a successful update
     } catch (err) {

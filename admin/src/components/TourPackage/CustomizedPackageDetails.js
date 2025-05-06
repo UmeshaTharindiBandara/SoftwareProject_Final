@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardContent, Typography, Divider } from '@mui/material';
+import React from "react";
+import { Card, CardContent, Typography, Divider } from "@mui/material";
 
 const CustomizedPackageDetails = ({ selectedOptions, tour }) => {
   return (
@@ -12,7 +12,9 @@ const CustomizedPackageDetails = ({ selectedOptions, tour }) => {
         <CardContent>
           <Typography variant="h6">Meal Plan</Typography>
           <Divider />
-          <Typography>{selectedOptions.mealPlan || 'No meal plan selected'}</Typography>
+          <Typography>
+            {selectedOptions.mealPlan || "No meal plan selected"}
+          </Typography>
         </CardContent>
       </Card>
 
@@ -48,7 +50,9 @@ const CustomizedPackageDetails = ({ selectedOptions, tour }) => {
         <CardContent>
           <Typography variant="h6">Transport Mode</Typography>
           <Divider />
-          <Typography>{selectedOptions.transport || 'No transport selected'}</Typography>
+          <Typography>
+            {selectedOptions.transport || "No transport selected"}
+          </Typography>
         </CardContent>
       </Card>
 
@@ -56,7 +60,9 @@ const CustomizedPackageDetails = ({ selectedOptions, tour }) => {
         <CardContent>
           <Typography variant="h6">Hotel Selection</Typography>
           <Divider />
-          <Typography>{selectedOptions.hotels || 'No hotel selected'}</Typography>
+          <Typography>
+            {selectedOptions.hotels || "No hotel selected"}
+          </Typography>
         </CardContent>
       </Card>
 
@@ -64,7 +70,9 @@ const CustomizedPackageDetails = ({ selectedOptions, tour }) => {
         <CardContent>
           <Typography variant="h6">Guide Selection</Typography>
           <Divider />
-          <Typography>{selectedOptions.guides || 'No guide selected'}</Typography>
+          <Typography>
+            {selectedOptions.guides || "No guide selected"}
+          </Typography>
         </CardContent>
       </Card>
 
@@ -72,7 +80,9 @@ const CustomizedPackageDetails = ({ selectedOptions, tour }) => {
         <CardContent>
           <Typography variant="h6">Special Requests</Typography>
           <Divider />
-          <Typography>{selectedOptions.specialRequests || 'No special requests'}</Typography>
+          <Typography>
+            {selectedOptions.specialRequests || "No special requests"}
+          </Typography>
         </CardContent>
       </Card>
     </div>

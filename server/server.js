@@ -30,7 +30,7 @@ const app = express();
 /** App middlewares */
 app.use(morgan('tiny'));
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:4000"],
+  origin: ["http://10.50.227.117:3000", "http://10.50.227.117:4000"],
   credentials: true,
 }));
 
@@ -70,7 +70,7 @@ const transporter = nodemailer.createTransport({
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CLIENT_ORIGIN || 'http://10.50.227.117:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
@@ -392,8 +392,8 @@ app.post("/api/checkout", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/cancel`,
+      success_url: `http://10.50.227.117:3000/success`,
+      cancel_url: `http://10.50.227.117:3000/cancel`,
     });
 
     res.json({ id: session.id });
@@ -423,10 +423,6 @@ io.on('connection', (socket) => {
     console.log('A user disconnected:', socket.id);
   });
 });
-
-
-
-
 
 
 // Start the server

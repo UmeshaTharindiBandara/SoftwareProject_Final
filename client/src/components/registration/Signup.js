@@ -13,7 +13,7 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/user_signup", { name, email, password })
+      .post("http://10.50.227.117:5000/api/user_signup", { name, email, password })
       .then((res) => {
         Swal.fire(
           "Congratulations! You Have Successfully Registered with Us 😊",

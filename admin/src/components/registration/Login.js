@@ -12,7 +12,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/admin_login", { email, password })
+      .post("http://10.50.227.117:5000/api/admin_login", { email, password })
       .then((res) => {
         if (res.data.status === "success") {
           navigate("/admin");

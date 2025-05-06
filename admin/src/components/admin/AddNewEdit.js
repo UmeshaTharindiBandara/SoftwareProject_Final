@@ -3,16 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "./AddNewEdit.css";
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
-  Grid, 
-  IconButton, 
-  Card, 
-  CardContent, 
-  CardActions 
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 import AddLocationIcon from "@mui/icons-material/AddLocation";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,7 +28,7 @@ const AddNewEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/areas/${id}`)
+      .get(`http://10.50.227.117:5000/api/areas/${id}`)
       .then((res) => {
         setArea(res.data.area);
         setLocations(res.data.locations || []);
@@ -78,11 +78,15 @@ const AddNewEdit = () => {
   };
 
   const handleUpdateArea = async (e) => {
-    e.preventDefault();  // Prevent form reload
+    e.preventDefault(); // Prevent form reload
 
     // Validation
     if (!area.trim() || locations.length === 0) {
-      Swal.fire("Error", "Area name and at least one location are required!", "warning");
+      Swal.fire(
+        "Error",
+        "Area name and at least one location are required!",
+        "warning"
+      );
       return;
     }
 
@@ -91,7 +95,10 @@ const AddNewEdit = () => {
 
     try {
       // Make the API call to update the area
-      const response = await axios.put(`http://localhost:5000/api/areas/${id}`, { area, locations });
+      const response = await axios.put(
+        `http://10.50.227.117:5000/api/areas/${id}`,
+        { area, locations }
+      );
 
       // Log the server response
       console.log("Server Response:", response.data);
@@ -107,7 +114,9 @@ const AddNewEdit = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error.response?.data?.message || "An error occurred. Please try again.",
+        text:
+          error.response?.data?.message ||
+          "An error occurred. Please try again.",
       });
     }
   };
@@ -162,9 +171,13 @@ const AddNewEdit = () => {
                       fullWidth
                       required
                       value={location.name}
-                      onChange={(e) => handleLocationChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleLocationChange(index, e.target.value)
+                      }
                       InputProps={{
-                        startAdornment: <LandscapeIcon className="input-icon" />,
+                        startAdornment: (
+                          <LandscapeIcon className="input-icon" />
+                        ),
                       }}
                     />
                   </Grid>
@@ -177,7 +190,9 @@ const AddNewEdit = () => {
                       value={location.image}
                       onChange={(e) => handleImageChange(index, e.target.value)}
                       InputProps={{
-                        startAdornment: <CollectionsIcon className="input-icon" />,
+                        startAdornment: (
+                          <CollectionsIcon className="input-icon" />
+                        ),
                       }}
                     />
                   </Grid>
@@ -208,7 +223,6 @@ const AddNewEdit = () => {
             <Button
               variant="contained"
               onClick={handleUpdateArea}
-              
               className="submit-button"
             >
               Update Area

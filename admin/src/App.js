@@ -1,4 +1,3 @@
-
 import Header from "./components/header/Header";
 
 import AdminDashboard from "./components/admin/AdminDashboard";
@@ -33,7 +32,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/add" element={<AddPackages />} />
-        
+
         <Route path="/tour/:id" element={<CustomizeTour />} />
         <Route path="/edit/:id" element={<EditPackages />} />
         <Route path="/addnew" element={<AddNew />} />
@@ -48,8 +47,10 @@ function App() {
         <Route path="/cancel" element={<Cancel />} />
         <Route path="/customer" element={<CustomerDetail />} />
 
-        <Route path="/view-customized-package" element={<ViewCustomizedPackage />}/>
-
+        <Route
+          path="/view-customized-package"
+          element={<ViewCustomizedPackage />}
+        />
       </Routes>
     </Router>
   );

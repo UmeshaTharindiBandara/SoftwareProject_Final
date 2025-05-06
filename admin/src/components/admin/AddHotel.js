@@ -3,17 +3,23 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "./AddHotel.css";
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
-  Grid, 
-  Card, 
-  CardContent, 
-  CardActions 
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
-import { FaHotel, FaMapMarkerAlt, FaDollarSign, FaStar, FaImage } from "react-icons/fa";
+import {
+  FaHotel,
+  FaMapMarkerAlt,
+  FaDollarSign,
+  FaStar,
+  FaImage,
+} from "react-icons/fa";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const AddHotel = () => {
@@ -30,7 +36,7 @@ const AddHotel = () => {
   useEffect(() => {
     const fetchAreas = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/areas");
+        const response = await axios.get("http://10.50.227.117:5000/api/areas");
         setAreas(response.data);
       } catch (error) {
         console.error("Error fetching areas:", error);
@@ -41,7 +47,7 @@ const AddHotel = () => {
 
   useEffect(() => {
     if (selectedArea) {
-      const area = areas.find(a => a._id === selectedArea);
+      const area = areas.find((a) => a._id === selectedArea);
       setLocations(area ? area.locations : []);
     } else {
       setLocations([]);
@@ -51,13 +57,13 @@ const AddHotel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/addhotel", {
+      await axios.post("http://10.50.227.117:5000/api/addhotel", {
         name,
         image,
         price,
         rating,
         areaId: selectedArea,
-        locationName: selectedLocation
+        locationName: selectedLocation,
       });
       Swal.fire("Success!", "Hotel added successfully!", "success");
     } catch (error) {
@@ -100,7 +106,9 @@ const AddHotel = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                InputProps={{ startAdornment: <FaHotel className="hotel-input-icon" /> }}
+                InputProps={{
+                  startAdornment: <FaHotel className="hotel-input-icon" />,
+                }}
               />
             </CardContent>
           </Card>
@@ -115,7 +123,9 @@ const AddHotel = () => {
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
                 required
-                InputProps={{ startAdornment: <FaImage className="hotel-input-icon" /> }}
+                InputProps={{
+                  startAdornment: <FaImage className="hotel-input-icon" />,
+                }}
               />
             </CardContent>
           </Card>
@@ -137,8 +147,10 @@ const AddHotel = () => {
                 SelectProps={{ native: true }}
               >
                 <option value="">Select Area</option>
-                {areas.map(area => (
-                  <option key={area._id} value={area._id}>{area.area}</option>
+                {areas.map((area) => (
+                  <option key={area._id} value={area._id}>
+                    {area.area}
+                  </option>
                 ))}
               </TextField>
             </Grid>
@@ -157,12 +169,14 @@ const AddHotel = () => {
               >
                 <option value="">Select Location</option>
                 {locations.map((loc, idx) => (
-                  <option key={idx} value={loc.name}>{loc.name}</option>
+                  <option key={idx} value={loc.name}>
+                    {loc.name}
+                  </option>
                 ))}
               </TextField>
             </Grid>
           </Grid>
-          <br/>
+          <br />
 
           {/* Price Input */}
           <Card className="hotel-input-card">
@@ -175,7 +189,9 @@ const AddHotel = () => {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required
-                InputProps={{ startAdornment: <FaDollarSign className="hotel-input-icon" /> }}
+                InputProps={{
+                  startAdornment: <FaDollarSign className="hotel-input-icon" />,
+                }}
               />
             </CardContent>
           </Card>
@@ -191,20 +207,17 @@ const AddHotel = () => {
                 value={rating}
                 onChange={(e) => setRating(e.target.value)}
                 required
-                InputProps={{ startAdornment: <FaStar className="hotel-input-icon" /> }}
+                InputProps={{
+                  startAdornment: <FaStar className="hotel-input-icon" />,
+                }}
               />
             </CardContent>
           </Card>
 
           {/* Form Actions */}
           <Box className="hotel-form-actions">
-            
-           
-            <Button
-              variant="contained"
-              type="submit"
-              className="submit-button">
-                  Add Hotel
+            <Button variant="contained" type="submit" className="submit-button">
+              Add Hotel
             </Button>
 
             <Button

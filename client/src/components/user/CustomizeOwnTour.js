@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Typography, Card, CardMedia, CardContent, Grid, TextField, Button, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
-import { MdOutlineLocationOn } from 'react-icons/md';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  Grid,
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+} from "@mui/material";
+import { MdOutlineLocationOn } from "react-icons/md";
+import axios from "axios";
 
 export default function CustomizeOwnTour() {
   const location = useLocation();
@@ -10,28 +21,26 @@ export default function CustomizeOwnTour() {
   const { selectedArea, selectedLocations } = location.state || {};
 
   const [meals, setMeals] = useState([]);
-  const [customMeal, setCustomMeal] = useState('');
+  const [customMeal, setCustomMeal] = useState("");
   const [activities, setActivities] = useState([]);
-  const [customActivity, setCustomActivity] = useState('');
-  const [optionalDestinations, setOptionalDestinations] = useState('');
-  const [transportMode, setTransportMode] = useState('');
-  const [customTransport, setCustomTransport] = useState('');
-  const [hotel, setHotel] = useState('');
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [customActivity, setCustomActivity] = useState("");
+  const [optionalDestinations, setOptionalDestinations] = useState("");
+  const [transportMode, setTransportMode] = useState("");
+  const [customTransport, setCustomTransport] = useState("");
+  const [hotel, setHotel] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
 
-
-  const user = JSON.parse(localStorage.getItem('user')); // or useContext/AuthContext if using that
+  const user = JSON.parse(localStorage.getItem("user")); // or useContext/AuthContext if using that
   const userId = user?._id; // or whatever your user identifier is
- 
 
-// Update the handleBookPackage function
-const handleBookPackage = async () => {
+  // Update the handleBookPackage function
+  const handleBookPackage = async () => {
     try {
       if (!userId) {
-        alert('Please log in to book a package');
+        alert("Please log in to book a package");
         return;
       }
-  
+
       const data = {
         userId,
         area: selectedArea.area,
@@ -41,27 +50,31 @@ const handleBookPackage = async () => {
         optionalDestinations,
         transportMode: customTransport || transportMode,
         hotel,
-        specialRequests
+        specialRequests,
       };
-  
-      const response = await axios.post('http://localhost:5000/api/bookings', data);
-      
+
+      const response = await axios.post(
+        "http://10.50.227.117:5000/api/bookings",
+        data
+      );
+
       if (response.data.success) {
-        alert('Booking successful!');
-        navigate('/profile');
+        alert("Booking successful!");
+        navigate("/profile");
       } else {
-        throw new Error(response.data.error || 'Booking failed');
+        throw new Error(response.data.error || "Booking failed");
       }
     } catch (err) {
-      console.error('❌ Booking failed:', err);
-      alert('Error booking package: ' + (err.response?.data?.error || err.message));
+      console.error("❌ Booking failed:", err);
+      alert(
+        "Error booking package: " + (err.response?.data?.error || err.message)
+      );
     }
   };
-  
 
   if (!selectedArea || !selectedLocations) {
     return (
-      <div style={{ padding: '2rem' }}>
+      <div style={{ padding: "2rem" }}>
         <Typography variant="h5" color="error">
           No data received. Please select an area and locations first.
         </Typography>
@@ -70,7 +83,7 @@ const handleBookPackage = async () => {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: "2rem" }}>
       <Typography variant="h4" gutterBottom>
         Customize Your Tour in <MdOutlineLocationOn /> {selectedArea.area}
       </Typography>
@@ -97,9 +110,7 @@ const handleBookPackage = async () => {
         ))}
       </Grid>
 
-      <div style={{ marginTop: '2rem' }}>
-        
-        
+      <div style={{ marginTop: "2rem" }}>
         <TextField
           label="Meal Plans:"
           value={customMeal}
@@ -108,8 +119,6 @@ const handleBookPackage = async () => {
           margin="normal"
         />
 
-        
-        
         <TextField
           label="Activity Add-ons:"
           value={customActivity}
@@ -132,11 +141,7 @@ const handleBookPackage = async () => {
           onChange={(e) => setTransportMode(e.target.value)}
           fullWidth
           margin="normal"
-        >
-          
-        </TextField>
-
-    
+        ></TextField>
 
         <TextField
           label="Hotel Selection"
@@ -156,7 +161,12 @@ const handleBookPackage = async () => {
           margin="normal"
         />
 
-        <Button variant="contained" color="primary" onClick={handleBookPackage} style={{ marginTop: '1rem' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleBookPackage}
+          style={{ marginTop: "1rem" }}
+        >
           Book Package
         </Button>
       </div>

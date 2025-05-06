@@ -52,7 +52,7 @@ const ProfilePage = () => {
 
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/bookings/${userId}`
+          `http://10.50.227.117:5000/api/bookings/${userId}`
         );
         setBookings(res.data);
       } catch (err) {
@@ -103,7 +103,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/profile",
+        "http://10.50.227.117:5000/api/profile",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },

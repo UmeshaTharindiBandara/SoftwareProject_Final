@@ -4,16 +4,16 @@ import React from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "./AddNew.css";
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
-  Grid, 
-  IconButton, 
-  Card, 
-  CardContent, 
-  CardActions 
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  IconButton,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 import AddLocationIcon from "@mui/icons-material/AddLocation";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -51,7 +51,10 @@ const AddNew = () => {
   const handleAddArea = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/areas", { area, locations });
+      await axios.post("http://10.50.227.117:5000/api/areas", {
+        area,
+        locations,
+      });
       Swal.fire("Success!", "The new area has been added!", "success");
       navigate("/addedlocation");
     } catch (error) {
@@ -65,7 +68,7 @@ const AddNew = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/areas")
+      .get("http://10.50.227.117:5000/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -83,7 +86,8 @@ const AddNew = () => {
           Add a New Area
         </Typography>
         <Typography variant="body1" className="header-subtitle">
-          Organize your tourism offerings by creating new areas and adding exciting locations!
+          Organize your tourism offerings by creating new areas and adding
+          exciting locations!
         </Typography>
       </Box>
 
@@ -120,9 +124,13 @@ const AddNew = () => {
                       fullWidth
                       required
                       value={location.name}
-                      onChange={(e) => handleLocationChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleLocationChange(index, e.target.value)
+                      }
                       InputProps={{
-                        startAdornment: <LandscapeIcon className="input-icon" />,
+                        startAdornment: (
+                          <LandscapeIcon className="input-icon" />
+                        ),
                       }}
                     />
                   </Grid>
@@ -135,7 +143,9 @@ const AddNew = () => {
                       value={location.image}
                       onChange={(e) => handleImageChange(index, e.target.value)}
                       InputProps={{
-                        startAdornment: <CollectionsIcon className="input-icon" />,
+                        startAdornment: (
+                          <CollectionsIcon className="input-icon" />
+                        ),
                       }}
                     />
                   </Grid>
@@ -151,7 +161,7 @@ const AddNew = () => {
               </CardActions>
             </Card>
           ))}
-          <br/>
+          <br />
 
           <Button
             variant="outlined"
@@ -164,11 +174,7 @@ const AddNew = () => {
 
           {/* Form Submission */}
           <Box className="form-actions">
-            <Button
-              variant="contained"
-              type="submit"
-              className="submit-button"
-            >
+            <Button variant="contained" type="submit" className="submit-button">
               Add Area
             </Button>
             <Button

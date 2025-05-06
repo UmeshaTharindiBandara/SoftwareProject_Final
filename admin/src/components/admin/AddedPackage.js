@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {Button} from "@mui/material";
-import {Card,CardContent,CardMedia,Typography,} from "@mui/material";
+import { Button } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./AddPackages.css";
 
@@ -22,7 +22,7 @@ const AddedPackage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/tours")
+      .get("http://10.50.227.117:5000/api/tours")
       .then((res) => {
         setTours(res.data.data);
       })
@@ -30,7 +30,7 @@ const AddedPackage = () => {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/areas")
+      .get("http://10.50.227.117:5000/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -51,7 +51,7 @@ const AddedPackage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/api/tours/${id}`)
+          .delete(`http://10.50.227.117:5000/api/tours/${id}`)
           .then(() => {
             setTours(tours.filter((tour) => tour._id !== id));
             Swal.fire("Deleted!", "Your tour has been deleted.", "success");
@@ -89,7 +89,7 @@ const AddedPackage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/api/areas/${id}`)
+          .delete(`http://10.50.227.117:5000/api/areas/${id}`)
           .then(() => {
             setAreas(areas.filter((area) => area._id !== id));
             Swal.fire("Deleted!", "The area has been deleted.", "success");
@@ -147,7 +147,6 @@ const AddedPackage = () => {
                 <Typography variant="h5" className="tour-title">
                   {tour.name}
                 </Typography>
-                
 
                 {/* View Package Button */}
                 <Button
