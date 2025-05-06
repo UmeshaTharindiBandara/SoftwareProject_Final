@@ -27,20 +27,6 @@ import bookingRoutes from './routes/bookings.js';
 config();
 
 const app = express();
-
-
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2023-10-16", // Required for newer SDK versions
-});
-
-// Debugging: Confirm key is loaded
-console.log(
-  "[STRIPE] Key Status:",
-  process.env.STRIPE_SECRET_KEY ? "✅ Loaded" : "❌ Missing"
-);
-
-app.use('/api/bookings', bookingRoutes);
-
 /** App middlewares */
 app.use(morgan('tiny'));
 app.use(cors({
@@ -55,15 +41,21 @@ app.use('/uploads', express.static('uploads'));
 app.use("/api/areas", areaRoutes);
 app.use('/api/blogs', blogRoutes);
 
+app.use('/api', profileRoutes);
+app.use('/api', hotelRoutes);
 
-/** MongoDB Connection */
-mongoose
-  .connect(process.env.ATLAS_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+app.use('/api/bookings', bookingRoutes);
+
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-10-16", // Required for newer SDK versions
+});
+
+// Debugging: Confirm key is loaded
+console.log(
+  "[STRIPE] Key Status:",
+  process.env.STRIPE_SECRET_KEY ? "✅ Loaded" : "❌ Missing"
+);
+
 
 /** Nodemailer setup */
 const transporter = nodemailer.createTransport({
@@ -379,22 +371,21 @@ io.on('connection', (socket) => {
   });
 });
 
+
+
+
+
+
 // Start the server
 const PORT = 5000;
-
+/** MongoDB Connection */
 mongoose
-  .connect("mongodb://localhost:27017/tourDB", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("Connected to MongoDB.");
-    app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+  .connect(process.env.ATLAS_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err.message);
-  });
-
-
-app.use('/api', profileRoutes);
-app.use('/api', hotelRoutes);
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 
 /** Start the server */
