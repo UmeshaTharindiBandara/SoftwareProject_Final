@@ -100,29 +100,65 @@ app.post("/api/user_signup", (req, res) => {
 });
 
 // user login
-app.post("/api/user_login", (req, res) => {
-  const { email, password } = req.body;
-  userModel
-    .findOne({ email: email })
-    .then((user) => {
-      if (!user) {
-        return res.status(400).json({ error: "No record found" });
-      }
+// Replace the existing login endpoint with this:
+app.post("/api/user_login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
 
-      bcrypt.compare(password, user.password, (err, match) => {
-        if (match) {
-          const token = jwt.sign({ email: user.email }, "jwt-secret-key", {
-            expiresIn: "1d",
-          });
-          res.cookie("token", token);
-          return res.json({ status: "success" });
-        } else {
-          return res.status(401).json({ error: "Wrong password" });
-        }
-      });
-    })
-    .catch(() => res.status(500).json({ error: "Server error" }));
+    if (!user) {
+      return res.status(400).json({ status: "error", message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ status: "error", message: "Invalid password" });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || "jwt-secret-key",
+      { expiresIn: "24h" }
+    );
+
+    // Remove password from user object
+    const userToSend = user.toObject();
+    delete userToSend.password;
+
+    res.json({
+      status: "success",
+      token,
+      user: userToSend
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ status: "error", message: "Server error" });
+  }
 });
+
+// Add authentication middleware
+export const verifyToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "jwt-secret-key");
+    const user = await userModel.findById(decoded.userId).select('-password');
+    
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
 
 // admin signup
 app.post("/api/admin_signup", (req, res) => {
@@ -143,30 +179,47 @@ app.post("/api/admin_signup", (req, res) => {
 });
 
 // admin login
-app.post("/api/admin_login", (req, res) => {
-  const { email, password } = req.body;
-  adminModel
-    .findOne({ email: email })
-    .then((admin) => {
-      if (!admin) {
-        return res.status(400).json({ error: "No record found" });
-      }
+app.post("/api/admin_login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const admin = await adminModel.findOne({ email });
 
-      bcrypt.compare(password, admin.password, (err, match) => {
-        if (match) {
-          const token = jwt.sign({ email: admin.email }, "jwt-secret-key", {
-            expiresIn: "1d",
-          });
-          res.cookie("token", token);
-          return res.json({ status: "success" });
-        } else {
-          return res.status(401).json({ error: "Wrong password" });
-        }
+    if (!admin) {
+      return res.status(400).json({ 
+        status: "error", 
+        message: "Admin not found" 
       });
-    })
-    .catch(() => res.status(500).json({ error: "Server error" }));
-});
+    }
 
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(401).json({ 
+        status: "error", 
+        message: "Invalid password" 
+      });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { adminId: admin._id, email: admin.email, role: 'admin' },
+      process.env.JWT_SECRET || "jwt-secret-key",
+      { expiresIn: "24h" }
+    );
+
+    // Remove password from admin object
+    const adminToSend = admin.toObject();
+    delete adminToSend.password;
+
+    res.json({
+      status: "success",
+      token,
+      admin: adminToSend
+    });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ status: "error", message: "Server error" });
+  }
+});
 
 const tourSchema = new mongoose.Schema({
   name: String,

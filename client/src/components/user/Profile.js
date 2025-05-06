@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import './Profile.css';
-import { Typography, Card, CardContent, Grid } from '@mui/material';
+import "./Profile.css";
+import { Typography, Card, CardContent, Grid } from "@mui/material";
 
 const ProfilePage = () => {
   // Get user from localStorage
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
   const userId = user?._id;
 
   // Form state
   const [formData, setFormData] = useState({
-    firstName: user.firstName || '',
-    lastName: user.lastName || '',
-    email: user.email || '',
-    mobile: user.mobile || '',
-    address: user.address || ''
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    email: user.email || "",
+    mobile: user.mobile || "",
+    address: user.address || "",
   });
 
   const [profilePicture, setProfilePicture] = useState(null);
@@ -27,11 +29,11 @@ const ProfilePage = () => {
   useEffect(() => {
     if (user) {
       setFormData({
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
-        email: user.email || '',
-        mobile: user.mobile || '',
-        address: user.address || ''
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        mobile: user.mobile || "",
+        address: user.address || "",
       });
     }
   }, [user]);
@@ -39,7 +41,7 @@ const ProfilePage = () => {
   // Handle booked tours from location state
   useEffect(() => {
     if (location.state?.bookedTour) {
-      setBookedTours(prev => [...prev, location.state.bookedTour]);
+      setBookedTours((prev) => [...prev, location.state.bookedTour]);
     }
   }, [location.state]);
 
@@ -47,12 +49,14 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       if (!userId) return;
-      
+
       try {
-        const res = await axios.get(`http://localhost:5000/api/bookings/${userId}`);
+        const res = await axios.get(
+          `http://localhost:5000/api/bookings/${userId}`
+        );
         setBookings(res.data);
       } catch (err) {
-        console.error('Failed to fetch bookings:', err);
+        console.error("Failed to fetch bookings:", err);
       }
     };
 
@@ -62,9 +66,9 @@ const ProfilePage = () => {
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -80,13 +84,13 @@ const ProfilePage = () => {
     e.preventDefault();
 
     if (!userId) {
-      alert('Please log in to update your profile');
+      alert("Please log in to update your profile");
       return;
     }
 
     const formDataToSend = new FormData();
-    formDataToSend.append('userId', userId);
-    
+    formDataToSend.append("userId", userId);
+
     // Append all form fields
     Object.entries(formData).forEach(([key, value]) => {
       formDataToSend.append(key, value);
@@ -94,25 +98,25 @@ const ProfilePage = () => {
 
     // Append profile picture if exists
     if (profilePicture) {
-      formDataToSend.append('profilePicture', profilePicture);
+      formDataToSend.append("profilePicture", profilePicture);
     }
 
     try {
       const response = await axios.put(
-        'http://localhost:5000/api/profile',
+        "http://localhost:5000/api/profile",
         formDataToSend,
         {
-          headers: { 'Content-Type': 'multipart/form-data' }
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
       const updatedUser = { ...user, ...response.data };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
-      alert('Profile updated successfully!');
+      alert("Profile updated successfully!");
     } catch (err) {
-      console.error('Profile update error:', err);
-      alert(err.response?.data?.error || 'Failed to update profile');
+      console.error("Profile update error:", err);
+      alert(err.response?.data?.error || "Failed to update profile");
     }
   };
 
@@ -136,7 +140,9 @@ const ProfilePage = () => {
             onClick={() => document.getElementById("profilePicture").click()}
           />
 
-          <h3>{formData.firstName} {formData.lastName}</h3>
+          <h3>
+            {formData.firstName} {formData.lastName}
+          </h3>
           <p>{formData.email}</p>
         </div>
 
@@ -188,55 +194,34 @@ const ProfilePage = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <button type="submit">Update Profile</button>
+            <button type="submit" onSubmit={handleProfileUpdate}>
+              Update Profile
+            </button>
           </form>
         </div>
       </div>
 
       <div className="profile-content">
-        <div className="booked-tours-section">
-          <h3>Booked Tour Packages</h3>
-          {bookedTours.length === 0 ? (
-            <p>No tour packages booked yet.</p>
-          ) : (
-            bookedTours.map((tour, index) => (
-              <div key={index} className="booked-tour">
-                <h4>{tour.selectedArea?.area}</h4>
-                <ul>
-                  {tour.selectedLocations?.map((loc, i) => (
-                    <li key={i}>{loc.name}</li>
-                  ))}
-                </ul>
-                <p><strong>Meal Plan:</strong> {tour.mealPlan}</p>
-                <p><strong>Activities:</strong> {tour.activities.join(', ')}</p>
-                <p><strong>Optional Destinations:</strong> {tour.optionalDestinations}</p>
-                <p><strong>Transport Mode:</strong> {tour.transportMode}</p>
-                <p><strong>Hotel:</strong> {tour.hotel}</p>
-                <p><strong>Special Requests:</strong> {tour.specialRequests}</p>
-              </div>
-            ))
-          )}
-        </div>
-
         <div className="bookings-section">
-          <Typography variant="h4" gutterBottom>
-            Your Bookings
-          </Typography>
-
           <Grid container spacing={3}>
             {bookings.map((booking, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card>
+                  <Typography variant="h4" gutterBottom>
+                    Your Own Cuztormize Booking
+                  </Typography>
                   <CardContent>
                     <Typography variant="h6">Area: {booking.area}</Typography>
                     <Typography variant="body2">
-                      <strong>Locations:</strong> {booking.locations.map(loc => loc.name).join(', ')}
+                      <strong>Locations:</strong>{" "}
+                      {booking.locations.map((loc) => loc.name).join(", ")}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Meals:</strong> {booking.meals.join(', ')}
+                      <strong>Meals:</strong> {booking.meals.join(", ")}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Activities:</strong> {booking.activities.join(', ')}
+                      <strong>Activities:</strong>{" "}
+                      {booking.activities.join(", ")}
                     </Typography>
                     <Typography variant="body2">
                       <strong>Optional:</strong> {booking.optionalDestinations}
@@ -248,7 +233,8 @@ const ProfilePage = () => {
                       <strong>Hotel:</strong> {booking.hotel}
                     </Typography>
                     <Typography variant="body2">
-                      <strong>Special Requests:</strong> {booking.specialRequests}
+                      <strong>Special Requests:</strong>{" "}
+                      {booking.specialRequests}
                     </Typography>
                   </CardContent>
                 </Card>

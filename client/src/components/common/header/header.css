@@ -59,6 +59,37 @@ header ul li a:hover {
 }
 
 
+.btn-logout {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+
+.btn-logout {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.btn-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-icon {
+  font-size: 1.5rem;
+}
+
+.username {
+  font-size: 0.9rem;
+}
+
 
  /*-------- Sign-In Button --------*/
  .btn-signin {

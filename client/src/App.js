@@ -1,5 +1,5 @@
 import "./styles/App.css";
-
+import { AuthProvider } from './AuthContext';
 import Header from "./components/common/header/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./components/registration/Signup";
@@ -31,6 +31,7 @@ export const ProtectedRoute = () => {
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Header />
       <br />
@@ -69,6 +70,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </AuthProvider>
   );
 }
 
