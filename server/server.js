@@ -15,16 +15,44 @@ import ChatMessage from "./models/ChatMessage.js";
 import blogRoutes from "./models/BlogPost.js";
 
 import adminModel from "./models/admin.js";
+<<<<<<< HEAD
 import userModel from "./models/User.js";
+=======
+import userModel from "./models/user.js";
+
+>>>>>>> main
 import hotelRoutes from "./routes/hotelRoutes.js";
 
 import Stripe from "stripe";
+
+import bookingRoutes from './routes/bookings.js';
 
 // Load environment variables
 config();
 
 const app = express();
+/** App middlewares */
+app.use(morgan('tiny'));
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:4000"],
+  credentials: true,
+}));
 
+<<<<<<< HEAD
+=======
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/uploads', express.static('uploads'));
+app.use("/api/areas", areaRoutes);
+app.use('/api/blogs', blogRoutes);
+
+app.use('/api', profileRoutes);
+app.use('/api', hotelRoutes);
+
+app.use('/api/bookings', bookingRoutes);
+
+>>>>>>> main
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16", // Required for newer SDK versions
 });
@@ -35,6 +63,7 @@ console.log(
   process.env.STRIPE_SECRET_KEY ? "✅ Loaded" : "❌ Missing"
 );
 
+<<<<<<< HEAD
 /** App middlewares */
 app.use(morgan("tiny"));
 app.use(
@@ -58,6 +87,8 @@ mongoose
   })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
+=======
+>>>>>>> main
 
 /** Nodemailer setup */
 const transporter = nodemailer.createTransport({
@@ -102,6 +133,7 @@ app.post("/api/user_signup", (req, res) => {
 });
 
 // user login
+<<<<<<< HEAD
 app.post("/api/user_login", (req, res) => {
   const { email, password } = req.body;
   userModel
@@ -126,6 +158,68 @@ app.post("/api/user_login", (req, res) => {
     .catch(() => res.status(500).json({ error: "Server error" }));
 });
 
+=======
+// Replace the existing login endpoint with this:
+app.post("/api/user_login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ status: "error", message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ status: "error", message: "Invalid password" });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || "jwt-secret-key",
+      { expiresIn: "24h" }
+    );
+
+    // Remove password from user object
+    const userToSend = user.toObject();
+    delete userToSend.password;
+
+    res.json({
+      status: "success",
+      token,
+      user: userToSend
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ status: "error", message: "Server error" });
+  }
+});
+
+// Add authentication middleware
+export const verifyToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "jwt-secret-key");
+    const user = await userModel.findById(decoded.userId).select('-password');
+    
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+>>>>>>> main
 // admin signup
 app.post("/api/admin_signup", (req, res) => {
   const { name, email, password } = req.body;
@@ -145,6 +239,7 @@ app.post("/api/admin_signup", (req, res) => {
 });
 
 // admin login
+<<<<<<< HEAD
 app.post("/api/admin_login", (req, res) => {
   const { email, password } = req.body;
   adminModel
@@ -167,6 +262,48 @@ app.post("/api/admin_login", (req, res) => {
       });
     })
     .catch(() => res.status(500).json({ error: "Server error" }));
+=======
+app.post("/api/admin_login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const admin = await adminModel.findOne({ email });
+
+    if (!admin) {
+      return res.status(400).json({ 
+        status: "error", 
+        message: "Admin not found" 
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(401).json({ 
+        status: "error", 
+        message: "Invalid password" 
+      });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { adminId: admin._id, email: admin.email, role: 'admin' },
+      process.env.JWT_SECRET || "jwt-secret-key",
+      { expiresIn: "24h" }
+    );
+
+    // Remove password from admin object
+    const adminToSend = admin.toObject();
+    delete adminToSend.password;
+
+    res.json({
+      status: "success",
+      token,
+      admin: adminToSend
+    });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ status: "error", message: "Server error" });
+  }
+>>>>>>> main
 });
 
 const tourSchema = new mongoose.Schema({
@@ -389,11 +526,28 @@ io.on("connection", (socket) => {
   });
 });
 
+
+
+
+
+
 // Start the server
 const PORT = 5000;
+<<<<<<< HEAD
 
 app.use("/api", profileRoutes);
 app.use("/api", hotelRoutes);
+=======
+/** MongoDB Connection */
+mongoose
+  .connect(process.env.ATLAS_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
+
+>>>>>>> main
 
 /** Start the server */
 const port = process.env.PORT || 3000;

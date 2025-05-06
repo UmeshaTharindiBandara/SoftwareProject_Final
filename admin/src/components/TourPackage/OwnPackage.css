@@ -1,0 +1,55 @@
+/* Container for the main layout */
+.tour-package-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Highlight card for Available Tours section */
+.tour-highlight-card {
+    background-color: #f0f8ff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 30px;
+    
+}
+
+/* Styling for the icons */
+.icon, .button-icon {
+    margin-right: 8px;
+    font-size: 1.5em;
+}
+
+/* Section for customizing the package */
+.customize-option {
+    background-color: #eaf4fe;
+    border-radius: 12px;
+    padding: 40px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom text with highlight color */
+.customize-text {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+/* Button styling for customize option */
+.customize-button {
+    background-color: #0073e6;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.customize-button:hover {
+    background-color: #005bb5;
+}

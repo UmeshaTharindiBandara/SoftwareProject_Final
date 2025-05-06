@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #wrapper {
   width: 100%;
   height: 100%;
@@ -23,23 +24,69 @@
   height: auto;
   display: block;
   margin: 30px auto 20px auto;
+=======
+
+/* 
+body {
+  outline: none;
+  width: 100%;
+  height: 100%;
+  margin: 50px auto;
+  background: #f9f9f9;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+} */
+
+#wrapper {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+#box {
+  width: 320px;
+  height: auto;
+  margin: 0 auto;
+  background: #fff;
+  border: thin solid #ededed;
+}
+
+#box > img {
+  width: 16px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  padding: 30px 0 20px 0;
+>>>>>>> main
 }
 
 #box > h3 {
   text-transform: uppercase;
   text-align: center;
+<<<<<<< HEAD
   font-size: 1.2em;
   color: #444;
   margin-bottom: 30px;
+=======
+  font-size: 0.9em;
+  color: gray;
+  margin: 0 0 35px 0;
+>>>>>>> main
 }
 
 #box > form {
   width: 100%;
+<<<<<<< HEAD
+=======
+  height: auto;
+  margin: 0 auto;
+>>>>>>> main
   text-align: center;
 }
 
 #box > form > input {
   display: inline-block;
+<<<<<<< HEAD
   width: 320px;
   height: 50px;
   margin: 8px auto;
@@ -48,10 +95,20 @@
   font-size: 1em;
   border: 1.5px solid #cccccc;
   border-radius: 4px;
+=======
+  width: 260px;
+  height: 50px;
+  margin: 5px auto;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 0.8em;
+  border: 1.5px solid #cccccc;
+>>>>>>> main
   transition: all 0.2s ease;
 }
 
 #box > form > input:focus {
+<<<<<<< HEAD
   border: 1.5px solid #015b7e;
   outline: none;
 }
@@ -68,6 +125,34 @@
 
 #box > input {
   width: 320px;
+=======
+  border: thin solid #015b7e;
+  outline: none;
+}
+
+::-webkit-input-placeholder {
+  color: light-gray;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+#box > a {
+  display: block;
+  margin: 0;
+  padding: 5px 0 15px 0;
+  width: 260px;
+  height: 20px;
+  margin: 0 auto;
+  text-align: right;
+  text-transform: uppercase;
+  font-size: 0.7em;
+  color: light-gray;
+  font-weight: 400;
+}
+
+#box > input {
+  width: 260px;
+>>>>>>> main
   height: 50px;
   background: #015b7e;
   border: none;
@@ -78,10 +163,17 @@
   text-transform: uppercase;
   text-align: center;
   margin-bottom: 20px;
+<<<<<<< HEAD
   border-radius: 4px;
   cursor: pointer;
   font-weight: 700;
   font-size: 1em;
+=======
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.7em;
+>>>>>>> main
   transition: all 0.2s ease;
 }
 
@@ -89,6 +181,7 @@
   background: #014965;
 }
 
+<<<<<<< HEAD
 .signup {
   width: 100%;
   background: #f5f5f5;
@@ -117,3 +210,41 @@ form .signup {
   background: #015b7e;
   color: #ffffff;
 }
+=======
+#box > .signup {
+  width: 100%;
+  height: auto;
+  border: none;
+  background: #f5f5f5;
+  outline: none;
+  margin: 0 auto;
+  padding: 20px;
+  display: block;
+  color: gray;
+  text-transform: uppercase;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 0.8em;
+}
+
+#box > .signup p,
+#box > .signup a {
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+#box > .signup p {
+  color: light-gray;
+}
+
+#box > .signup a {
+  text-decoration: none;
+  color: #015b7e;
+  font-size: 1em;
+  padding-left: 25px;
+}
+.signup{
+  background: #015b7e;
+  color: #ffffff;
+}
+>>>>>>> main

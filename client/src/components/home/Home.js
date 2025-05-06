@@ -6,7 +6,10 @@ import image2 from "../../assets/images/8.png";
 import image3 from "../../assets/images/7.png";
 import image4 from "../../assets/images/14.png";
 import galleryVideo from "../../assets/images/video1.mp4";
-
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaComments, FaFacebook, FaTwitter, FaInstagram, FaQuestionCircle } from "react-icons/fa";
+import galleryImage from "../../assets/images/11.jpg"; // Corrected Path
+import { Link } from "react-router-dom";
+import SriLankaMap from "./Map";
 
 const Home = () => {
   return (
@@ -22,11 +25,7 @@ const Home = () => {
 
       <div className="hero-section">
         <div className="hero-image-container">
-          <img
-            src={require("../../assets/images/6.png")}
-            alt="Hero Background"
-            className="hero-image"
-          />
+        <SriLankaMap />
         </div>
         <div className="hero-content">
           <h1>Explore Sri Lanka with Mahaweli Tours</h1>
@@ -35,9 +34,12 @@ const Home = () => {
             We offer a variety of travel packages designed to cater to every traveler’s needs, whether you're looking for
             thrilling adventure, serene relaxation, or cultural immersion.
           </p>
+          
           <button className="cta-button">Start Your Journey</button>
         </div>
       </div>
+      
+        
 
       {/* Creative Images Section with Text */}
       <div className="creative-images">

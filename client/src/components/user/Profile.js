@@ -1,46 +1,127 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-import './Profile.css';  
-const profileIcon = "/assets/images/profile1.png";
+import "./Profile.css";
+import { Typography, Card, CardContent, Grid } from "@mui/material";
 
 const ProfilePage = () => {
-  const [updatedFirstName, setUpdatedFirstName] = useState("");
-  const [updatedLastName, setUpdatedLastName] = useState("");
-  const [updatedMobile, setUpdatedMobile] = useState("");
-  const [updatedAddress, setUpdatedAddress] = useState("");
-  const [updatedEmail, setUpdatedEmail] = useState("");
-  const [profilePicture, setProfilePicture] = useState(null);
+  // Get user from localStorage
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
+  const userId = user?._id;
 
+  // Form state
+  const [formData, setFormData] = useState({
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    email: user.email || "",
+    mobile: user.mobile || "",
+    address: user.address || "",
+  });
+
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [bookedTours, setBookedTours] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const location = useLocation();
+
+  // Initialize form data when user data loads
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        mobile: user.mobile || "",
+        address: user.address || "",
+      });
+    }
+  }, [user]);
+
+  // Handle booked tours from location state
+  useEffect(() => {
+    if (location.state?.bookedTour) {
+      setBookedTours((prev) => [...prev, location.state.bookedTour]);
+    }
+  }, [location.state]);
+
+  // Fetch bookings
+  useEffect(() => {
+    const fetchBookings = async () => {
+      if (!userId) return;
+
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/bookings/${userId}`
+        );
+        setBookings(res.data);
+      } catch (err) {
+        console.error("Failed to fetch bookings:", err);
+      }
+    };
+
+    fetchBookings();
+  }, [userId]);
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle profile picture change
+  const handleProfilePictureChange = (e) => {
+    if (e.target.files?.[0]) {
+      setProfilePicture(e.target.files[0]);
+    }
+  };
+
+  // Handle profile update
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("firstName", updatedFirstName);
-    formData.append("lastName", updatedLastName);
-    formData.append("email", updatedEmail);
-    formData.append("mobile", updatedMobile);
-    formData.append("address", updatedAddress);
+    if (!userId) {
+      alert("Please log in to update your profile");
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("userId", userId);
+
+    // Append all form fields
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSend.append(key, value);
+    });
+
+    // Append profile picture if exists
     if (profilePicture) {
-      formData.append("profilePicture", profilePicture);
+      formDataToSend.append("profilePicture", profilePicture);
     }
 
     try {
       const response = await axios.put(
         "http://localhost:5000/api/profile",
-        formData,
+        formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+
+      const updatedUser = { ...user, ...response.data };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
       alert("Profile updated successfully!");
     } catch (err) {
-      alert(err.response?.data?.error || "An error occurred. Please try again.");
+      console.error("Profile update error:", err);
+      alert(err.response?.data?.error || "Failed to update profile");
     }
   };
 
   return (
     <div className="profile-container">
-      {/* Sidebar with Profile Card */}
       <div className="sidebar">
         <h2>Profile</h2>
         <div className="profile-card">
@@ -49,80 +130,119 @@ const ProfilePage = () => {
             id="profilePicture"
             style={{ display: "none" }}
             accept="image/*"
-            onChange={(e) => setProfilePicture(e.target.files[0])}
+            onChange={handleProfilePictureChange}
           />
 
           <img
-            src={profileIcon}
-            alt="Profile Icon"
+            src={user.profilePicture || "/assets/images/profile1.png"}
+            alt="Profile"
             style={{ width: "50px", height: "50px", cursor: "pointer" }}
             onClick={() => document.getElementById("profilePicture").click()}
-            />
+          />
 
-          <h3>{updatedFirstName} {updatedLastName}</h3>
-          <p>{updatedEmail}</p>
+          <h3>
+            {formData.firstName} {formData.lastName}
+          </h3>
+          <p>{formData.email}</p>
         </div>
 
-        {/* Form for Profile Update */}
-      <div className="profile-form">
-        <h3>Update Profile</h3>
-        <form onSubmit={handleProfileUpdate}>
-          <div>
-            <label>First Name</label>
-            <input
-              type="text"
-              value={updatedFirstName}
-              onChange={(e) => setUpdatedFirstName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              type="text"
-              value={updatedLastName}
-              onChange={(e) => setUpdatedLastName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Mobile No.</label>
-            <input
-              type="text"
-              value={updatedMobile}
-              onChange={(e) => setUpdatedMobile(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Address</label>
-            <input
-              type="text"
-              value={updatedAddress}
-              onChange={(e) => setUpdatedAddress(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Email</label>
-            <input
-              type="email"
-              value={updatedEmail}
-              onChange={(e) => setUpdatedEmail(e.target.value)}
-            />
-          </div>
-          <button type="submit">Update Profile</button>
-        </form>
+        <div className="profile-form">
+          <h3>Update Profile</h3>
+          <form onSubmit={handleProfileUpdate}>
+            <div>
+              <label>First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label>Mobile No.</label>
+              <input
+                type="text"
+                name="mobile"
+                value={formData.mobile}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label>Address</label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            </div>
+            <button type="submit" onSubmit={handleProfileUpdate}>
+              Update Profile
+            </button>
+          </form>
+        </div>
       </div>
 
-
+      <div className="profile-content">
+        <div className="bookings-section">
+          <Grid container spacing={3}>
+            {bookings.map((booking, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card>
+                  <Typography variant="h4" gutterBottom>
+                    Your Own Cuztormize Booking
+                  </Typography>
+                  <CardContent>
+                    <Typography variant="h6">Area: {booking.area}</Typography>
+                    <Typography variant="body2">
+                      <strong>Locations:</strong>{" "}
+                      {booking.locations.map((loc) => loc.name).join(", ")}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Meals:</strong> {booking.meals.join(", ")}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Activities:</strong>{" "}
+                      {booking.activities.join(", ")}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Optional:</strong> {booking.optionalDestinations}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Transport:</strong> {booking.transportMode}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Hotel:</strong> {booking.hotel}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Special Requests:</strong>{" "}
+                      {booking.specialRequests}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       </div>
-
-
-      {/* Form for Profile Update */}
-      <div className="profile-form">
-        <h3>Cart tours</h3>
-        
-      </div>
-
-
-      
     </div>
   );
 };

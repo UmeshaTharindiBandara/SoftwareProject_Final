@@ -1,0 +1,60 @@
+/* ViewCustomizedPackage.css */
+.container {
+    padding: 30px;
+    max-width: 00px;
+    margin: auto;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+  }
+  
+  .card-content {
+    padding: 20px;
+  }
+  
+  .highlight-list {
+    padding-left: 20px;
+  }
+  
+  .divider {
+    margin: 10px 0;
+    background-color: #007bff;
+    height: 2px;
+  }
+  
+  .back-button {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+  }
+  

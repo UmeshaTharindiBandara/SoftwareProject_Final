@@ -1,5 +1,5 @@
 import "./styles/App.css";
-
+import { AuthProvider } from './AuthContext';
 import Header from "./components/common/header/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./components/registration/Signup";
@@ -14,10 +14,16 @@ import CustomizeTour from "./components/TourPackage/CustomizeTour";
 
 import ProfilePage from "./components/user/Profile";
 import UserPacakge from "./components/user/UserPackage";
+<<<<<<< HEAD
 
 import Chat from "./components/chat/Chat";
 //import SelectedPackage from "./components/TourPackage/SelectedPackage";
 // import CustomerDetail from "./components/admin/CustomerDetail";
+=======
+import CustomizeOwnTour from "./components/user/CustomizeOwnTour";
+
+import Chat from "./components/chat/Chat";
+>>>>>>> main
 
 import Success from "./components/TourPackage/Success";
 import Cancel from "./components/TourPackage/Cancel";
@@ -32,6 +38,7 @@ export const ProtectedRoute = () => {
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Header />
       <br />
@@ -45,15 +52,24 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+<<<<<<< HEAD
         {/* <Route path="/tour-package" element={<SelectedPackage />} /> */}
         <Route
           path="/view-customized-package"
           element={<ViewCustomizedPackage />}
         />
+=======
+        
+        <Route path="/view-customized-package" element={<ViewCustomizedPackage />}/>
+>>>>>>> main
 
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/userpackage" element={<UserPacakge />} />
+<<<<<<< HEAD
+=======
+          <Route path="/customize-own-tour" element={<CustomizeOwnTour />} />
+>>>>>>> main
           {/* <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/add" element={<AddPackages />} />
           <Route path="/edit/:id" element={<EditPackages />} />
@@ -72,6 +88,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </AuthProvider>
   );
 }
 

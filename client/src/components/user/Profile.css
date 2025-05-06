@@ -119,3 +119,70 @@
     }
   }
   
+
+  /* Profile Content Section */
+.profile-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+/* Bookings Section */
+.bookings-section {
+  padding: 20px;
+}
+
+/* Card Styling */
+.MuiCard-root {
+  border-radius: 16px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+  background-color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Content */
+.MuiCardContent-root {
+  padding: 20px;
+}
+
+/* Typography Inside Cards */
+.MuiTypography-h6 {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.MuiTypography-body2 {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.MuiTypography-body2 strong {
+  color: #333;
+}
+
+/* Headline */
+.bookings-section h4 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Responsive Grid Gap Fix */
+@media (max-width: 768px) {
+  .bookings-section {
+    padding: 10px;
+  }
+
+  .MuiCardContent-root {
+    padding: 16px;
+  }
+}

@@ -84,4 +84,8 @@ function Login() {
   );
 }
 
+<<<<<<< HEAD
 export default Login;
+=======
+export default Login;
+>>>>>>> main

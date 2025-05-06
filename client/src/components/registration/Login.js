@@ -3,14 +3,17 @@ import "./registration.css";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useAuth } from "../../AuthContext";
 
 function Login() {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
-  const handleSubmit = (e) => {
+  const { login } = useAuth(); // Get login function from AuthContext
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     axios
       .post("http://localhost:5000/api/user_login", { email, password })
       .then((res) => {
@@ -36,51 +39,71 @@ function Login() {
           title: "Oops...",
           text: "Login failed. Please check your Email or password and try again.",
         });
+=======
+    try {
+      const response = await axios.post("http://localhost:5000/api/user_login", {
+        email,
+        password
+>>>>>>> main
       });
+
+      if (response.data.status === "success") {
+        // Use the login function from AuthContext
+        login(response.data.user, response.data.token);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful!',
+          text: `Welcome back, ${response.data.user.name}!`,
+        });
+
+        // Navigate based on role
+        if (response.data.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/tour");
+        }
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: err.response?.data?.message || "An error occurred during login",
+      });
+    }
   };
 
   return (
-    <>
-      <div className="wrapper">
-        <div id="box">
-          <img
-            src="https://image.freepik.com/free-icon/refresh_318-33117.jpg"
-            alt="lock"
+    <div className="wrapper">
+      <div id="box">
+        <h3>Please Login Here</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <h3>Please Login in Here</h3>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              placeholder="EMAIL"
-              required
-              value={email}
-              onChange={(e) => {
-                setemail(e.target.value);
-              }}
-            />
-            <input
-              type="password"
-              name="pswd"
-              placeholder="PASSWORD"
-              required=""
-              value={password}
-              onChange={(e) => {
-                setpassword(e.target.value);
-              }}
-            />
-            <button className="signup">go on... click me!"</button>
-          </form>
-          <a href="#">forgot ?</a>
-
-          <div className="signup">
-            <p>
-              not a member ? <Link to="/signup">Signup</Link>
-            </p>
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit" className="signup">
+            Login
+          </button>
+        </form>
+        <div className="signup">
+          <p>
+            Not a member? <Link to="/signup">Sign Up</Link>
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

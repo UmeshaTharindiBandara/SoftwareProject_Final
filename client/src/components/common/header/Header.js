@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { MdTravelExplore } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa"; // Profile icon
 import { MdDarkMode, MdLightMode } from "react-icons/md"; // Dark/Light mode icons
+import { useAuth } from "../../../AuthContext"; // Importing AuthContext for user state
 import "./header.css";
 
 const Header = () => {
@@ -12,6 +13,7 @@ const Header = () => {
   const [message, setMessage] = useState(""); // Corrected state initialization for message
   const [messageType, setMessageType] = useState(""); // Corrected state initialization for messageType
   const [isDarkMode, setIsDarkMode] = useState(false); // State to manage dark mode
+  const { user, logout } = useAuth();
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -25,6 +27,11 @@ const Header = () => {
     setTimeout(() => {
       setMessage("");
     }, 3000);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -44,15 +51,15 @@ const Header = () => {
   return (
     <>
       <header>
-        <nav className="flexSB">
-          <div className="logo">
-            <h1>
-              <MdTravelExplore className="icon" /> Mahaweli Tours{" "}
-            </h1>
-          </div>
+        <div className="logo">
+          <h1>
+            <MdTravelExplore className="icon" /> Mahaweli Tours
+          </h1>
+        </div>
 
+        <nav className="nav">
           <ul
-            className={click ? "mobile-nav" : "flexSB"}
+            className={click ? "mobile-nav" : ""}
             onClick={() => setClick(false)}
           >
             <li>
@@ -67,41 +74,32 @@ const Header = () => {
             <li>
               <Link to="/contact">Contact</Link>
             </li>
-
             <li>
-              <Link
-                to="/tour"
-                onClick={(e) => {
-                  if (!loggedInUser) {
-                    e.preventDefault();
-                    showMessageTemporarily(
-                      "Please log in to access Tour Packages.",
-                      "error"
-                    );
-                    navigate("/signup");
-                  }
-                }}
-              >
-                Tour Packages
-              </Link>
+              <Link to="/tour">Tour Packages</Link>
             </li>
           </ul>
-
-          <div className="header-actions">
-            {!loggedInUser ? (
-              <Link to="/signup" className="btn-signin">
-                Sign In
-              </Link>
-            ) : (
-              <Link to="/profile" className="btn-profile">
-                <FaUserCircle className="profile-icon" />
-              </Link>
-            )}
-            <button onClick={toggleDarkMode} className="btn-dark-mode">
-              {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
-            </button>
-          </div>
         </nav>
+
+        <div className="header-actions">
+        {!user ? (
+          <Link to="/login" className="btn-signin">
+            Sign In
+          </Link>
+        ) : (
+          <>
+            <Link to="/profile" className="btn-profile">
+              <FaUserCircle className="profile-icon" />
+              <span className="username">{user.name}</span>
+            </Link>
+            <button onClick={handleLogout} className="btn-logout">
+              Logout
+            </button>
+          </>
+        )}
+        <button onClick={toggleDarkMode} className="btn-dark-mode">
+          {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
+        </button>
+      </div>
       </header>
     </>
   );

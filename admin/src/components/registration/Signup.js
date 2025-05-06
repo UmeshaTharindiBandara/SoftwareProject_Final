@@ -99,4 +99,8 @@ function Signup() {
   );
 }
 
+<<<<<<< HEAD
 export default Signup;
+=======
+export default Signup;
+>>>>>>> main
