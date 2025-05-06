@@ -16,7 +16,7 @@ const EditArea = () => {
 
   useEffect(() => {
     axios
-      .get(`http://10.50.227.117:5000/api/areas/${id}`)
+      .get(`https://softwareproject-server.onrender.com/api/areas/${id}`)
       .then((res) => {
         console.log("Fetched Area Data:", res.data); // Debugging
         setAreaData(res.data);
@@ -36,7 +36,7 @@ const EditArea = () => {
     e.preventDefault();
 
     axios
-      .put(`http://10.50.227.117:5000/api/areas/${id}`, {
+      .put(`https://softwareproject-server.onrender.com/api/areas/${id}`, {
         area: areaData.area,
         locations: areaData.locations, // Ensure locations is handled correctly
         image: areaData.image,

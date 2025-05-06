@@ -13,7 +13,7 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://10.50.227.117:5000/api/admin_signup", {
+      .post("https://softwareproject-server.onrender.com/api/admin_signup", {
         name,
         email,
         password,

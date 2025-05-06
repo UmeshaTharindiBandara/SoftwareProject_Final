@@ -54,7 +54,7 @@ export default function CustomizeOwnTour() {
       };
 
       const response = await axios.post(
-        "http://10.50.227.117:5000/api/bookings",
+        "https://softwareproject-server.onrender.com/api/bookings",
         data
       );
 

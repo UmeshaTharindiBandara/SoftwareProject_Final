@@ -36,7 +36,7 @@ const AddHotel = () => {
   useEffect(() => {
     const fetchAreas = async () => {
       try {
-        const response = await axios.get("http://10.50.227.117:5000/api/areas");
+        const response = await axios.get("https://softwareproject-server.onrender.com/api/areas");
         setAreas(response.data);
       } catch (error) {
         console.error("Error fetching areas:", error);
@@ -57,7 +57,7 @@ const AddHotel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://10.50.227.117:5000/api/addhotel", {
+      await axios.post("https://softwareproject-server.onrender.com/api/addhotel", {
         name,
         image,
         price,

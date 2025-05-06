@@ -27,7 +27,7 @@ const EditHotel = () => {
 
   useEffect(() => {
     axios
-      .get(`http://10.50.227.117:5000/api/hotels/${id}`)
+      .get(`https://softwareproject-server.onrender.com/api/hotels/${id}`)
       .then((res) => {
         setHotel(res.data); // Ensure res.data is correctly structured
       })
@@ -45,7 +45,7 @@ const EditHotel = () => {
     e.preventDefault(); // Prevent page reload
 
     try {
-      await axios.put(`http://10.50.227.117:5000/api/hotels/${id}`, hotel);
+      await axios.put(`https://softwareproject-server.onrender.com/api/hotels/${id}`, hotel);
       Swal.fire("Updated!", "Hotel details updated!", "success");
       navigate("/addedhotel"); // Navigate only after a successful update
     } catch (err) {

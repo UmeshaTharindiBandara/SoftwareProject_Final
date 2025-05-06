@@ -90,7 +90,7 @@ const ViewCustomizedPackage = () => {
   const handlePayment = async () => {
     try {
       const response = await axios.post(
-        "http://10.50.227.117:5000/api/checkout",
+        "https://softwareproject-server.onrender.com/api/checkout",
         {
           totalBudget,
         }

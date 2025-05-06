@@ -37,7 +37,7 @@ const CustomizeTour = () => {
 
   useEffect(() => {
     axios
-      .get(`http://10.50.227.117:5000/api/tours/${id}`)
+      .get(`https://softwareproject-server.onrender.com/api/tours/${id}`)
       .then((res) => {
         setTour(res.data.data);
       })

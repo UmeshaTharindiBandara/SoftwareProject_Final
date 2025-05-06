@@ -51,7 +51,7 @@ const AddNew = () => {
   const handleAddArea = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://10.50.227.117:5000/api/areas", {
+      await axios.post("https://softwareproject-server.onrender.com/api/areas", {
         area,
         locations,
       });
@@ -68,7 +68,7 @@ const AddNew = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/areas")
+      .get("https://softwareproject-server.onrender.com/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);

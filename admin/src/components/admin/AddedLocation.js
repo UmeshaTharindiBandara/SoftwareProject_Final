@@ -24,7 +24,7 @@ const Added = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/areas")
+      .get("https://softwareproject-server.onrender.com/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -45,7 +45,7 @@ const Added = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://10.50.227.117:5000/api/areas/${id}`)
+          .delete(`https://softwareproject-server.onrender.com/api/areas/${id}`)
           .then(() => {
             setAreas((prev) => prev.filter((area) => area._id !== id));
             Swal.fire("Deleted!", "The area has been deleted.", "success");

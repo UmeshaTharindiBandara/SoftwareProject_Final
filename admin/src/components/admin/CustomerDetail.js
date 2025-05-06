@@ -17,7 +17,7 @@ function CustomerDetail() {
 
   const fetchUsers = () => {
     axios
-      .get("http://10.50.227.117:5000/api/user_signup")
+      .get("https://softwareproject-server.onrender.com/api/user_signup")
       .then((res) => {
         if (res.data && Array.isArray(res.data.data)) {
           setUsers(
@@ -49,7 +49,7 @@ function CustomerDetail() {
     }
 
     axios
-      .put(`http://10.50.227.117:5000/api/user_signup/${user._id}`)
+      .put(`https://softwareproject-server.onrender.com/api/user_signup/${user._id}`)
       .then((res) => {
         const updatedUsers = [...users];
         updatedUsers[index].role = res.data.user.role;

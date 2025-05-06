@@ -22,7 +22,7 @@ const AddedPackage = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/tours")
+      .get("https://softwareproject-server.onrender.com/api/tours")
       .then((res) => {
         setTours(res.data.data);
       })
@@ -30,7 +30,7 @@ const AddedPackage = () => {
   }, []);
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/areas")
+      .get("https://softwareproject-server.onrender.com/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -51,7 +51,7 @@ const AddedPackage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://10.50.227.117:5000/api/tours/${id}`)
+          .delete(`https://softwareproject-server.onrender.com/api/tours/${id}`)
           .then(() => {
             setTours(tours.filter((tour) => tour._id !== id));
             Swal.fire("Deleted!", "Your tour has been deleted.", "success");
@@ -89,7 +89,7 @@ const AddedPackage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://10.50.227.117:5000/api/areas/${id}`)
+          .delete(`https://softwareproject-server.onrender.com/api/areas/${id}`)
           .then(() => {
             setAreas(areas.filter((area) => area._id !== id));
             Swal.fire("Deleted!", "The area has been deleted.", "success");

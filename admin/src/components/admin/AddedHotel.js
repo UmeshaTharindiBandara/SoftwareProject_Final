@@ -28,7 +28,7 @@ const HotelList = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/areas")
+      .get("https://softwareproject-server.onrender.com/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -39,7 +39,7 @@ const HotelList = () => {
 
   const fetchHotelsForArea = (areaId) => {
     axios
-      .get(`http://10.50.227.117:5000/api/hotels?areaId=${areaId}`)
+      .get(`https://softwareproject-server.onrender.com/api/hotels?areaId=${areaId}`)
       .then((res) => {
         setHotelsByArea((prev) => ({
           ...prev,
@@ -64,7 +64,7 @@ const HotelList = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://10.50.227.117:5000/api/hotels/${hotelId}`)
+          .delete(`https://softwareproject-server.onrender.com/api/hotels/${hotelId}`)
           .then(() => {
             setHotelsByArea((prev) => ({
               ...prev,

@@ -9,7 +9,7 @@ const Chat = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch("http://10.50.227.117:5000/api/chat");
+      const response = await fetch("https://softwareproject-server.onrender.com/api/chat");
       const data = await response.json();
       
       if (Array.isArray(data)) {
@@ -26,7 +26,7 @@ const Chat = () => {
   const sendMessage = async () => {
     if (message.trim() === "") return; // Prevent empty messages
     try {
-      await fetch("http://10.50.227.117:5000/api/chat", {
+      await fetch("https://softwareproject-server.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, message }),

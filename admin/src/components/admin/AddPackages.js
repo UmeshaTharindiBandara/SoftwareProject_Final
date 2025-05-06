@@ -47,7 +47,7 @@ const AddPackages = () => {
   const handleAdd = (e) => {
     e.preventDefault();
     axios
-      .post("http://10.50.227.117:5000/api/tours", {
+      .post("https://softwareproject-server.onrender.com/api/tours", {
         name,
         description,
         budget,

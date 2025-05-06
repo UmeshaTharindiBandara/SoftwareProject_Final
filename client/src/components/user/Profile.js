@@ -52,7 +52,7 @@ const ProfilePage = () => {
 
       try {
         const res = await axios.get(
-          `http://10.50.227.117:5000/api/bookings/${userId}`
+          `https://softwareproject-server.onrender.com/api/bookings/${userId}`
         );
         setBookings(res.data);
       } catch (err) {
@@ -103,7 +103,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        "http://10.50.227.117:5000/api/profile",
+        "https://softwareproject-server.onrender.com/api/profile",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },

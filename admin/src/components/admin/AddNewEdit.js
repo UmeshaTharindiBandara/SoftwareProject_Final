@@ -28,7 +28,7 @@ const AddNewEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`http://10.50.227.117:5000/api/areas/${id}`)
+      .get(`https://softwareproject-server.onrender.com/api/areas/${id}`)
       .then((res) => {
         setArea(res.data.area);
         setLocations(res.data.locations || []);
@@ -96,7 +96,7 @@ const AddNewEdit = () => {
     try {
       // Make the API call to update the area
       const response = await axios.put(
-        `http://10.50.227.117:5000/api/areas/${id}`,
+        `https://softwareproject-server.onrender.com/api/areas/${id}`,
         { area, locations }
       );
 

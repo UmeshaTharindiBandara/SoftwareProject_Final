@@ -18,7 +18,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/tours")
+      .get("https://softwareproject-server.onrender.com/api/tours")
       .then((res) => {
         setTours(res.data.data);
       })

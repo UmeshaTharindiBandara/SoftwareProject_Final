@@ -40,7 +40,7 @@ const EditPackages = () => {
 
   useEffect(() => {
     axios
-      .get(`http://10.50.227.117:5000/api/tours/${id}`)
+      .get(`https://softwareproject-server.onrender.com/api/tours/${id}`)
       .then((res) => {
         setTour(res.data.data);
         // Set initial data
@@ -94,7 +94,7 @@ const EditPackages = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .put(`http://10.50.227.117:5000/api/tours/${id}`, {
+      .put(`https://softwareproject-server.onrender.com/api/tours/${id}`, {
         name: tour.name,
         description: tour.description,
         budget: tour.budget,

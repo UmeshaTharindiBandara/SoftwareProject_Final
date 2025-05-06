@@ -29,7 +29,7 @@ const UserPackage = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.50.227.117:5000/api/areas")
+      .get("https://softwareproject-server.onrender.com/api/areas")
       .then((res) => setAreas(res.data))
       .catch((err) => console.error(err));
   }, []);
