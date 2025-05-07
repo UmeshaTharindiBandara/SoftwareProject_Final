@@ -113,7 +113,8 @@ const ViewCustomizedPackage = () => {
   const handleAddToCart = async () => {
     try {
       // Get user ID from localStorage or context
-      const userId = localStorage.getItem("userId");
+      const user = JSON.parse(localStorage.getItem("user")); 
+      const userId = user?._id;
 
       if (!userId) {
         Swal.fire({

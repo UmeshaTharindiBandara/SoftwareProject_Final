@@ -35,7 +35,7 @@ const Home = () => {
     <p className="section-subtext">
       Experience the beauty of Sri Lanka with Mahaweli Tours. Whether it's misty hills, golden beaches, ancient cities, or vibrant culture—your next adventure starts here.
     </p>
-    <button className="cta-button">Start Your Journey</button>
+    <Link to="/tour" className="hero-btn">Start Your Journey</Link>
   </div>
   <div className="hero-image-container">
     <SriLankaMap />

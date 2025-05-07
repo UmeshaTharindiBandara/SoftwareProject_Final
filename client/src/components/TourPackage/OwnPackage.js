@@ -10,8 +10,15 @@ import { useNavigate } from 'react-router-dom';
 export default function TourPackage() {
   const [customizeMode] = useState(false);
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user")); 
+  const userId = user?._id;
 
   const handleCustomizeClick = () => {
+    if (!userId) {
+      alert("Please log in to view package details");
+      return;
+    }
+
     navigate(`/userpackage`);
   };
 

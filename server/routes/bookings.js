@@ -45,4 +45,33 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+
+// Add delete booking endpoint
+router.delete('/:bookingId', async (req, res) => {
+  try {
+    const bookingId = req.params.bookingId;
+    const deletedBooking = await Booking.findByIdAndDelete(bookingId);
+    
+    if (!deletedBooking) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Booking not found' 
+      });
+    }
+
+    res.json({ 
+      success: true, 
+      message: 'Booking deleted successfully',
+      deletedBooking 
+    });
+  } catch (err) {
+    console.error('Delete booking error:', err);
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to delete booking',
+      error: err.message 
+    });
+  }
+});
+
 export default router;
