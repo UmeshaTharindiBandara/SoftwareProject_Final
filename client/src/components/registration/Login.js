@@ -4,78 +4,117 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useAuth } from "../../AuthContext";
+import {
+  Container,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Get login function from AuthContext
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      const response = await axios.post("https://softwareproject-server.onrender.com/api/user_login", {
-        email,
-        password
-      });
+      const response = await axios.post(
+        "https://softwareproject-server.onrender.com/api/user_login",
+        { email, password }
+      );
 
       if (response.data.status === "success") {
-        // Use the login function from AuthContext
         login(response.data.user, response.data.token);
 
         Swal.fire({
-          icon: 'success',
-          title: 'Login Successful!',
-          text: `Welcome back, ${response.data.user.name}!`,
+          icon: "success",
+          title: "Welcome Back!",
+          text: `Hello, ${response.data.user.name}!`,
+          timer: 1500,
+          showConfirmButton: false,
         });
 
-        // Navigate based on role
-        if (response.data.user.role === "admin") {
-          navigate("/admin");
-        } else {
-          navigate("/tour");
-        }
+        navigate(response.data.user.role === "admin" ? "/admin" : "/tour");
       }
     } catch (err) {
       console.error("Login error:", err);
       Swal.fire({
         icon: "error",
         title: "Login Failed",
-        text: err.response?.data?.message || "An error occurred during login",
+        text: err.response?.data?.message || "Please check your credentials",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="wrapper">
-      <div id="box">
-        <h3>Please Login Here</h3>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
+    <Container component="main" maxWidth="xs" className="auth-container">
+      <Paper elevation={2} className="auth-paper">
+        <Avatar className="auth-avatar">
+          <LockOutlinedIcon sx={{ fontSize: 20 }} />
+        </Avatar>
+
+        <Typography component="h1" variant="h6" className="auth-title">
+          Welcome Back
+        </Typography>
+
+        <Box component="form" onSubmit={handleSubmit} className="auth-form">
+          <TextField
+            margin="dense"
             required
+            fullWidth
+            label="Email Address"
+            type="email"
+            autoComplete="email"
+            size="small"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Password"
+
+          <TextField
+            margin="dense"
             required
+            fullWidth
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            size="small"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className="signup">
-            Login
-          </button>
-        </form>
-        <div className="signup">
-          <p>
-            Not a member? <Link to="/signup">Sign Up</Link>
-          </p>
-        </div>
-      </div>
-    </div>
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className="auth-submit"
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={20} /> : "Sign In"}
+          </Button>
+
+          <Box className="auth-links">
+            <Typography variant="body2">
+              New user?{" "}
+              <Link to="/signup" className="auth-link">
+                Sign Up
+              </Link>
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 

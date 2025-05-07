@@ -19,8 +19,15 @@ import CustomizeTour from "./components/TourPackage/CustomizeTour";
 import Success from "./components/TourPackage/Success";
 import Cancel from "./components/TourPackage/Cancel";
 import ViewCustomizedPackage from "./components/TourPackage/ViewCustomizedPackage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Outlet, Navigate } from "react-router-dom";
 import CustomerDetail from "./components/admin/CustomerDetail";
+
+// ...existing imports...
+
+export const ProtectedRoute = () => {
+  const user = true;
+  return user ? <Outlet /> : <Navigate to="/" />;
+};
 
 function App() {
   return (
@@ -30,29 +37,32 @@ function App() {
       <br />
       <br />
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/add" element={<AddPackages />} />
 
-        <Route path="/tour/:id" element={<CustomizeTour />} />
-        <Route path="/edit/:id" element={<EditPackages />} />
-        <Route path="/addnew" element={<AddNew />} />
-        <Route path="/edit-area/:id" element={<AddNewEdit />} />
-        <Route path="/addedpackage" element={<AddedPackage />} />
-        <Route path="/addedlocation" element={<AddedLocation />} />
-        <Route path="/addhotel" element={<AddHotel />} />
-        <Route path="/addedhotel" element={<AddedHotel />} />
-        <Route path="/edit-hotel/:id" element={<EditHotel />} />
-        <Route path="/edit-area/:id" element={<EditArea />} />
-        <Route path="/success" element={<Success />} />
-        <Route path="/cancel" element={<Cancel />} />
-        <Route path="/customer" element={<CustomerDetail />} />
-
-        <Route
-          path="/view-customized-package"
-          element={<ViewCustomizedPackage />}
-        />
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/add" element={<AddPackages />} />
+          <Route path="/tour/:id" element={<CustomizeTour />} />
+          <Route path="/edit/:id" element={<EditPackages />} />
+          <Route path="/addnew" element={<AddNew />} />
+          <Route path="/edit-area/:id" element={<AddNewEdit />} />
+          <Route path="/addedpackage" element={<AddedPackage />} />
+          <Route path="/addedlocation" element={<AddedLocation />} />
+          <Route path="/addhotel" element={<AddHotel />} />
+          <Route path="/addedhotel" element={<AddedHotel />} />
+          <Route path="/edit-hotel/:id" element={<EditHotel />} />
+          <Route path="/edit-area/:id" element={<EditArea />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancel" element={<Cancel />} />
+          <Route path="/customer" element={<CustomerDetail />} />
+          <Route
+            path="/view-customized-package"
+            element={<ViewCustomizedPackage />}
+          />
+        </Route>
       </Routes>
     </Router>
   );
