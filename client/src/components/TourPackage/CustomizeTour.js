@@ -80,10 +80,7 @@ const CustomizeTour = () => {
 
   return (
     <div className="customize-tour-container">
-      <Typography variant="h4" className="title" gutterBottom>
-        Customize Your Tour Package: {tour.name}
-      </Typography>
-
+      
       <PackageDetails />
 
       {/* Meal Plans */}

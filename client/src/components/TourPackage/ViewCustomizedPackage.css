@@ -1,60 +1,133 @@
-/* ViewCustomizedPackage.css */
-.container {
-    padding: 30px;
-    max-width: 00px;
-    margin: auto;
-    font-family: 'Poppins', sans-serif;
+.custom-package__wrapper {
+  padding: 1.5rem;
+  max-width: 650px;
+  margin: 1rem auto;
+  background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.custom-package__title {
+  color: #1a1a1a;
+  font-size: 1.8rem;
+  margin: 0.5rem 0 1.5rem;
+  position: relative;
+  text-align: center;
+  font-weight: 600;
+}
+
+.custom-package__title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #2196f3, #21cbf3);
+  border-radius: 2px;
+}
+
+.custom-package__card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.custom-package__table-container {
+  background: #f8fafc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.custom-package__table-cell {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.custom-package__table-cell--total {
+  background: linear-gradient(to right, #f8fafc, #ffffff);
+  color: #2196f3;
+  font-weight: 600;
+}
+
+.custom-package__button-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+}
+
+.custom-package__button--payment {
+  position: relative;
+  overflow: hidden;
+  background: #2196f3 !important;
+  color: white !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2) !important;
+}
+
+.custom-package__button--cart {
+  position: relative;
+  overflow: hidden;
+  background: #6b21f3 !important;
+  color: white !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(107, 33, 243, 0.2) !important;
+}
+
+.custom-package__button--payment::before,
+.custom-package__button--cart::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.custom-package__button--payment:hover::before,
+.custom-package__button--cart:hover::before {
+  left: 100%;
+}
+
+.custom-package__button--payment:hover,
+.custom-package__button--cart:hover {
+  transform: translateY(-2px);
+  filter: brightness(110%);
+}
+
+@media (max-width: 600px) {
+  .custom-package__wrapper {
+    margin: 0.5rem;
+    padding: 1rem;
   }
-  
-  .title {
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
+
+  .custom-package__button-container {
+    grid-template-columns: 1fr;
   }
-  
-  .card {
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out;
+
+  .custom-package__title {
+    font-size: 1.5rem;
   }
-  
-  .card:hover {
-    transform: scale(1.02);
-  }
-  
-  .card-content {
-    padding: 20px;
-  }
-  
-  .highlight-list {
-    padding-left: 20px;
-  }
-  
-  .divider {
-    margin: 10px 0;
-    background-color: #007bff;
-    height: 2px;
-  }
-  
-  .back-button {
-    display: block;
-    width: 100%;
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .back-button:hover {
-    background: linear-gradient(135deg, #0056b3, #003f7f);
-  }
-  
+}

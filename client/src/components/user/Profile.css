@@ -186,3 +186,32 @@
     padding: 16px;
   }
 }
+
+
+.cart-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cart-section .MuiCard-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.cart-section .MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cart-section .MuiIconButton-root {
+  align-self: flex-end;
+}
+
+.cart-section .MuiDivider-root {
+  margin: 8px 0;
+}

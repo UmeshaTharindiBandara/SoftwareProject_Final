@@ -3,6 +3,9 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
 import { Typography, Card, CardContent, Grid } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton, Divider } from '@mui/material';
+import Swal from 'sweetalert2';
 
 const ProfilePage = () => {
   // Get user from localStorage
@@ -120,6 +123,59 @@ const ProfilePage = () => {
     }
   };
 
+  // Add this state for cart items
+const [cartItems, setCartItems] = useState([]);
+
+// Add this useEffect to fetch cart items
+useEffect(() => {
+  const fetchCartItems = async () => {
+    if (!userId) return;
+
+    try {
+      const response = await axios.get(
+        `https://softwareproject-server.onrender.com/api/cart/${userId}`
+      );
+      setCartItems(response.data);
+    } catch (error) {
+      console.error('Failed to fetch cart items:', error);
+    }
+  };
+
+  fetchCartItems();
+}, [userId]);
+// Add this function to handle cart item deletion
+const handleDeleteCartItem = async (cartItemId) => {
+  try {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      await axios.delete(
+        `https://softwareproject-server.onrender.com/api/cart/${cartItemId}`
+      );
+      setCartItems(cartItems.filter(item => item._id !== cartItemId));
+      Swal.fire(
+        'Deleted!',
+        'Your cart item has been removed.',
+        'success'
+      );
+    }
+  } catch (error) {
+    console.error('Failed to delete cart item:', error);
+    Swal.fire(
+      'Error!',
+      'Failed to remove item from cart.',
+      'error'
+    );
+  }
+};
   return (
     <div className="profile-container">
       <div className="sidebar">
@@ -242,6 +298,62 @@ const ProfilePage = () => {
             ))}
           </Grid>
         </div>
+        {/* Cart Items Section */}
+      <div className="cart-section">
+        <Typography variant="h4" gutterBottom>
+          Your Cart Items
+        </Typography>
+        <Grid container spacing={3}>
+          {cartItems.map((cartItem) => (
+            <Grid item xs={12} sm={6} md={4} key={cartItem._id}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">
+                    {cartItem.packageDetails.tour.area}
+                  </Typography>
+                  <Divider sx={{ my: 1 }} />
+                  
+                  <Typography variant="body2">
+                    <strong>Selected Options:</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    Meals: {cartItem.packageDetails.selectedOptions.mealPlan}
+                  </Typography>
+                  <Typography variant="body2">
+                    Activities: {cartItem.packageDetails.selectedOptions.activities.join(", ")}
+                  </Typography>
+                  <Typography variant="body2">
+                    Transport: {cartItem.packageDetails.selectedOptions.transport}
+                  </Typography>
+                  <Typography variant="body2">
+                    Hotel: {cartItem.packageDetails.selectedOptions.hotels}
+                  </Typography>
+                  
+                  <Typography variant="h6" sx={{ mt: 2 }}>
+                    Total Budget: ${cartItem.packageDetails.totalBudget}
+                  </Typography>
+                  
+                  <IconButton
+                    onClick={() => handleDeleteCartItem(cartItem._id)}
+                    color="error"
+                    sx={{ mt: 1 }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+          
+          {cartItems.length === 0 && (
+            <Grid item xs={12}>
+              <Typography variant="body1" textAlign="center">
+                No items in your cart
+              </Typography>
+            </Grid>
+          )}
+        </Grid>
+      </div>
       </div>
     </div>
   );

@@ -1,3 +1,199 @@
+/*-----------------------------------*/
+/*         Header Container          */
+/*-----------------------------------*/
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  max-width: 100%;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/*-----------------------------------*/
+/*             Logo                  */
+/*-----------------------------------*/
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+
+.logo h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #004080; /* Fallback color */
+  background: linear-gradient(90deg, #004080, #00c6ff);
+  background-clip: text;          /* Standard property */
+  -webkit-background-clip: text;  /* Vendor prefix for Safari */
+  -webkit-text-fill-color: transparent;  /* Vendor prefix for Safari */
+  display: flex;
+  align-items: center;
+}
+
+
+
+/*-----------------------------------*/
+/*             Nav Bar              */
+/*-----------------------------------*/
+.nav {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+header ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header ul li {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+header ul li a {
+  color: #2267ad;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+header ul li a:hover {
+  background: linear-gradient(90deg, #004080, #00c6ff);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/*-----------------------------------*/
+/*        Header Right Actions       */
+/*-----------------------------------*/
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-signin {
+  background: linear-gradient(135deg, #004080, #00c6ff);
+  color: #fff;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 198, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-signin:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #00c6ff, #004080);
+}
+
+.btn-dark-mode {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #004080;
+  transition: color 0.3s ease;
+}
+
+.btn-dark-mode:hover {
+  color: #00c6ff;
+}
+
+/*-----------------------------------*/
+/*        Dark Mode Support          */
+/*-----------------------------------*/
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+body.dark-mode header {
+  background: rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+body.dark-mode .logo h1 {
+  background: linear-gradient(90deg, #ffb84d, #ffd580);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode .btn-signin {
+  background: linear-gradient(135deg, #ffb84d, #ff9900);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(255, 184, 77, 0.4);
+}
+
+body.dark-mode .btn-signin:hover {
+  background: linear-gradient(135deg, #ff9900, #ffb84d);
+}
+
+body.dark-mode .btn-dark-mode {
+  color: #ffb84d;
+}
+
+body.dark-mode header ul li a:hover {
+  background-color: #ffb84d;
+  color: #000;
+}
+
+/*-----------------------------------*/
+/*        Responsive Design          */
+/*-----------------------------------*/
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .logo h1 {
+    font-size: 28px;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  header ul {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .btn-signin {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+}
+
 header {
   display: flex;
   align-items: center;

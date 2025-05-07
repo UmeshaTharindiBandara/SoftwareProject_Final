@@ -1,6 +1,6 @@
 import React from "react";
 import './About.css';
-import galleryImage from "../../assets/images/10.jpg";
+import galleryImage from "../../assets/images/27.jpg";
 // Correct paths to your images
 
 const tourImage02 = require('../../assets/images/tour-img02.jpg');

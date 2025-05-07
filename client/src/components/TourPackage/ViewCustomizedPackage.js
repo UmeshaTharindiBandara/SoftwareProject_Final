@@ -15,6 +15,9 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
+import Swal from "sweetalert2";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import "./ViewCustomizedPackage.css";
 
 const ViewCustomizedPackage = () => {
   const location = useLocation();
@@ -106,31 +109,88 @@ const ViewCustomizedPackage = () => {
       console.error("Payment Error:", error);
     }
   };
+
+  const handleAddToCart = async () => {
+    try {
+      // Get user ID from localStorage or context
+      const userId = localStorage.getItem("userId");
+
+      if (!userId) {
+        Swal.fire({
+          icon: "warning",
+          title: "Please Login",
+          text: "You need to be logged in to add items to cart",
+        });
+        navigate("/login");
+        return;
+      }
+
+      const cartData = {
+        userId,
+        packageDetails: {
+          tour,
+          selectedOptions,
+          totalBudget,
+          breakdown,
+        },
+      };
+
+      const response = await axios.post(
+        "https://softwareproject-server.onrender.com/api/cart/add",
+        cartData
+      );
+
+      if (response.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Added to Cart!",
+          text: "Package has been added to your cart",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/profile");
+      }
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to Add to Cart",
+        text: error.response?.data?.message || "Please try again later",
+      });
+    }
+  };
+
   return (
-    <div className="customized-package-container">
-      <Typography variant="h4" gutterBottom>
+    <div className="custom-package__wrapper">
+      <Typography variant="h4" gutterBottom className="custom-package__title">
         Customized Package Summary
       </Typography>
-      <Card variant="outlined" className="summary-card">
+
+      <Card variant="outlined" className="custom-package__card">
         <CardContent>
           <Typography variant="h6">Selected Options & Budget</Typography>
           <Divider />
-          <TableContainer component={Paper}>
-            <Table>
+          <TableContainer
+            component={Paper}
+            className="custom-package__table-container"
+          >
+            <Table className="custom-package__table">
               <TableBody>
                 {Object.entries(breakdown).map(([key, value]) => (
                   <TableRow key={key}>
-                    <TableCell>
+                    <TableCell className="custom-package__table-cell">
                       {key.replace(/([A-Z])/g, " $1").trim()}
                     </TableCell>
-                    <TableCell>${value}</TableCell>
+                    <TableCell className="custom-package__table-cell">
+                      ${value}
+                    </TableCell>
                   </TableRow>
                 ))}
                 <TableRow>
-                  <TableCell>
+                  <TableCell className="custom-package__table-cell custom-package__table-cell--total">
                     <strong>Total Budget</strong>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="custom-package__table-cell custom-package__table-cell--total">
                     <strong>${totalBudget}</strong>
                   </TableCell>
                 </TableRow>
@@ -139,9 +199,25 @@ const ViewCustomizedPackage = () => {
           </TableContainer>
         </CardContent>
       </Card>
-      <Button variant="contained" color="primary" onClick={handlePayment}>
-        Proceed to Payment
-      </Button>
+
+      <div className="custom-package__button-container">
+        <Button
+          variant="contained"
+          onClick={handlePayment}
+          className="custom-package__button--payment"
+        >
+          Proceed to Payment
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={handleAddToCart}
+          startIcon={<ShoppingCartIcon />}
+          className="custom-package__button--cart"
+        >
+          Add to Cart
+        </Button>
+      </div>
     </div>
   );
 };

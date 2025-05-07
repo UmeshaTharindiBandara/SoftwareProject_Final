@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+
+/* ------------ Global Styles ------------ */
 * {
   padding: 0;
   margin: 0;
@@ -13,7 +15,7 @@ body {
   background-repeat: no-repeat;
 }
 
-/*------------global-----------*/
+/* ------------ Container & Flex ------------ */
 .container {
   max-width: 85%;
   margin: auto;
@@ -69,7 +71,7 @@ button:hover {
   color: #fff;
 }
 
-/*------------global-----------*/
+/* ------------ Global Heading ------------ */
 #heading {
   text-align: center;
   padding: 40px 0;
@@ -90,6 +92,7 @@ p {
   font-size: 18px;
 }
 
+/* ------------ Background Section ------------ */
 .back {
   background-size: cover;
   background-attachment: fixed;
@@ -116,6 +119,8 @@ p {
 .margin {
   margin-top: 40.3%;
 }
+
+/* ------------ Grid Layout ------------ */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -152,18 +157,86 @@ p {
   box-shadow: 0 5px 25px -2px rgb(0 0 0 / 6%);
   background-color: #fff;
 }
-@media screen and (max-width: 768px) {
+
+/* ------------ Responsive Design (Mobile-First) ------------ */
+@media screen and (max-width: 1024px) {
   .grid2,
   .grid3,
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
   }
+
+  .row {
+    width: 100%; /* Full width for smaller screens */
+  }
+
+  /* Adjust font sizes for mobile */
+  #heading h1 {
+    font-size: 36px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
   .back {
     background-position: center;
     padding-top: 50%;
     height: 80vh;
   }
+  
+  /* Adjust button sizes */
+  button {
+    width: 100%;
+    padding: 15px;
+  }
 }
 
+@media screen and (max-width: 768px) {
+  .grid2,
+  .grid3,
+  .grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 column for mobile screens */
+  }
 
+  /* Ensure full width for sections */
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+  }
 
+  /* Make icons smaller on mobile */
+  .icon {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  /* Adjust background position and padding */
+  .back {
+    background-position: center;
+    padding-top: 50%;
+    height: 60vh;
+    padding-right: 30px;
+  }
+
+  /* Make text more readable on small screens */
+  #heading h1 {
+    font-size: 30px;
+  }
+
+  .margin {
+    margin-top: 30%;
+  }
+
+  /* Stack elements vertically in flex containers */
+  .flexSB {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+  }
+}

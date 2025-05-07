@@ -22,6 +22,7 @@ import hotelRoutes from "./routes/hotelRoutes.js";
 import Stripe from "stripe";
 
 import bookingRoutes from './routes/bookings.js';
+import cartRoutes from './routes/cart.js';
 
 // Load environment variables
 config();
@@ -45,6 +46,7 @@ app.use('/api', profileRoutes);
 app.use('/api', hotelRoutes);
 
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/cart', cartRoutes);
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16", // Required for newer SDK versions
