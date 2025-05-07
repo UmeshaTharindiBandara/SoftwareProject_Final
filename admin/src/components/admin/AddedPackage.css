@@ -1,0 +1,143 @@
+/* Container Layout */
+.admin-package-wrapper {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  /* Back Button Styling */
+  .admin-back-button {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Package List Container */
+  .admin-package-container {
+    background-color: #f5f7fa;
+    border-radius: 12px;
+    padding: 2rem;
+  }
+  
+  .admin-package-title {
+    text-align: center;
+    color: #003366;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+  }
+  
+  /* Package Grid Layout */
+  .admin-package-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  /* Package Card Styling */
+  .admin-package-card {
+    border-radius: 12px !important;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff;
+    height: 100%;
+  }
+  
+  .admin-package-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  /* Card Media */
+  .admin-package-media {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+  }
+  
+  /* Card Content */
+  .admin-package-content {
+    padding: 1.5rem !important;
+  }
+  
+  .admin-package-title {
+    font-size: 1.5rem !important;
+    color: #003366;
+    margin-bottom: 1.5rem !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Button Container */
+  .admin-package-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+  
+  /* View Button */
+  .admin-view-btn {
+    background-color: #003366 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .admin-view-btn:hover {
+    background-color: #004d99 !important;
+    transform: translateY(-2px);
+  }
+  
+  /* Edit Button */
+  .admin-edit-btn {
+    background-color: #28a745 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .admin-edit-btn:hover {
+    background-color: #218838 !important;
+    transform: translateY(-2px);
+  }
+  
+  /* Delete Button */
+  .admin-delete-btn {
+    background-color: #dc3545 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .admin-delete-btn:hover {
+    background-color: #c82333 !important;
+    transform: translateY(-2px);
+  }
+  
+  /* Button Icons */
+  .admin-btn-icon {
+    margin-right: 8px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .admin-package-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .admin-package-wrapper {
+      padding: 1rem;
+    }
+    
+    .admin-package-title {
+      font-size: 2rem;
+    }
+    
+    .admin-back-button {
+      padding: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .admin-package-grid {
+      grid-template-columns: 1fr;
+    }
+  }

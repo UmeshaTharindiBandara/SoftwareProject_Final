@@ -119,94 +119,70 @@ const AddedPackage = () => {
   };
 
   return (
-    <div>
-      <Button
-        variant="outlined"
-        onClick={() => navigate("/admin")}
-        className="back-button"
-        startIcon={<ArrowBackIcon />}
-        style={{ marginLeft: "800px" }}
-      >
-        Back to Dashboard
-      </Button>
-      <br />
-      <br />
+    <div className="admin-package-wrapper">
+  <div className="admin-back-button">
+    <Button
+      variant="outlined"
+      onClick={() => navigate("/admin")}
+      startIcon={<ArrowBackIcon />}
+    >
+      Back to Dashboard
+    </Button>
+  </div>
 
-      <div className="tour-list-container">
-        <h1>Available Tour Packages</h1>
-        <div className="tour-grid">
-          {tours.map((tour) => (
-            <Card key={tour._id} className="tour-card">
-              <CardMedia
-                component="img"
-                height="200"
-                image={tour.image}
-                alt={tour.name}
-              />
-              <CardContent>
-                <Typography variant="h5" className="tour-title">
-                  {tour.name}
-                </Typography>
+  <div className="admin-package-container">
+    <h1 className="admin-package-title">Available Tour Packages</h1>
+    <div className="admin-package-grid">
+      {tours.map((tour) => (
+        <Card key={tour._id} className="admin-package-card">
+          <CardMedia
+            className="admin-package-media"
+            component="img"
+            image={tour.image}
+            alt={tour.name}
+          />
+          <CardContent className="admin-package-content">
+            <Typography variant="h5" className="admin-package-title">
+              {tour.name}
+            </Typography>
+            
+            <div className="admin-package-buttons">
+              <Button
+                variant="contained"
+                fullWidth
+                className="admin-view-btn"
+                onClick={() => handleViewPackage(tour._id)}
+              >
+                <FontAwesomeIcon icon={faEye} className="admin-btn-icon" />
+                View Package
+              </Button>
 
-                {/* View Package Button */}
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={() => handleViewPackage(tour._id)}
-                  style={{
-                    backgroundColor: "#003366",
-                    color: "#ffffff",
-                    marginTop: "10px",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    style={{ marginRight: "8px" }}
-                  />
-                  View Package
-                </Button>
+              <Button
+                variant="contained"
+                fullWidth
+                className="admin-edit-btn"
+                onClick={() => handleEdit(tour._id)}
+              >
+                <FontAwesomeIcon icon={faEdit} className="admin-btn-icon" />
+                Edit Package
+              </Button>
 
-                {/* Edit Package Button */}
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={() => handleEdit(tour._id)}
-                  style={{
-                    backgroundColor: "#28a745",
-                    color: "#ffffff",
-                    marginTop: "10px",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    style={{ marginRight: "8px" }}
-                  />
-                  Edit Package
-                </Button>
-
-                {/* Delete Package Button */}
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={() => handledelete(tour._id)}
-                  style={{
-                    backgroundColor: "red",
-                    color: "#ffffff",
-                    marginTop: "10px",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    style={{ marginRight: "8px" }}
-                  />
-                  Delete Package
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+              <Button
+                variant="contained"
+                fullWidth
+                className="admin-delete-btn"
+                onClick={() => handledelete(tour._id)}
+              >
+                <FontAwesomeIcon icon={faTrash} className="admin-btn-icon" />
+                Delete Package
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
+  </div>
+</div>
   );
 };
 
