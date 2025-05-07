@@ -60,19 +60,18 @@ header ul li a:hover {
 
 
 .btn-logout {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-
-
-.btn-logout {
   background-color: #dc3545;
   color: white;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
   border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
 }
+
+
 
 .btn-profile {
   display: flex;
@@ -83,11 +82,11 @@ header ul li a:hover {
 }
 
 .profile-icon {
-  font-size: 1.5rem;
+  font-size: 16px;
 }
 
 .username {
-  font-size: 0.9rem;
+  font-size: 16px;
 }
 
 

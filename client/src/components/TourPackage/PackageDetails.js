@@ -26,7 +26,7 @@ const PackageDetails = () => {
       <p>Budget: ${packageDetails.budget}</p>
       <p>Duration: {packageDetails.duration}</p>
       <p>Highlights: {packageDetails.highlights.join(", ")}</p>
-      <img src={packageDetails.image} alt={packageDetails.name} />
+      <img src={packageDetails.image} alt={packageDetails.name} style={{ width: "800px", height: "500px", objectFit: "cover" }} />
     </div>
   );
 };

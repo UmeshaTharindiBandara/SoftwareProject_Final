@@ -1,4 +1,5 @@
 import Header from "./components/header/Header";
+import ScrollToTop from "./components/ScrollToTop";
 
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AddPackages from "./components/admin/AddPackages";
@@ -24,6 +25,7 @@ import CustomerDetail from "./components/admin/CustomerDetail";
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Header />
       <br />
       <br />

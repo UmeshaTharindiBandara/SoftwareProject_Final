@@ -30,8 +30,14 @@ const TourList = () => {
   }, []);
 
   const handleViewPackage = (id) => {
+    if (!userId) {
+      alert("Please log in to view package details");
+      return;
+    }
+  
     navigate(`/tour/${id}`);
   };
+  
 
   const handleRatingChange = (tourId, newRating) => {
     setRatings((prevRatings) => ({

@@ -23,6 +23,7 @@ import Cancel from "./components/TourPackage/Cancel";
 import ViewCustomizedPackage from "./components/TourPackage/ViewCustomizedPackage";
 
 import { Outlet, Navigate } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 
 export const ProtectedRoute = () => {
   const user = true;
@@ -33,6 +34,7 @@ function App() {
   return (
     <AuthProvider>
     <Router>
+    <ScrollToTop />
       <Header />
       <br />
       <Routes>
