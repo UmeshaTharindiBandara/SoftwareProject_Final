@@ -19,6 +19,9 @@ const TourList = () => {
   const [ratings, setRatings] = useState({});
   const [likes, setLikes] = useState({});
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?._id;
+  
 
   useEffect(() => {
     axios
