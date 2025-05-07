@@ -194,15 +194,7 @@ body.dark-mode header ul li a:hover {
   }
 }
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(180deg, #add8e6, #ffffff); /* Corrected background */
-  padding: 10px 40px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
+
 
 .logo {
   display: flex;
