@@ -245,7 +245,7 @@ body.dark-mode header ul li a:hover {
 
 
 .btn-logout {
-  background-color: #dc3545;
+  background: linear-gradient(135deg, #004080, #00c6ff);
   color: white;
   padding: 10px 30px;
   font-size: 16px;

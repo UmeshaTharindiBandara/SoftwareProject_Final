@@ -53,3 +53,23 @@
 .customize-button:hover {
     background-color: #005bb5;
 }
+
+.highlight-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .highlight-text .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #003366;
+  }
+  
+  .highlight-text h4 {
+    text-align: center;
+    margin-top: 1rem;
+  }
