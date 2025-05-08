@@ -142,7 +142,7 @@ const Header = () => {
           <>
             <Link to="/profile" className="btn-profile">
               <FaUserCircle className="profile-icon" />
-              <span className="username">{user.name}</span>
+              
             </Link>
             <button onClick={handleLogout} className="btn-logout">
               Logout

@@ -205,6 +205,7 @@ const ViewCustomizedPackage = () => {
         <Button
           variant="contained"
           onClick={handlePayment}
+          disabled={totalBudget === 0}
           className="custom-package__button--payment"
         >
           Proceed to Payment
