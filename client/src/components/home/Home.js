@@ -20,8 +20,10 @@ const Home = () => {
         <div className="hero-overlay">
           <div className="hero-text">
             <h1>Trust <span>Our Experience</span></h1>
+
             <p className="subtext">A team of professional travel experts</p>
-            <Link to="/contact" className="hero-btn">Get in touch</Link>
+            <br/>
+            <Link to="/contact" className="hero-btn" >Get in touch</Link>
           </div>
         </div>
       </section>

@@ -5,9 +5,8 @@ import { FaUserCircle } from "react-icons/fa"; // Profile icon
 import { MdDarkMode, MdLightMode } from "react-icons/md"; // Dark/Light mode icons
 import { useAuth } from "../../../AuthContext"; // Importing AuthContext for user state
 import "./header.css";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,37 +25,35 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const toggleContainer = document.querySelector('.toggle-container');
-      
+      const toggleContainer = document.querySelector(".toggle-container");
+
       // Update header visibility
       if (currentScrollY > lastScrollY) {
         setIsHeaderVisible(false);
       } else {
         setIsHeaderVisible(true);
       }
-      
+
       // Update scroll state for toggle button styling
       if (currentScrollY > 50) {
         setIsScrolled(true);
-        toggleContainer?.classList.add('scrolled');
+        toggleContainer?.classList.add("scrolled");
       } else {
         setIsScrolled(false);
-        toggleContainer?.classList.remove('scrolled');
+        toggleContainer?.classList.remove("scrolled");
       }
-      
+
       setLastScrollY(currentScrollY);
     };
-  
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   // Toggle header manually
   const toggleHeader = () => {
     setIsHeaderVisible(!isHeaderVisible);
   };
-
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -74,7 +71,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -93,67 +90,72 @@ const Header = () => {
 
   return (
     <>
-     <div className="header-container">
-    <div className="toggle-container">
-      <button 
-        className={`nav-toggle ${isScrolled ? 'scrolled' : ''}`}
-        onClick={toggleHeader}
-        aria-label="Toggle navigation"
-      >
-        {isHeaderVisible ? <CloseIcon /> : <MenuIcon />}
-      </button>
-    </div>
-    <header className={`header ${!isHeaderVisible ? 'hidden' : ''}`}>
-        <div className="logo">
-          <h1>
-            <MdTravelExplore className="icon" /> Mahaweli Tours
-          </h1>
-        </div>
-
-        <nav className="nav">
-          <ul
-            className={click ? "mobile-nav" : ""}
-            onClick={() => setClick(false)}
+      <div className="header-container">
+        <div className="toggle-container">
+          <button
+            className={`nav-toggle ${isScrolled ? "scrolled" : ""}`}
+            onClick={toggleHeader}
+            aria-label="Toggle navigation"
           >
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/blog">Blog</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-            <li>
-              <Link to="/tour">Tour Packages</Link>
-            </li>
-          </ul>
-        </nav>
+            {isHeaderVisible ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
+        <header className={`header ${!isHeaderVisible ? "hidden" : ""}`}>
+          <div className="logo">
+            <h1>
+              <MdTravelExplore className="icon" /> Mahaweli Tours
+            </h1>
+          </div>
 
-        <div className="header-actions">
-        {!user ? (
-          <Link to="/login" className="btn-signin">
-            Sign In
-          </Link>
-        ) : (
-          <>
-            <Link to="/profile" className="btn-profile">
-              <FaUserCircle className="profile-icon" />
-              
-            </Link>
-            <button onClick={handleLogout} className="btn-logout">
-              Logout
+          <nav className="nav">
+            <ul
+              className={click ? "mobile-nav" : ""}
+              onClick={() => setClick(false)}
+            >
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+              <li>
+                <Link to="/blog">Blog</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link to="/tour">Tour Packages</Link>
+              </li>
+              <li>
+                {!user ? (
+                  <div></div>
+                ) : (
+                  <Link to="/profile" className="btn-profile">
+                    <FaUserCircle className="profile-icon" />
+                  </Link>
+                )}
+              </li>
+            </ul>
+          </nav>
+
+          <div className="header-actions">
+            {!user ? (
+              <Link to="/login" className="btn-signin">
+                Sign In
+              </Link>
+            ) : (
+              <>
+                <button onClick={handleLogout} className="btn-logout">
+                  Logout
+                </button>
+              </>
+            )}
+            <button onClick={toggleDarkMode} className="btn-dark-mode">
+              {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
             </button>
-          </>
-        )}
-        <button onClick={toggleDarkMode} className="btn-dark-mode">
-          {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
-        </button>
-      </div>
-      </header>
+          </div>
+        </header>
       </div>
     </>
   );

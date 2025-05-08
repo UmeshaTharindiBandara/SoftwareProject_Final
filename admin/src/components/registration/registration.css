@@ -3,7 +3,7 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #add8e6, #badde9);
+  background: #fff;
   padding: 1rem 0;
   max-width: 350px; /* Reduced from 400px */
   margin: 0 auto;
