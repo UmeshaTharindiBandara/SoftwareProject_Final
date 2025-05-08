@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   color: #333;
-  background-color: #fafafa; /* Light background for the page */
+  background-color: #fafafa;
 }
 
 /* Header Section */
@@ -13,7 +13,7 @@ body {
   position: relative;
   text-align: center;
   color: white;
-  height: 350px; /* Reduced height */
+  height: 350px;
   overflow: hidden;
 }
 
@@ -48,13 +48,13 @@ body {
 
 .header-image .overlay-text p {
   font-size: 1.1em;
-  margin: 10px 0 0;
+  margin-top: 10px;
 }
 
 /* Contacts Section */
 .contacts {
   text-align: center;
-  background: linear-gradient(to right, #e0e0e0, #f9f9f9); /* Gradient background */
+  background: linear-gradient(to right, #e0e0e0, #f9f9f9);
   padding: 40px 20px;
 }
 
@@ -87,7 +87,7 @@ body {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
   padding: 18px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 250px; /* Reduced height */
+  height: 250px;
 }
 
 .contact-card:hover {
@@ -122,15 +122,15 @@ body {
 .contact-card a.button {
   display: inline-block;
   padding: 10px 18px;
-  background-color: linear-gradient(90deg, #004080, #00c6ff);
+  background: linear-gradient(90deg, #004080, #00c6ff);
   color: white;
   border-radius: 5px;
   margin-top: 12px;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .contact-card a.button:hover {
-  background-color: linear-gradient(90deg, #004080, #00c6ff);
+  transform: scale(1.05);
 }
 
 /* Social Media */
@@ -142,10 +142,10 @@ body {
 }
 
 .social-icons a:hover {
-  color:linear-gradient(90deg, #004080, #00c6ff);
+  color: #0056b3;
 }
 
-/* Improved Button Styles */
+/* Button Styles */
 .button {
   padding: 10px 20px;
   background: linear-gradient(90deg, #004080, #00c6ff);
@@ -153,11 +153,10 @@ body {
   border-radius: 5px;
   text-decoration: none;
   font-weight: 500;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .button:hover {
-  background: linear-gradient(90deg, #004080, #00c6ff);
   transform: scale(1.05);
 }
 
@@ -200,4 +199,66 @@ body {
 .faq-section .faq-item p {
   color: #555;
   font-size: 0.95em;
+}
+/* Responsive Styles for Mobile Devices */
+@media (max-width: 768px) {
+  .header-image {
+    height: 250px;
+  }
+
+  .header-image .overlay-text h1 {
+    font-size: 1.6em;
+  }
+
+  .header-image .overlay-text p {
+    font-size: 1em;
+  }
+
+  .contact-title {
+    font-size: 1.6em;
+  }
+
+  .contact-subtitle {
+    font-size: 1em;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+
+  .contact-card {
+    height: auto;
+    padding: 15px;
+  }
+
+  .contact-card h3 {
+    font-size: 1.2em;
+  }
+
+  .contact-card .icon-container {
+    font-size: 2em;
+  }
+
+  .faq-section h2 {
+    font-size: 2em;
+  }
+
+  .faq-section .faq-item h4 {
+    font-size: 1.1em;
+  }
+
+  .faq-section .faq-item p {
+    font-size: 0.9em;
+  }
+
+  .button {
+    padding: 8px 16px;
+    font-size: 0.95em;
+  }
+
+  .social-icons a {
+    font-size: 1.5em;
+    margin: 0 8px;
+  }
 }
