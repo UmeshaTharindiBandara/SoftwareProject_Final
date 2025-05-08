@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { Button } from "@mui/material";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import "./AddPackages.css";
+import "./AddedPackages.css";
 
 const AddedPackage = () => {
   const [tours, setTours] = useState([]);
