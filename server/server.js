@@ -139,6 +139,15 @@ app.post("/api/user_login", async (req, res) => {
   }
 });
 
+app.get('/user_signup', async (req, res) => {
+  try {
+    const users = await userModel.find().select('-password');
+    res.json({ status: "success", data: users });
+  } catch (error) {
+    res.status(500).json({ error: "Database error", details: error });
+  }
+});
+
 // Add authentication middleware
 export const verifyToken = async (req, res, next) => {
   try {

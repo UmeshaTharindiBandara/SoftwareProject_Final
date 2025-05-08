@@ -1,74 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button } from "@mui/material";
-
-import "./CustomerDetail.css";
+import { Button, Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function CustomerDetail() {
   const [users, setUsers] = useState([]);
+  const [userBookings, setUserBookings] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const fetchUsers = () => {
-    axios
-      .get("https://softwareproject-server.onrender.com/api/user_signup")
-      .then((res) => {
-        if (res.data && Array.isArray(res.data.data)) {
-          setUsers(
-            res.data.data.map((user) => ({
-              ...user,
-              _id: user._id || user.id,
-              originalRole: user.role,
-            }))
-          );
-        } else {
-          console.error("Invalid API response:", res.data);
-        }
-      })
-      .catch((err) => console.error("Error fetching users:", err));
-  };
-
-  const handleRoleSelect = (index, newRole) => {
-    const updatedUsers = [...users];
-    updatedUsers[index].selectedRole = newRole;
-    setUsers(updatedUsers);
-  };
-
-  const handleRoleUpdate = (index) => {
-    const user = users[index];
-
-    if (!user || !user._id) {
-      Swal.fire("Error!", "User ID is missing!", "error");
-      return;
-    }
-
-    axios
-      .put(`https://softwareproject-server.onrender.com/api/user_signup/${user._id}`)
-      .then((res) => {
-        const updatedUsers = [...users];
-        updatedUsers[index].role = res.data.user.role;
-        delete updatedUsers[index].selectedRole;
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get("https://softwareproject-server.onrender.com/api/user_signup");
+      if (res.data && Array.isArray(res.data.data)) {
+        const updatedUsers = res.data.data.map((user) => ({
+          ...user,
+          _id: user._id || user.id,
+        }));
         setUsers(updatedUsers);
+        
+        // Fetch bookings for each user
+        updatedUsers.forEach(user => fetchUserBookings(user._id));
+      }
+    } catch (err) {
+      console.error("Error fetching users:", err);
+    }
+  };
 
-        Swal.fire(
-          "Success!",
-          `Role updated to ${res.data.user.role} successfully!`,
-          "success"
-        );
-      })
-      .catch((err) => {
-        Swal.fire(
-          "Error!",
-          err.response?.data?.message || "Failed to update role. Try again.",
-          "error"
-        );
-      });
+  const fetchUserBookings = async (userId) => {
+    try {
+      const res = await axios.get(`https://softwareproject-server.onrender.com/api/bookings/${userId}`);
+      setUserBookings(prev => ({
+        ...prev,
+        [userId]: res.data
+      }));
+    } catch (err) {
+      console.error(`Error fetching bookings for user ${userId}:`, err);
+    }
   };
 
   return (
@@ -78,54 +51,77 @@ function CustomerDetail() {
         onClick={() => navigate("/admin")}
         className="back-button"
         startIcon={<ArrowBackIcon />}
-        style={{ marginLeft: "800px" }}
       >
         Back to Dashboard
       </Button>
+
       <h2 className="customer-title">Customer Details</h2>
+
       <table className="customer-table">
         <thead>
           <tr>
             <th>No</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
+            <th>Mobile</th>
+            <th>Address</th>
+            <th>Profile Picture</th>
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            users.map((user, index) => (
-              <tr key={user._id || index}>
+          {users.map((user, index) => (
+            <React.Fragment key={user._id}>
+              <tr className="user-row">
                 <td>{index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>
-                  <select
-                    className="role-select"
-                    value={user.selectedRole || user.role}
-                    onChange={(e) => handleRoleSelect(index, e.target.value)}
-                  >
-                    <option value="customer">Customer</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </td>
-                <td>
-                  <button
-                    className="role-update-btn"
-                    onClick={() => handleRoleUpdate(index)}
-                    disabled={(user.selectedRole || user.role) === user.role}
-                  >
-                    Update
-                  </button>
+                <td>{user.mobile || 'Not provided'}</td>
+                <td>{user.address || 'Not provided'}</td>
+                <td>{user.profilePicture ? 'Uploaded' : 'No image'}</td>
+              </tr>
+              <tr>
+                <td colSpan="6" className="booking-details-cell">
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography>Booking Details</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {userBookings[user._id]?.length > 0 ? (
+                        <table className="booking-table">
+                          <thead>
+                            <tr>
+                              <th>Area</th>
+                              <th>Locations</th>
+                              <th>Meals</th>
+                              <th>Activities</th>
+                              <th>Transport</th>
+                              <th>Hotel</th>
+                              <th>Special Requests</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {userBookings[user._id].map((booking, idx) => (
+                              <tr key={idx}>
+                                <td>{booking.area}</td>
+                                <td>{booking.locations.map(loc => loc.name).join(', ')}</td>
+                                <td>{booking.meals.join(', ')}</td>
+                                <td>{booking.activities.join(', ')}</td>
+                                <td>{booking.transportMode}</td>
+                                <td>{booking.hotel}</td>
+                                <td>{booking.specialRequests || 'None'}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      ) : (
+                        <Typography>No bookings found for this user</Typography>
+                      )}
+                    </AccordionDetails>
+                  </Accordion>
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5">No users found.</td>
-            </tr>
-          )}
+            </React.Fragment>
+          ))}
         </tbody>
       </table>
     </div>

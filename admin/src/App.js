@@ -21,7 +21,7 @@ import Cancel from "./components/TourPackage/Cancel";
 import ViewCustomizedPackage from "./components/TourPackage/ViewCustomizedPackage";
 import { BrowserRouter as Router, Routes, Route,Outlet, Navigate } from "react-router-dom";
 import CustomerDetail from "./components/admin/CustomerDetail";
-import Footer from "./components/footer/Footer";
+
 
 // ...existing imports...
 
@@ -65,7 +65,7 @@ function App() {
           />
         </Route>
       </Routes>
-      <Footer />
+      
       
     </Router>
   );
