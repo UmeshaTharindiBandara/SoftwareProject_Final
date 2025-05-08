@@ -62,3 +62,117 @@
 .customize-button:hover {
     background-color: #005bb5;
 }
+/* Container for the main layout */
+.tour-package-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* Highlight card for Available Tours section */
+.tour-highlight-card {
+    background-color: #f0f8ff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+/* Section for customizing the package */
+.customize-option {
+    background-color: #eaf4fe;
+    border-radius: 12px;
+    padding: 40px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom text with highlight color */
+.customize-text {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+/* Button styling for customize option */
+.customize-button {
+    background: linear-gradient(90deg, #004080, #00c6ff);
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.customize-button:hover {
+    background-color: #005bb5;
+}
+
+/* Make layout responsive for smaller screens */
+@media (max-width: 768px) {
+    .tour-package-container {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    /* Stack the highlight card content vertically */
+    .tour-highlight-card {
+        padding: 20px;
+    }
+
+    .highlight-text {
+        flex-direction: column;  /* Stack icon and text vertically */
+        align-items: center;     /* Center horizontally */
+        justify-content: center; /* Center vertically */
+        text-align: center;
+        padding: 15px;
+    }
+
+    .icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .customize-option {
+        padding: 30px;
+    }
+
+    .customize-text {
+        font-size: 1.1em;
+    }
+
+    .customize-button {
+        font-size: 1em;
+        padding: 8px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tour-package-container {
+        padding: 10px;
+    }
+
+    .tour-highlight-card {
+        padding: 15px;
+    }
+
+    .highlight-text {
+        padding: 10px;
+    }
+
+    .customize-option {
+        padding: 25px;
+    }
+
+    .customize-text {
+        font-size: 1em;
+    }
+
+    .customize-button {
+        font-size: 0.95em;
+        padding: 6px 14px;
+    }
+}
