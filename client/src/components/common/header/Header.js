@@ -5,6 +5,9 @@ import { FaUserCircle } from "react-icons/fa"; // Profile icon
 import { MdDarkMode, MdLightMode } from "react-icons/md"; // Dark/Light mode icons
 import { useAuth } from "../../../AuthContext"; // Importing AuthContext for user state
 import "./header.css";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,6 +17,46 @@ const Header = () => {
   const [messageType, setMessageType] = useState(""); // Corrected state initialization for messageType
   const [isDarkMode, setIsDarkMode] = useState(false); // State to manage dark mode
   const { user, logout } = useAuth();
+
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const toggleContainer = document.querySelector('.toggle-container');
+      
+      // Update header visibility
+      if (currentScrollY > lastScrollY) {
+        setIsHeaderVisible(false);
+      } else {
+        setIsHeaderVisible(true);
+      }
+      
+      // Update scroll state for toggle button styling
+      if (currentScrollY > 50) {
+        setIsScrolled(true);
+        toggleContainer?.classList.add('scrolled');
+      } else {
+        setIsScrolled(false);
+        toggleContainer?.classList.remove('scrolled');
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+
+  // Toggle header manually
+  const toggleHeader = () => {
+    setIsHeaderVisible(!isHeaderVisible);
+  };
+
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -50,7 +93,17 @@ const Header = () => {
 
   return (
     <>
-      <header>
+     <div className="header-container">
+    <div className="toggle-container">
+      <button 
+        className={`nav-toggle ${isScrolled ? 'scrolled' : ''}`}
+        onClick={toggleHeader}
+        aria-label="Toggle navigation"
+      >
+        {isHeaderVisible ? <CloseIcon /> : <MenuIcon />}
+      </button>
+    </div>
+    <header className={`header ${!isHeaderVisible ? 'hidden' : ''}`}>
         <div className="logo">
           <h1>
             <MdTravelExplore className="icon" /> Mahaweli Tours
@@ -101,6 +154,7 @@ const Header = () => {
         </button>
       </div>
       </header>
+      </div>
     </>
   );
 };

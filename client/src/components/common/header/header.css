@@ -11,7 +11,7 @@ header {
   background: rgba(255, 255, 255, 0.25);
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: static;
   top: 0;
   z-index: 999;
 }
@@ -24,20 +24,16 @@ header {
   align-items: center;
 }
 
-
 .logo h1 {
   font-size: 32px;
   font-weight: 900;
-  color: #004080; /* Fallback color */
+  color: #004080;
   background: linear-gradient(90deg, #004080, #00c6ff);
-  background-clip: text;          /* Standard property */
-  -webkit-background-clip: text;  /* Vendor prefix for Safari */
-  -webkit-text-fill-color: transparent;  /* Vendor prefix for Safari */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   display: flex;
   align-items: center;
 }
-
-
 
 /*-----------------------------------*/
 /*             Nav Bar              */
@@ -129,10 +125,8 @@ body.dark-mode header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
 body.dark-mode .logo h1 {
   background: linear-gradient(90deg, #ffb84d, #ffd580);
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -193,58 +187,61 @@ body.dark-mode header ul li a:hover {
     margin-top: 10px;
   }
 }
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 20px;
+  }
 
+  .logo {
+    justify-content: center;
+    width: 100%;
+  }
 
+  .logo h1 {
+    font-size: 24px;
+    text-align: center;
+  }
 
-.logo {
-  display: flex;
-  align-items: center;
+  .nav {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  header ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  header ul li a {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+
+  .btn-signin {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .btn-dark-mode {
+    margin-top: 10px;
+  }
 }
 
-.logo h1 {
-  font-size: 30px;
-  font-weight: 900;
-  color: #003366;
-  display: flex;
-  align-items: center;
-}
-
-.nav {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-}
-
-header ul {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-header ul li {
-  margin: 0 15px;
-  font-weight: 600;
-  font-size: 20px;
-}
-
-header ul li a {
-  color: #003366;
-  font-weight: 600;
-  transition: 0.5s;
-}
-
-header ul li a:hover {
-  color: #89afd5;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
 
 .btn-logout {
@@ -277,99 +274,3 @@ header ul li a:hover {
   font-size: 16px;
 }
 
-
- /*-------- Sign-In Button --------*/
- .btn-signin {
-  background-color: #003366;
-  left: -10px;
-  color: white;
-  padding: 10px 30px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn-signin:hover {
-  background-color: #a0c3e2;
-  transform: translateY(-2px);
-}
-
-/*-------- Dark Mode Button --------*/
-.btn-dark-mode {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #003366;
-  transition: color 0.3s;
-}
-
-.btn-dark-mode:hover {
-  color: #555;
-}
-
-/*-------- Dark Mode Styles --------*/
-body.dark-mode {
-  background-color: #121212;
-  color: #fff;
-}
-
-body.dark-mode header {
-  background-color: #333;
-}
-
-body.dark-mode .logo h1,
-body.dark-mode .icon {
-  color: #ffb84d;
-}
-
-body.dark-mode .btn-signin {
-  background-color: #ffb84d;
-  color: #000;
-}
-
-body.dark-mode .btn-signin:hover {
-  background-color: #e68a00;
-}
-
-body.dark-mode .btn-dark-mode {
-  color: #ffb84d;
-}
-
-body.dark-mode .btn-dark-mode:hover {
-  color: #fff;
-}
-
-/*-------- Responsive Styles --------*/
-@media screen and (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 15px 20px;
-  }
-
-  .logo h1 {
-    font-size: 28px;
-  }
-
-  .btn-signin {
-    font-size: 14px;
-    padding: 8px 16px;
-    text-decoration: none !important;
-    text-underline-position: unset;
-  }
-
-  .btn-dark-mode {
-    font-size: 22px;
-  }
-
-  .header-actions {
-    align-self: flex-end;
-    
-    margin-left: auto;
-  }
-}
