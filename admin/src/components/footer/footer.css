@@ -1,0 +1,152 @@
+/* Footer Base Styling */
+footer {
+  background: linear-gradient(120deg, #1e3c72, #003366);
+  color: #ecf0f1;
+  padding: 60px 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Container Flex Layout */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+}
+
+/* Footer Boxes */
+.box {
+  flex: 1 1 250px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.4s ease, background 0.4s ease;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Logo Box */
+.logo h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #f39c12;
+}
+
+.logo span {
+  font-size: 15px;
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.logo p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Headings */
+.box h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #f1c40f;
+}
+
+/* List Styling */
+.box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.box ul li {
+  font-size: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.box ul li:hover {
+  color: #f39c12;
+  transform: translateX(8px);
+}
+
+/* Contact Icons */
+.contact ul li i {
+  margin-right: 10px;
+  color: #f39c12;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0 0;
+  gap: 18px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgb(34, 106, 195);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.4s ease, transform 0.3s ease;
+  font-size: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.icon.facebook:hover {
+  background-color: #3b5998;
+}
+
+.icon.twitter:hover {
+  background-color: #00acee;
+}
+
+.icon.instagram:hover {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+.icon.youtube:hover {
+  background-color: #FF0000;
+}
+
+/* Legal Section */
+.legal {
+  text-align: center;
+  font-size: 13px;
+  color: #bdc3c7;
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .box {
+    width: 90%;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
