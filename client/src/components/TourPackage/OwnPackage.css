@@ -17,11 +17,20 @@
     
 }
 
-/* Styling for the icons */
-.icon, .button-icon {
-    margin-right: 8px;
-    font-size: 1.5em;
-}
+.highlight-text {
+    display: flex;
+    flex-direction: column;  /* Stack icon and text vertically */
+    align-items: center;     /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  
 
 /* Section for customizing the package */
 .customize-option {
@@ -42,7 +51,7 @@
 
 /* Button styling for customize option */
 .customize-button {
-    background-color: #0073e6;
+    background: linear-gradient(90deg, #004080, #00c6ff);
     color: white;
     font-size: 1.1em;
     padding: 10px 20px;
