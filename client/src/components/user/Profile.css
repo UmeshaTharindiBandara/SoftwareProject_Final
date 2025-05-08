@@ -116,9 +116,17 @@
   }
 
   .sidebar-toggle {
-    top: 70px !important; /* Adjust for mobile header height */
+    top: 50px !important; /* Adjust for mobile header height */
     left: 10px !important;
-  }
+    width: 50px;
+   
+    position: fixed !important;
+  left: 20px;
+  top: 20px;
+  z-index: 1001;
+  background-color: #ffffff8a !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
 
   .profile-content.shifted {
     margin-left: 0;
